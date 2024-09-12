@@ -1,0 +1,2 @@
+Polish Salary Web App. Transfer gross salary to net salary. In addition, it allows to change calculation parameters according to employee situation. For example: if the employee is under 26 years old, he or she can choose the appropriate option and adjust the calcutation to the rules of Polish law. The project is currently in development phase. I will make changes in this Readme once it is finished.
+
