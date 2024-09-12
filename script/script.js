@@ -8,14 +8,14 @@ document.addEventListener('DOMContentLoaded', function () {
 		const disContribOpts = document.getElementById('dis-contrib-opts');
 
 		if (contribOpts) {
-			contribOpts.disabled = true;
+			contribOpts.disabled = 'disabled';
 		}
 		if (disContribOpts) {
-			disContribOpts.disabled = true;
+			disContribOpts.disabled = 'disabled';
 		}
+	}
 
-		// Usunięcie flagi z LocalStorage po jej użyciu
-	} else if (sessionStorage.getItem('firstBtnClicked') === 'true') {
+	if (sessionStorage.getItem('firstBtnClicked') === 'true') {
 		if (contribOpts.disabled) {
 			contribOpts.disabled = false;
 		}

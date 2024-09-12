@@ -1,29 +1,28 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', function () {
-	// Obsługa stanu przycisków w zależności od sesji
-	const handleSessionState = () => {
-		if (sessionStorage.getItem('sixthBtnClicked') === 'true') {
-			disableElements(['advance-tax-paym-val', 'tax-reduction-val']);
-		} else if (sessionStorage.getItem('studStatus') === 'true') {
-			disableElements(['advance-tax-paym-val', 'tax-reduction-val', 'cost-of-income-val']);
-		} else if (sessionStorage.getItem('fifthBtnClicked') === 'true') {
-			enableElements(['advance-tax-paym-val', 'tax-reduction-val', 'cost-of-income-val']);
-		}
-	};
+	if (sessionStorage.getItem('sixthBtnClicked') === 'true') {
+		document.getElementById('advance-tax-paym-val').disabled = true;
+		document.getElementById('tax-reduction-val').disabled = true;
 
-	const disableElements = elementIds => {
-		elementIds.forEach(id => (document.getElementById(id).disabled = true));
-	};
+		sessionStorage.removeItem('sixthBtnClicked');
+	}
+	if (sessionStorage.getItem('studStatus') === 'true') {
+		document.getElementById('advance-tax-paym-val').disabled = true;
+		document.getElementById('tax-reduction-val').disabled = true;
+		document.getElementById('cost-of-income-val').disabled = true;
 
-	const enableElements = elementIds => {
-		elementIds.forEach(id => (document.getElementById(id).disabled = false));
-	};
+		sessionStorage.removeItem('studStatus');
+	}
+	if (sessionStorage.getItem('fifthBtnClicked') === 'true') {
+		document.getElementById('advance-tax-paym-val').disabled = false;
+		document.getElementById('tax-reduction-val').disabled = false;
+		document.getElementById('cost-of-income-val').disabled = false;
 
-	handleSessionState();
+		sessionStorage.removeItem('fifthBtnClicked');
+	}
 });
 
-// Zmienne globalne
 const modalSelect = document.getElementById('calc-contributions-val');
 const modalEl = document.querySelector('.modal_question');
 const mainCont = document.querySelector('.calc-order-container');
@@ -32,7 +31,6 @@ const btnCalc = document.querySelector('.btn-calc-cont');
 const btnYes = document.querySelector('.btn-yes');
 const btnNo = document.querySelector('.btn-no');
 
-// Obsługa przycisków modalnych
 btnYes.addEventListener('click', function () {
 	modalSelect.setAttribute('disabled', 'disabled');
 	mainCont.classList.remove('hidden');
@@ -44,7 +42,6 @@ btnNo.addEventListener('click', function () {
 	modalEl.classList.add('hidden');
 });
 
-// Funkcja do dostosowywania szerokości selecta
 const adjustSelectWidth = selectElement => {
 	const tempDiv = document.createElement('div');
 	document.body.appendChild(tempDiv);
@@ -66,13 +63,11 @@ const adjustSelectWidth = selectElement => {
 	document.body.removeChild(tempDiv);
 };
 
-// Obsługa wszystkich selectów
 document.querySelectorAll('select').forEach(selectElement => {
 	adjustSelectWidth(selectElement);
 	selectElement.addEventListener('change', () => adjustSelectWidth(selectElement));
 });
 
-// Walidacja kwoty brutto przed przekierowaniem
 btnCalc.addEventListener('click', function (e) {
 	const value = grossSal.value.trim();
 	if (!/^\d+(\.\d{1,2})?$/.test(value)) {
@@ -80,26 +75,25 @@ btnCalc.addEventListener('click', function (e) {
 	}
 });
 
-// Funkcja przygotowująca dane do wysłania
 const prepareData = () => {
 	const descvalue = document.getElementById('description').value;
-	const grossSalary = parseFloat(document.getElementById('gross-salary').value).toFixed(2); // Używamy toFixed(2) dla formatu
-	const costsofIncome = Number(parseFloat(document.getElementById('cost-of-income-val').value).toFixed(2)); // Pobieranie wartości jako liczba
+	const grossSalary = parseFloat(document.getElementById('gross-salary').value).toFixed(2);
+	const costsofIncome = Number(parseFloat(document.getElementById('cost-of-income-val').value).toFixed(2));
 	const taxAdvanceElement = document.getElementById('advance-tax-paym-val');
-	const taxAdvance = taxAdvanceElement.value === '0' ? 0 : parseFloat(taxAdvanceElement.value).toFixed(2); // Obsługa wartości '0'
+	const taxAdvance = taxAdvanceElement.value === '0' ? 0 : parseFloat(taxAdvanceElement.value).toFixed(2);
 	const taxRedElement = document.getElementById('tax-reduction-val');
-	const taxRed = taxRedElement.value === '0' ? 0 : parseFloat(taxRedElement.value); // Obsługa wartości '0'
-	const calcContributions = document.getElementById('calc-contributions-val').value; // Wartość tekstowa
+	const taxRed = taxRedElement.value === '0' ? 0 : parseFloat(taxRedElement.value);
+	const calcContributions = document.getElementById('calc-contributions-val').value;
 
 	const studStatus = sessionStorage.getItem('studStatus') === 'true';
 
 	return {
 		description: descvalue,
-		gross_salary: parseFloat(grossSalary), // Konwertujemy na float
-		costs_of_income: costsofIncome, // Liczba zmiennoprzecinkowa
-		tax_advance: parseFloat(taxAdvance), // Konwertujemy na float
-		tax_reduction: parseFloat(taxRed), // Konwertujemy na float
-		calcContributions: calcContributions, // Tekstowy wybór
+		gross_salary: parseFloat(grossSalary),
+		costs_of_income: costsofIncome,
+		tax_advance: parseFloat(taxAdvance),
+		tax_reduction: parseFloat(taxRed),
+		calcContributions: calcContributions,
 		studStatus: studStatus,
 	};
 };
@@ -115,9 +109,9 @@ const sendData = async data => {
 		});
 
 		if (response.ok) {
-			const responseData = await response.json(); // Pobieramy dane JSON z odpowiedzi
+			const responseData = await response.json();
 			console.log('Dane wysłane', responseData);
-			const { token } = responseData; // Odbieramy token z odpowiedzi
+			const { token } = responseData;
 			localStorage.setItem('token', token);
 			window.location.href = '/results';
 		} else {
@@ -128,12 +122,11 @@ const sendData = async data => {
 	}
 };
 
-// Obsługa kliknięcia przycisku 'btnCalc' po walidacji pól
 document.addEventListener('DOMContentLoaded', function () {
 	const btnCalc = document.querySelector('.btn-calc');
 	btnCalc.addEventListener('click', async function (e) {
 		e.preventDefault();
-		const data = prepareData(); // Przygotowanie danych
-		await sendData(data); // Wysyłanie danych
+		const data = prepareData();
+		await sendData(data);
 	});
 });

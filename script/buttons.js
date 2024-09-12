@@ -11,7 +11,6 @@ const imgEl = document.querySelector('.info-sign');
 const tooltip = document.querySelector('.tooltip-text');
 const selectContr = document.getElementById('wkrplcs-count');
 const selectOrder = document.getElementById('wkrplcs-count-order');
-const buttons = document.querySelectorAll('button');
 
 const firstBtn = document.querySelector('.first-btn-yes');
 const secondBtn = document.querySelector('.first-btn-no');
@@ -38,25 +37,25 @@ btnsElements.forEach(button => {
 	});
 });
 
-if (secondBtn.classList.contains('clicked')) {
+secondBtn.addEventListener('click', function () {
 	sessionStorage.setItem('disableSelects', 'true');
-}
+});
 
-if (firstBtn.classList.contains('clicked')) {
+firstBtn.addEventListener('click', function () {
 	sessionStorage.setItem('firstBtnClicked', 'true');
-}
+});
 
-if (eighthBtn.classList.contains('clicked')) {
+eighthBtn.addEventListener('click', function () {
 	sessionStorage.setItem('sixthBtnClicked', 'true');
-}
+});
 
-if (tenthBtn.classList.contains('clicked')) {
-	sessionStorage.setItem('stutStatus', 'true');
-}
+tenthBtn.addEventListener('click', function () {
+	sessionStorage.setItem('studStatus', 'true');
+});
 
-if (ninethBtn.classList.contains('clicked')) {
+ninethBtn.addEventListener('click', function () {
 	sessionStorage.setItem('fifthBtnClicked', 'true');
-}
+});
 
 contractBtn.addEventListener('click', function () {
 	document.querySelector('.btns-container').classList.toggle('hidden');
@@ -105,18 +104,25 @@ imgEl.addEventListener('mouseleave', event => {
 	tooltip.style.visibility = 'hidden';
 });
 
-const anyButtonClicked = Array.from(buttons).some(button => button.classList.contains('clicked'));
+const buttons = [firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn, sixthBtn];
+const btns = [seventhBtn, eighthBtn, ninethBtn, tenthBtn, eleventhBtn, twelvethBtn, thirteenthBtn, fourteenBtn, fifteenBtn];
 
-document.querySelector('.btn-next').addEventListener('click', function () {
-	if (anyButtonClicked) {
+function isAnyButtonClicked(buttonArray) {
+	return buttonArray.some(button => button.classList.contains('clicked'));
+}
+
+document.querySelector('.btn-next').addEventListener('click', function (e) {
+	e.preventDefault();
+	if (isAnyButtonClicked(buttons)) {
 		window.location.href = '/main-calc';
 	} else {
 		alert('Odpowiedz na pytania!');
 	}
 });
 
-document.getElementById('btn-next-order').addEventListener('click', function () {
-	if (anyButtonClicked) {
+document.getElementById('btn-next-order').addEventListener('click', function (e) {
+	e.preventDefault();
+	if (isAnyButtonClicked(btns)) {
 		window.location.href = '/calc-order';
 	} else {
 		alert('Odpowiedz na pytania!');
