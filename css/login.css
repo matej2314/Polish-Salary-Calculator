@@ -1,0 +1,209 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 18px;
+	width: 100vw;
+	height: 100vh;
+}
+
+body {
+	position: relative;
+	background-color: whitesmoke;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.login-container {
+	position: absolute;
+	display: flex;
+	width: 335px;
+	height: 390px;
+	font-size: 35px;
+	background-color: white;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	border: solid 2px black;
+	border-radius: 10px;
+	margin-left: auto;
+	padding-bottom: 10px;
+	box-shadow: 0px 8px 50px -6px rgba(91, 91, 103, 1);
+}
+
+.login-form {
+	position: absolute;
+	top: 20%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: fit-content;
+	height: fit-content;
+	font-size: 35px;
+}
+
+.login-title {
+	position: absolute;
+	top: 1vh;
+	display: flex;
+	width: fit-content;
+	height: fit-content;
+	margin-bottom: 15px;
+	font-size: 45px;
+}
+
+.namelabel {
+	position: relative;
+	margin-bottom: -32px;
+	font-weight: 400;
+}
+
+.passwd-label {
+	position: relative;
+	margin: 15px 0 -21px 0;
+	font-weight: 400;
+}
+
+#btn-login {
+	position: relative;
+	top: 7px;
+	font-size: 30px;
+	color: white;
+	background-color: black;
+	margin-top: 15px;
+	border-radius: 8px;
+	padding: 5px;
+}
+
+#btn-login:hover {
+	background-color: lightgrey;
+	color: black;
+}
+
+#btn-login:active {
+	background-color: lightgrey;
+	color: black;
+	transform: translateY(4px);
+}
+
+.username-input {
+	font-size: 24px;
+	margin-top: 5px;
+}
+
+.username-input:hover {
+	cursor: crosshair;
+}
+
+input[type='password'] {
+	font-size: 24px;
+}
+
+input:required {
+	border: solid 1px black;
+}
+
+input:valid {
+	border: solid 1px OliveDrab;
+}
+
+.tooltip-text {
+	position: relative;
+	visibility: hidden;
+	z-index: 2;
+	width: fit-content;
+	height: fit-content;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	background-color: black;
+	border-radius: 10px;
+	font-size: 15px;
+	padding: 10px;
+}
+
+.tooltip-text::before {
+	content: '';
+	position: absolute;
+	transform: rotate(45deg);
+	background-color: black;
+	padding: 7px;
+	z-index: 1;
+}
+
+.tooltip2-text {
+	position: relative;
+	visibility: hidden;
+	z-index: 2;
+	width: fit-content;
+	height: fit-content;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	background-color: black;
+	border-radius: 10px;
+	font-size: 15px;
+	padding: 10px;
+}
+
+.tooltip2-text::before {
+	content: '';
+	position: absolute;
+	transform: rotate(45deg);
+	background-color: black;
+	padding: 7px;
+	z-index: 1;
+}
+
+#right {
+	top: 37px;
+	left: 104%;
+}
+
+#right::before {
+	top: 35%;
+	left: -4%;
+	z-index: -1;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.go-to-register {
+	position: absolute;
+	top: 93%;
+	left: 35%;
+	background: none;
+	border: none;
+	font-size: 15px;
+}
+
+.go-to-register:hover {
+	color: slategray;
+}
+
+.reg_link {
+	position: absolute;
+	right: 790px;
+	top: 520px;
+	width: fit-content;
+	height: fit-content;
+}
+
+#welcomemessage {
+	position: relative;
+	bottom: 272px;
+	display: flex;
+}

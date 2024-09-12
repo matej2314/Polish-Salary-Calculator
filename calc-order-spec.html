@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/calc-order-spec.css">
+    <title>Kalkulator wynagrodzeń - umowa zlecenie / o dzieło</title>
+</head>
+<body>
+    <div class="calc-order-container hidden">
+        <div class="description-div">
+            <p class="desc-label">Wpisz opis (pojawi się w pliku wynikowym) :</p>
+            <textarea type="text" name="description" id="description" maxlength="200"></textarea>
+        </div>
+        <div class="div gross-amount">
+            <p class="gross-amount-desc">Kwota brutto:</p>
+            <textarea type="text" name="salary" id="gross-salary"></textarea> zł
+        </div>
+        <div class="div cost-of-income">
+            <p class="cost-of-income-label">Koszty uzyskania przychodu:</p>
+            <select name="cost-of-income-val" id="cost-of-income-val">
+                <option value="0.20">20 %</option>
+                <option value="0.50">50 %</option>
+                <option value="0">Nie przysługują</option>
+            </select>
+        </div>
+        <div class="div advance-tax-paym">
+            <p class="advance-tax-paym-label">Zaliczka na podatek:</p>
+            <select name="advance-tax-paym-val" id="advance-tax-paym-val">
+                <option value="0.12">12 %</option>
+                <option value="0.32">32 %</option>
+                <option value="0">Nie pobierać</option>
+            </select>
+        </div>
+        <div class="div tax-reduction">
+            <p class="tax-reduction-label">Kwota zmniejszająca podatek:</p>
+            <select name="tax-reduction-val" id="tax-reduction-val">
+                <option value="300">300 zł</option>
+                <option value="150">150 zł</option>
+                <option value="100">100 zł</option>
+                <option value="0">0 zł</option>
+            </select>
+        </div>
+        <div class="div calc-contributions">
+            <p class="calc-contributions-label">Wyliczane składki:</p>
+            <select name="calc-contributions-val" id="calc-contributions-val">
+                <option value="wszystkie">Wszystkie</option>
+                <option value="bez-skladki-chorobowej">Bez składki chorobowej</option>
+                <option value="bez-ubezpieczenia-spolecznego">Bez ubezpieczenia społecznego</option>
+                <option value="bez-ubezpieczenia-spolecznego-i-zdrowotnego">Bez ubezpieczenia społecznego i zdrowotnego</option>
+                <option value="bez-skladek-emerytalno-rentowych">Bez składek emerytalno-rentowych</option>
+            </select>
+        </div>
+        <div class="btn-calc-cont">
+            <button class="btn-calc">Oblicz</button>
+        </div>
+    </div>
+    <div class="modal_question">
+        <p class="emploee_question">Rozliczenie umowy z własnym pracownikiem?</p>
+        <div class="modal_btns">
+            <button type="button" class="btn-yes">Tak</button>
+            <button type="button" class="btn-no">Nie</button>
+        </div>
+    </div>
+    <script src="../script/calc-order-spec.js"></script>
+    <script>
+        // Sprawdzenie, czy użytkownik jest zalogowany
+        if (!localStorage.getItem('token')) {
+            window.location.href = 'index.html'; // Przekierowanie do strony logowania
+        }
+    </script>
+</body>
+</html>

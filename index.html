@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Polish salary calc - calculate your salary!</title>
+    <link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+    <h1 id="welcomemessage"></h1>
+    <div class="login-container">
+        <h2 class="login-title">Logowanie</h2>
+        <form id="login-form" class="login-form">
+            <label for="username" class="namelabel">Wprowadź login:</label>
+            <span class="tooltip-text" id="right">Wprowadź login</span>
+            <input type="text" name="username" id="username-input" class="username-input" minlength="5" maxlength="10" required />
+            <label for="password" class="passwd-label">Wprowadź hasło:</label>
+            <span class="tooltip2-text" id="right">Wprowadź hasło</span>
+            <input type="password" name="userpasswd" id="userpasswd" minlength="10" maxlength="30" required />
+            <input type="submit" value="Zaloguj" id="btn-login" />
+        </form>
+    </div>
+    <a href="register.html" class="reg_link"><button class="go-to-register">Załóż konto</button></a>
+    <script src="../script/login.js"></script>
+</body>
+</html>

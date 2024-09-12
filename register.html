@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary calc - register subpage</title>
+    <link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+    <div class="main_container">
+        <div class="register-container">
+            <h2 class="reg-title">Rejestracja</h2>
+            <form action="/auth/registeruser" class="register-form" method="POST">
+                <label for="reg-username" class="reg-username-label">Podaj nazwę użytkownika:</label>
+                <input type="text" name="reg_username" id="reg-username" minlength="5" maxlength="10" required />
+                <label for="reg-passwd" class="reg-passwd-label">Podaj hasło:</label>
+                <input type="password" name="reg_passwd" id="reg-passwd" minlength="10" maxlength="30" required />
+                <label for="rep-reg-passwd" class="rep-reg-passwd-label">Powtórz hasło:</label>
+                <input type="password" name="rep_reg_passwd" id="rep-reg-passwd" required />
+                <label for="reg-email" class="reg-email-label">Wpisz swój adres e-mail:</label>
+                <input type="email" name="reg_email" id="reg-email" required />
+                <input type="submit" value="Rejestracja" id="btn-reg" />
+            </form>
+        </div>
+        <div class="diff-passwd hidden"></div>
+        <p>Hasła nie są takie same!</p>
+        <button type="submit" class="btn-ok">OK</button>
+    </div>
+    </div>
+    <script src="/script/register.js"></script>
+</body>
+</html>

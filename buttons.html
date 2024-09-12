@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl-P:">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/buttons.css">
+    <title>Salary calc - buttons subpage</title>
+</head>
+<body>
+    <div class="btns-container">
+        <button type="button" class="btn btn-order">Umowa zlecenie</button>
+        <button type="button" class="btn btn-contr">Umowa o pracę</button>
+        <button type="button" class="btn btn-specwrk">Umowa o dzieło</button>
+    </div>
+    <div class="modal-questions modal1 hidden">
+        <h2 class="questions-title">Aby przejść dalej, odpowiedz na pytania:</h2>
+        <div class="first-question">
+            <p class="question-age">Pracownik powyżej 26 lat?</p>
+            <div class="first-btns">
+                <a href="../main_calc.html"><button type="button" class="first-btn-yes">Tak</button></a>
+                <button type="button" class="first-btn-no">Nie</button>
+            </div>
+        </div>
+        <div class="second-question">
+            <p class="question-workspaces">Czy to Twoje jedyne miejsce pracy?</p>
+            <div class="second-btns">
+                <button type="button" class="second-btn-yes">Tak</button>
+                <button type="button" class="second-btn-no">Nie</button>
+            </div>
+        </div>
+        <div class="third-question">
+            <p class="question-statement">Czy złożyłeś pracodawcy oświadczenie PIT-2 o zmniejszenie kwoty na podatek?</p>
+            <div class="third-btns">
+                <button type="button" class="third-btn-yes">Tak</button>
+                <a href="../main_calc.html"><button type="button" class="third-btn-no">Nie</button></a>
+            </div>
+        </div>
+    </div>
+    <div class="modal-questions-order modal2 hidden">
+        <h2 class="questions-order-title">Aby przejść dalej, odpowiedz na poniższe pytania:</h2>
+        <div class="first-question-order">
+            <p class="question-order-age">Czy masz ukończony 26 rok życia?</p>
+            <div class="first-btns-order">
+                <a href="/calc-order-spec.html"><button class="first-btn-order-yes">Tak</button></a>
+                <button class="first-btn-order-no">Nie</button>
+            </div>
+        </div>
+        <div class="second-question-order">
+            <p class="question-order-st-status">Czy posiadasz status studenta/ucznia?</p>
+            <div class="second-btns-order">
+                <a href="../calc-order-spec.html"><button class="second-btn-order-yes">Tak</button></a>
+                <button class="second-btn-order-no">Nie</button>
+            </div>
+        </div>
+        <div class="third-question-order">
+            <p class="question-order-jobs">Czy to Twoje jedyne miejsce pracy?</p>
+            <div class="third-btns-order">
+                <button class="third-btn-order-yes">Tak</button>
+                <button class="third-btn-order-no">Nie</button>
+                <button class="third-btn-order-nd">Nie dotyczy</button>
+            </div>
+        </div>
+        <div class="fourth-question-order">
+            <p class="question-order-sick-contrib">Czy chcesz podlegać pod dobrowolną składkę chorobową?<img src="img/nfo-icon.png" alt="icon-more-info" class="info-sign"></p>
+            <div class="fourth-qu-order-links">
+                <a href="../calc-order-spec.html"><button class="fourth-btn-order-yes">Tak</button></a>
+                <a href="../calc-order-spec.html"><button class="fourth-btn-order-no">Nie</button></a>
+            </div>
+        </div>
+        <span class="tooltip-text" id="right">Pozwala na zasiłek chorobowy w przypadku choroby. Ubezpieczenie aktywne po 90 dniach od rozpoczęcia podlegania mu. <br />Nie mylić z opieką zdrowotną.</span>
+    </div>
+    <script src="../script/buttons.js"></script>
+    <script>
+        // Sprawdzenie, czy użytkownik jest zalogowany
+        if (!localStorage.getItem('token')) {
+            window.location.href = 'index.html'; // Przekierowanie do strony logowania
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-size: 14px;
+}
+
+html {
+	display: flex;
+	align-content: flex-start;
+	flex-wrap: nowrap;
+}
+
+body {
+	background: white;
+	font-family: Arial, Helvetica, sans-serif;
+	height: 100vh;
+	width: 100vw;
+	font-size: 18px;
+	overflow: hidden;
+}
+
+hr {
+	width: 100%;
+	height: 2px;
+	background-color: black;
+}
+
+textarea {
+	resize: none;
+	overflow: hidden;
+}
+
+select {
+	padding: 2px 0 2px 0;
+}
+
+.main_container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: 2vh;
+}
+
+.calc-container {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	width: 38vw;
+	height: 78vh;
+	background-color: whitesmoke;
+	flex-direction: column;
+	border: solid 1px black;
+	border-radius: 8px;
+	gap: 4px;
+	padding: 10px;
+	margin-left: auto;
+}
+
+.description-div {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+}
+
+#description {
+	width: 100%;
+	margin: 10px 0 5px 0;
+}
+
+.gross-amount {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0;
+}
+
+.gross-amount textarea {
+	display: block;
+	position: relative;
+	left: 23%;
+	height: 25px;
+	width: 181px;
+	padding-top: 3px;
+}
+
+.gross-amount span {
+	position: relative;
+	right: 3px;
+}
+
+.ppk-cont {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 3px 0 3px 0;
+}
+
+.ppk-boxes {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+#check-yes {
+	margin-right: 10px;
+}
+
+#check-no {
+	margin: 0 10px 0 10px;
+}
+
+.financed-by-employer {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	padding: 3px 0 3px 0;
+	align-items: center;
+	margin-right: 7px;
+}
+
+.employer-value-div {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.employer-value-div textarea {
+	/* margin-right: 10px; */
+	font-size: 16px;
+	height: 25px;
+	width: 178px;
+	margin-left: 175px;
+	padding-top: 2px;
+}
+
+.financed-by-employee {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 3px 0 3px 0;
+	align-items: center;
+}
+
+.employee-value-div {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.employee-value-div textarea {
+	margin-right: 8px;
+	font-size: 16px;
+	height: 25px;
+	width: 183px;
+	padding-top: 2px;
+}
+
+.financed-ppk-sum {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	padding: 3px 0 3px 0;
+	align-items: center;
+}
+
+.financed-ppk-sum textarea {
+	margin-right: 13px;
+	font-size: 16px;
+	height: 25px;
+	width: 180px;
+	padding-top: 2px;
+}
+
+.bottom-of-calc {
+	position: relative;
+	top: -135px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.div {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin: 5px 0 5px 0;
+}
+
+.buttons-container {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin-top: 3px;
+}
+
+.sick-contrib input {
+	width: 60px;
+	padding: 1px 0 0 8px;
+	border: solid 1px black;
+}
+
+.h-i-premium input {
+	width: 60px;
+	padding: 1px 0 0 17px;
+	border: solid 1px black;
+}
+
+button {
+	font-size: 18px;
+	background-color: black;
+	color: white;
+	padding: 5px;
+	border-radius: 8px;
+}
+
+.btn-clear-calc:hover {
+	background-color: lightgrey;
+	color: black;
+}
+
+.btn-clear-calc:active {
+	background-color: lightgrey;
+	color: black;
+	transform: translateY(4px);
+}
+
+.btn-calc {
+	margin-left: 10px;
+	border-radius: 8px;
+}
+
+.btn-calc:hover {
+	background-color: lightgrey;
+	color: black;
+}
+
+.btn-calc:active {
+	background-color: lightgrey;
+	color: black;
+	transform: translateY(4px);
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.arr {
+	margin: 5px; /* demo spacing */
+	display: inline-block;
+	vertical-align: middle;
+	width: 0;
+	height: 0;
+}
+
+.arrow-left {
+	position: relative;
+	top: -210px;
+	right: 91%;
+	border-top: 27px solid transparent;
+	border-bottom: 21px solid transparent;
+	border-right: 55px solid #000000;
+}
+.tooltip-descr > .tooltip-descr-text {
+	position: relative;
+	left: 5%;
+	bottom: 208px;
+	color: white;
+	background-color: black;
+	padding: 15px;
+	border-radius: 15px;
+	font-size: 16px;
+}
+
+@media screen and (max-width: 900px) {
+	.gross-amount textarea {
+		left: 4%;
+	}
+	.bottom-of-calc {
+		top: -171px;
+	}
+
+	.calc-container {
+		height: 84vh;
+	}
+	.employer-value-div textarea {
+		margin-right: 10px;
+		font-size: 16px;
+		height: 23px;
+		width: 178px;
+		margin-left: 33px;
+		padding-top: 2px;
+	}
+	#description {
+		height: 32px;
+	}
+	.financed-ppk-sum textarea {
+		height: 23px;
+	}
+	#financed-by-employee {
+		height: 24px;
+	}
+	.financed-by-employer {
+		height: 60px;
+	}
+	button {
+		font-size: 12px;
+	}
+	.ppk-cont {
+		margin: 0;
+	}
+}

@@ -1,0 +1,171 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 18px;
+	width: 100vw;
+	height: 100vh;
+}
+
+body {
+	position: relative;
+	background-color: whitesmoke;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.main_container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: whitesmoke;
+}
+
+input:required {
+	border: solid 1px black;
+}
+
+input:valid {
+	border: solid 1px OliveDrab;
+}
+
+.register-container {
+	position: absolute;
+	display: flex;
+	width: 20vw;
+	font-size: 20px;
+	background-color: white;
+	flex-direction: column;
+	gap: 4px;
+	align-items: center;
+	margin-right: 1vw;
+	padding: 5px;
+	border: solid 2px black;
+	border-radius: 10px;
+	box-shadow: 0px 8px 50px -6px rgba(91, 91, 103, 1);
+}
+
+.register-container h2 {
+	margin-bottom: 10px;
+}
+
+.reg-username-label {
+	margin-bottom: 15px;
+}
+
+.reg-passwd-label {
+	margin: 15px 0 15px 0;
+}
+
+.rep-reg-passwd-label {
+	margin: 15px 0 15px 0;
+}
+
+.reg-email-label {
+	margin: 15px 0 15px 0;
+}
+
+.register-container form {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.register-form input {
+	height: 30px;
+	width: 91%;
+}
+
+#btn-reg {
+	width: 193px;
+	height: 51px;
+	border-radius: 8px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin: 15px 0 15px 0;
+	padding: auto;
+	background-color: black;
+	color: white;
+	font-size: 30px;
+}
+
+#btn-reg:hover {
+	background-color: white;
+	color: black;
+}
+
+#btn-reg:active {
+	background-color: white;
+	color: black;
+	transform: translateY(4px);
+}
+
+.diff-passwd {
+	position: relative;
+	bottom: 39vh;
+	width: fit-content;
+	height: fit-content;
+	padding: 10px;
+	background-color: black;
+	color: white;
+	font-size: 16px;
+	border-radius: 8px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border: solid 4px darkgrey;
+}
+
+.btn-ok {
+	font-size: 14px;
+	font-weight: 600;
+	background-color: lightgrey;
+	color: black;
+	width: fit-content;
+	height: fit-content;
+	margin-top: 5px;
+	padding: 10px;
+	border-radius: 8px;
+}
+
+.btn-ok:active {
+	transform: translateY(2px);
+}
+
+input:required {
+	border: solid 1px black;
+}
+
+input:valid {
+	border: solid 1px OliveDrab;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+@media screen and (max-width: 900px) {
+	.main_container {
+		width: 100vw;
+		height: 100vh;
+	}
+	.register-container {
+		width: 33vw;
+	}
+}

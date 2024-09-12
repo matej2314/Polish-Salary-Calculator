@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/results.css">
+    <title>Results of calculation</title>
+</head>
+<body>
+    <div class="results-container">
+        <h2 class="results-title">Wynik Obliczeń</h2>
+        <div class=" div gross-salary">
+            <p class="gross-label">Wynagrodzenie brutto:</p>
+            <input type="text" name="gross-value" id="gross-value"></input>
+        </div>
+        <div class="div tax-reduction">
+            <p class="tax-reduction-label">Kwota pomniejszająca podatek:</p>
+            <input type="text" name="tax-red-val" class="tax-red-val"></input>
+        </div>
+        <div class="div pension-contrib">
+            <p class="pension-contrib-label">Składka emerytalna:</p>
+            <input type="text" class="pension-contrib-val"></input>
+        </div>
+        <div class="div pension-contrib-sec">
+            <p class="pension-contr-sec-label">Składka rentowa:</p>
+            <input type="text" class="pension-contrib-sec-val"></input>
+        </div>
+        <div class="div sickness-contrib">
+            <p class="sickness-contrib-label">Składka chorobowa:</p>
+            <input type="text" class="sickness-contrib-val"></input>
+        </div>
+        <div class="div zus-contrib-summary">
+            <p class="zus-contrib-sum-label">Razem składki ZUS:</p>
+            <input type="text" class="zus-contrib-sum-val"></input>
+        </div>
+        <div class="div basis-of-h-insurance">
+            <p class="basis-of-h-insurance-label">Podstawa wymiaru składki zdrowotnej:</p>
+            <input type="text" class="basis-of-h-insurance-val"></input>
+        </div>
+        <div class="div h-i-premium">
+            <p class="h-i-premium-label">Składka na ubezpieczenie zdrowotne:</p>
+            <input class="h-i-premium-val"></input>
+        </div>
+        <div class="div costs-of-income">
+            <p class="costs-of-income-label">Koszty uzyskania przychodu:</p>
+            <input type="text" class="costs-of-income-val"></input>
+        </div>
+        <div class="div basis-of-adv-paym">
+            <p class="basis-of-adv-label">Podstawa obliczenia zaliczki:</p>
+            <input type="text" class="basis-of-adv-val"></input>
+        </div>
+        <div class="div adv-tax-payment">
+            <p class="adv-tax-paym-label">Zaliczka na podatek:</p>
+            <input type="text" class="adv-tax-paym-val"></input>
+        </div>
+        <div class="div advance-to-tax-office">
+            <p class="adv-tax-office-label">Zaliczka do urzędu skarbowego:</p>
+            <input type="text" class="adv-tax-office-val"></input>
+        </div>
+        <div class="div to-be-paid">
+            <p class="to-be-paid-label">Do wypłaty:</p>
+            <input type="text" class="to-be-paid-val"></input>
+        </div>
+    </div>
+    <div class="buttons-output">
+        <button class="btn btn-excel">Pobierz .xls</button>
+        <button class="btn btn-pdf">Pobierz PDF</button>
+    </div>
+    <script src="../script/results.js"></script>
+    <script>
+        // Sprawdzenie, czy użytkownik jest zalogowany
+        if (!localStorage.getItem('token')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

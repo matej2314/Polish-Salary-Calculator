@@ -1,0 +1,172 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+body {
+	background: white;
+	font-family: Arial, Helvetica, sans-serif;
+	position: relative;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	align-items: flex-start;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.calc-order-container {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 68vh;
+	width: 45vw;
+	background-color: whitesmoke;
+	flex-direction: column;
+	font-size: 18px;
+	border: solid 1px black;
+	margin: 10px 0 10px 0;
+	border-radius: 8px;
+	padding: 1% 1% 0 1%;
+}
+
+.div {
+	width: 100%;
+	height: fit-content;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border-bottom: solid 1px black;
+	padding: 2%;
+}
+
+textarea {
+	resize: none;
+}
+
+select {
+	font-size: 18px;
+}
+
+.description-div {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+#description {
+	margin-top: 1%;
+	height: 55px;
+}
+
+#gross-salary {
+	position: relative;
+	bottom: 25%;
+	left: 22%;
+	display: flex;
+	justify-content: space-around;
+	font-size: 18px;
+	padding-top: 5px;
+	height: 30px;
+	overflow: hidden;
+}
+
+.btn-calc-cont {
+	position: relative;
+	margin-bottom: 1%;
+}
+
+.btn-calc {
+	position: relative;
+	font-size: 18px;
+	padding: 10px;
+	border-radius: 8px;
+	background-color: black;
+	color: white;
+}
+
+.btn-calc:hover {
+	background-color: lightgrey;
+	color: black;
+	font-weight: 600;
+}
+
+.btn-calc:active {
+	background-color: lightgrey;
+	color: black;
+	transform: translateY(4px);
+	font-weight: 600;
+}
+
+.modal_question {
+	position: relative;
+	width: 32vw;
+	height: 15vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	bottom: 50%;
+	background-color: whitesmoke;
+	padding-top: 10px;
+	border-radius: 8px;
+	border: solid 1px black;
+	margin-top: auto;
+}
+
+.modal_btns {
+	position: absolute;
+	top: 50%;
+}
+
+.modal_btns button {
+	font-size: 18px;
+	padding: 10px;
+	border-radius: 8px;
+	background-color: black;
+	color: white;
+}
+
+.btn-no {
+	margin-left: 2em;
+}
+
+.btn-no:hover {
+	background-color: lightgrey;
+	color: black;
+}
+.btn-no:active {
+	background-color: lightgrey;
+	color: black;
+	transform: translateY(4px);
+}
+
+.btn-yes:hover {
+	background-color: lightgrey;
+	color: black;
+}
+.btn-yes:active {
+	background-color: lightgrey;
+	color: black;
+	transform: translateY(4px);
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+@media screen and (max-width: 900px) {
+	.modal_question {
+		width: 44vw;
+	}
+	.employee-question {
+		margin-left: 10px;
+	}
+
+	#gross-salary {
+		left: 5%;
+	}
+}

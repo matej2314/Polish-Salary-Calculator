@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Kalkulator płac</title>
+	<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+	<div class="main_container">
+		<div class="calc-container">
+			<div class="description-div">
+				<p class="desc-label">Wpisz opis (pojawi się w pliku wynikowym) :</p>
+				<textarea type="text" name="description" id="description" rows="5"></textarea>
+			</div>
+			<hr style="height: 2px" />
+			<div class="gross-amount">
+				<p class="gross-amount-desc">Kwota brutto:</p>
+				<textarea name="salary" id="gross-salary"></textarea><span>zł</span>
+			</div>
+			<hr style="height: 1px" />
+			<div class="div ppk-cont">
+				<p class="ppk-label">PPK?</p>
+				<div class="ppk-boxes">
+					<input type="checkbox" name="check-yes" id="check-yes" />
+					<label for="check-yes" class="check-yes-label">tak</label>
+					<input type="checkbox" name="check-no" id="check-no" />
+					<label for="check-no" class="check-no-label">nie</label>
+				</div>
+			</div>
+			<hr />
+			<div class="financed-by-employer hidden">
+				<p class="financed-employer-label">Wpłata PPK sfinansowana przez pracodawcę:</p>
+				<div class="employer-value-div">
+					<textarea name="financed-by-employer" id="financed-by-employer"></textarea>
+					<p class="financed-zl">zł</p>
+				</div>
+			</div>
+			<hr class="line1 hidden" style="height: 1px" />
+			<div class="financed-by-employee hidden">
+				<p class="financed-employer-label">Wpłata PPK sfinansowana przez pracownika:</p>
+				<div class="employee-value-div">
+					<textarea name="financed-by-employee" id="financed-by-employee"></textarea>
+					<p class="employee-value-sign">%</p>
+				</div>
+			</div>
+			<hr class="line2 hidden" style="height: 1px" />
+			<div class="financed-ppk-sum hidden">
+				<textarea name="sum-ppk" id="sum ppk"></textarea>
+				<p class="financed-sum-sign">zł</p>
+			</div>
+			<hr class="line3 hidden" style="height: 2px" />
+			<div class="bottom-of-calc">
+				<div class="div salary-reduction">
+					<p class="red-label">Kwota zmniejszająca podatek:</p>
+					<select name="reduction" id="reduction">
+						<option value="300">300 zł</option>
+						<option value="150">150 zł</option>
+						<option value="100">100 zł</option>
+						<option value="0">0 zł</option>
+					</select>
+				</div>
+				<hr style="height: 1px" />
+				<div class="div pen-contrib">
+					<p class="contrib-desc">Składka emerytalna:</p>
+					<select name="contrib-opts" id="contrib-opts" class="contrib-opts">
+						<option value="0.0976">9.76%</option>
+						<option value="0">nie wyliczać</option>
+					</select>
+				</div>
+				<hr style="height: 1px" />
+				<div class="div dis-contrib">
+					<p class="dis-contrib-desc">Składka rentowa:</p>
+					<select name="dis-contrib-opts" id="dis-contrib-opts">
+						<option value="0.015">1,5%</option>
+						<option value="0">nie wyliczać</option>
+					</select>
+				</div>
+				<hr style="height: 1px" />
+				<div class="div sick-contrib">
+					<p class="sick-contrib-desc">Składka chorobowa:</p>
+					<input type="text" class="sick-contrib-val" value="2.45 %" disabled />
+				</div>
+				<hr style="height: 1px" />
+				<div class="div h-i-premium" id="h-i-premium">
+					<p class="h-i-desc">Składka na ubezpieczenie zdrowotne:</p>
+					<input id="h-i-val" type="text" disabled value="9 %" />
+				</div>
+				<hr style="height: 1px" />
+				<div class="div cost-of-income">
+					<p class="cost-income-desc">Koszty uzyskania przychodu:</p>
+					<select name="cost-income-opts" id="cost-income-opts">
+						<option value="0">0 zł</option>
+						<option value="250">250 zł</option>
+						<option value="300">300 zł</option>
+					</select>
+				</div>
+				<hr style="height: 1px" />
+				<div class="div tax-advance">
+					<p class="tax-advance-desc">Zaliczka na podatek:</p>
+					<select name="tax-advance-opts" id="tax-advance-opts" class="tax-advance-opts">
+						<option value="0.12">12 %</option>
+						<option value="0.12&#380.32">12 % i 32 %</option>
+						<option value="0.32">32 %</option>
+						<option value="0">nie pobierać</option>
+					</select>
+				</div>
+				<hr />
+				<div class="buttons-container">
+					<div class="clear-calc">
+						<button class="btn-clear-calc">Reset</button>
+					</div>
+					<button class="btn-calc">Oblicz</button>
+				</div>
+			</div>
+		</div>
+		<div class="tooltip-descr hidden">
+			<span class="tooltip-descr-text">Pamiętaj, aby nie podawać danych osobowych!</span>
+			<span class="arr arrow-left"></span>
+		</div>
+	</div>
+	<script src="../script/script.js"></script>
+	<script>
+		// Sprawdzenie, czy użytkownik jest zalogowany
+		if (!localStorage.getItem('token')) {
+			window.location.href = 'index.html'; // Przekierowanie do strony logowania
+		}
+	</script>
+</body>
+</html>
