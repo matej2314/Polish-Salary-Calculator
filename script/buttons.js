@@ -59,6 +59,18 @@ fifthBtn.addEventListener('click', function () {
 	window.location.href = '/calc-order';
 });
 
+document.querySelector('.second-btn-no').addEventListener('click', function () {
+	document.querySelector('.empl-container').classList.remove('hidden');
+});
+
+document.querySelector('.2wrkplcs').addEventListener('click', function () {
+	sessionStorage.setItem('2WorkPlaces', 'true');
+});
+
+document.querySelector('.3wrkplcs').addEventListener('click', function () {
+	sessionStorage.setItem('3WorkPlaces', 'true');
+});
+
 // const btnsElements = [secondBtn, thirdBtn, fourthBtn, sixthBtn, eigthBtn, ninethhBtn, tenthBtn, eleventhBtn];
 
 // btnsElements.forEach(button => {
