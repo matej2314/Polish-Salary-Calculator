@@ -17,7 +17,7 @@
         <div class="first-question">
             <p class="question-age">Pracownik powyżej 26 lat?</p>
             <div class="first-btns">
-                <a href="../main_calc.html"><button type="button" class="first-btn-yes">Tak</button></a>
+                <button type="button" class="first-btn-yes">Tak</button>
                 <button type="button" class="first-btn-no">Nie</button>
             </div>
         </div>
@@ -29,7 +29,7 @@
             </div>
             <div class="empl-container">
                 <p class="choose-wrkplcs">Wybierz liczbę pracodawców:</p>
-                <select name="wrkplcs-count" id="wkrplcs-count">
+                <select name="wrkplcs-count" id="wkrplcs-count" disabled>
                     <option value="2" class="2wrkplcs">2 pracodawców</option>
                     <option value="3" class="3wrkplcs">3 pracodawców</option>
                 </select>
@@ -39,23 +39,24 @@
             <p class="question-statement">Czy złożyłeś pracodawcy oświadczenie PIT-2 o zmniejszenie kwoty na podatek?</p>
             <div class="third-btns">
                 <button type="button" class="third-btn-yes">Tak</button>
-                <a href="../main_calc.html"><button type="button" class="third-btn-no">Nie</button></a>
+                <button type="button" class="third-btn-no">Nie</button>
             </div>
         </div>
+        <button type="button" class="btn-next">Dalej</button>
     </div>
     <div class="modal-questions-order modal2 hidden">
         <h2 class="questions-order-title">Aby przejść dalej, odpowiedz na poniższe pytania:</h2>
         <div class="first-question-order">
             <p class="question-order-age">Czy masz ukończony 26 rok życia?</p>
             <div class="first-btns-order">
-                <a href="/calc-order-spec.html"><button class="first-btn-order-yes">Tak</button></a>
+                <button class="first-btn-order-yes">Tak</button>
                 <button class="first-btn-order-no">Nie</button>
             </div>
         </div>
         <div class="second-question-order">
             <p class="question-order-st-status">Czy posiadasz status studenta/ucznia?</p>
             <div class="second-btns-order">
-                <a href="../calc-order-spec.html"><button class="second-btn-order-yes">Tak</button></a>
+                <button class="second-btn-order-yes">Tak</button>
                 <button class="second-btn-order-no">Nie</button>
             </div>
         </div>
@@ -67,13 +68,21 @@
                 <button class="third-btn-order-nd">Nie dotyczy</button>
             </div>
         </div>
+        <div class="empl-container-order">
+            <p class="choose-wrkplcs">Wybierz liczbę pracodawców:</p>
+            <select name="wrkplcs-count-order" id="wkrplcs-count-order" disabled>
+                <option value="2" class="2wrkplcs-order">2 pracodawców</option>
+                <option value="3" class="3wrkplcs-order">3 pracodawców</option>
+            </select>
+        </div>
         <div class="fourth-question-order">
             <p class="question-order-sick-contrib">Czy chcesz podlegać pod dobrowolną składkę chorobową?<img src="img/nfo-icon.png" alt="icon-more-info" class="info-sign"></p>
             <div class="fourth-qu-order-links">
-                <a href="../calc-order-spec.html"><button class="fourth-btn-order-yes">Tak</button></a>
-                <a href="../calc-order-spec.html"><button class="fourth-btn-order-no">Nie</button></a>
+                <button class="fourth-btn-order-yes">Tak</button></a>
+                <button class="fourth-btn-order-no">Nie</button></a>
             </div>
         </div>
+        <button type="button" class="btn-next" id="btn-next-order">Dalej</button>
         <span class="tooltip-text" id="right">Pozwala na zasiłek chorobowy w przypadku choroby. Ubezpieczenie aktywne po 90 dniach od rozpoczęcia podlegania mu. <br />Nie mylić z opieką zdrowotną.</span>
     </div>
     <script src="../script/buttons.js"></script>

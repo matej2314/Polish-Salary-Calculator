@@ -79,7 +79,7 @@ a {
 	justify-content: space-between;
 	align-items: center;
 	width: 44vw;
-	height: 252px;
+	height: fit-content;
 	border: solid 2px black;
 	padding: 10px;
 	border-radius: 8px;
@@ -91,7 +91,7 @@ a {
 	position: absolute;
 	width: fit-content;
 	height: fit-content;
-	bottom: 214px;
+	bottom: 327px;
 }
 
 .first-question,
@@ -164,11 +164,35 @@ a {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	margin-top: 10px;
+	opacity: 0.5;
 }
 
 .empl-container select {
 	display: flex;
 	flex-direction: column;
+	margin-top: 15px;
+	font-size: 16px;
+	padding: 5px;
+}
+
+.btn-next {
+	color: black;
+	font-size: 18px;
+	padding: 5px;
+	margin-top: 15px;
+	border: solid 2px black;
+}
+
+.btn-next:hover {
+	background-color: black;
+	color: white;
+}
+
+.btn-next:active {
+	background-color: black;
+	color: white;
+	transform: translateY(4px);
 }
 
 /* MODAL 2 CODE */
@@ -258,15 +282,9 @@ a {
 	margin-left: 0.7vw;
 }
 
-.third-btn-order-no {
-	margin: 0 0.5vw 0 0.5vw;
-}
-
+.third-btn-order-no,
+.first-btn-order-no,
 .second-btn-order-no {
-	margin: 0 0.5vw 0 0.5vw;
-}
-
-.first-btn-order-no {
 	margin: 0 0.5vw 0 0.5vw;
 }
 
@@ -313,6 +331,25 @@ a {
 	top: 89%;
 	left: -2%;
 	z-index: -1;
+}
+
+.empl-container-order {
+	width: 100%;
+	height: fit-content;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-top: 10px;
+	opacity: 0.5;
+}
+
+.empl-container-order select {
+	display: flex;
+	flex-direction: column;
+	margin-top: 15px;
+	font-size: 16px;
+	padding: 5px;
 }
 
 .hidden {
