@@ -4,7 +4,6 @@ const router = express.Router();
 const path = require('path');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-let calcresults;
 
 // Sekret używany do podpisywania tokenów JWT
 const SECRET_KEY = process.env.JWT_SECRET;
@@ -150,7 +149,7 @@ router.get('/calcu26', (req, res) => {
 router.post('/calcresult', (req, res) => {
 	const { description, gross_salary, tax_reduction, pen_Contrib, dis_Contrib, sick_Contrib, hIpremium, costs_of_income, tax_advance, disableSelects, financedemployer, financedbyemployee } = req.body;
 
-	if (!gross_salary || !costs_of_income || !tax_advance || !tax_reduction || !calcContributions) {
+	if (!gross_salary || !costs_of_income || !tax_advance || !tax_reduction || !pen_Contrib || !dis_Contrib || !sick_Contrib) {
 		return res.status(400).json({ error: 'Brak wymaganych danych' });
 	}
 
@@ -165,7 +164,7 @@ router.post('/calcresult', (req, res) => {
 		const income = parseFloat(gross_salary - sumZus - costs_of_income);
 		const netSalary = parseFloat((gross_salary - sumZus - hiPremium).toFixed(2));
 
-		const calcresults = {
+		let calcresults = {
 			description: description,
 			grossSalary: parseFloat(gross_salary),
 			tax_reduction,
@@ -182,7 +181,7 @@ router.post('/calcresult', (req, res) => {
 		const token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
 
 		// Wysłanie tokenu do klienta (może być w nagłówku lub jako odpowiedź JSON)
-		res.json({ token });
+		return res.json({ token });
 	}
 
 	const penContrib = parseFloat(gross_salary * pen_Contrib);
@@ -195,7 +194,7 @@ router.post('/calcresult', (req, res) => {
 	const advPayment = Number((income * tax_advance).toFixed(2));
 	const netSalary = parseFloat((gross_salary - sumZus - hiPremium - advPayment).toFixed(2));
 
-	calcresults = {
+	let calcresults = {
 		description: description,
 		grossSalary: parseFloat(gross_salary), // wynagrodzenie brutto
 		tax_reduction: tax_reduction, // kwota obniżająca podatek
