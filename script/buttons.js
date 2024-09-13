@@ -39,7 +39,6 @@ btnsElements.forEach(button => {
 
 secondBtn.addEventListener('click', function () {
 	sessionStorage.setItem('disableSelects', 'true');
-	sessionStorage.setItem('sixthBtnClicked', 'true');
 });
 
 firstBtn.addEventListener('click', function () {

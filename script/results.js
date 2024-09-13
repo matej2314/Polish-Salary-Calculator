@@ -1,5 +1,6 @@
 'use strict';
 document.addEventListener('DOMContentLoaded', () => {
+	sessionStorage.clear();
 	const token = localStorage.getItem('token');
 
 	if (!token) {
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
+	sessionStorage.clear();
 	const token = localStorage.getItem('token');
 
 	if (!token) {
@@ -93,8 +95,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 	} catch (error) {
 		console.error('Wystąpił błąd:', error);
 	}
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-	sessionStorage.clear();
 });

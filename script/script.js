@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Sprawdzenie, czy flaga disableSelects jest ustawiona
 	if (sessionStorage.getItem('disableSelects') === 'true') {
 		// Wyłączanie pól select
-		const reduction = document.getElementById('reduction');
-		const taxAdvanceOpts = document.getElementById('tax-advance-opts');
+		let reduction = document.getElementById('reduction');
+		let taxAdvanceOpts = document.getElementById('tax-advance-opts');
 
 		if (reduction) {
 			reduction.disabled = 'disabled';
@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	if (sessionStorage.getItem('firstBtnClicked') === 'true') {
+		let taxAdvanceOpts = document.getElementById('tax-advance-opts');
+		let reduction = document.getElementById('reduction');
+
 		if (reduction.disabled) {
 			reduction.disabled = false;
 		}
@@ -147,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			const financedemployer = document.getElementById('financed-by-employer').value;
 			const financedbyemployee = document.getElementById('financed-by-employee').value;
 			const disableSelects = sessionStorage.getItem('disableSelects') === true;
+			const firstBtnClicked = sessionStorage.getItem('firstBtnClicked') === true;
 
 			const calcData = {
 				description: descvalue,

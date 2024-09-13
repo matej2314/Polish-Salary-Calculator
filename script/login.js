@@ -1,5 +1,7 @@
 'use strict';
 window.onload = function () {
+	localStorage.clear();
+	sessionStorage.clear();
 	const referrer = document.referrer;
 
 	if (referrer.includes('/register')) {

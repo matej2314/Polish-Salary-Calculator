@@ -94,7 +94,6 @@ router.post('/calcu26', (req, res) => {
 		const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' });
 
 		// Send the response
-		sessionStorage.clear();
 		return res.json({ token });
 	}
 
@@ -119,7 +118,6 @@ router.post('/calcu26', (req, res) => {
 		const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' });
 
 		// Send the response
-		sessionStorage.clear();
 		return res.json({ token });
 	}
 
@@ -163,7 +161,7 @@ router.post('/calcu26', (req, res) => {
 	const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
 
 	// Odesłanie tokena w odpowiedzi
-	sessionStorage.clear();
+
 	return res.json({ token });
 });
 
@@ -219,45 +217,42 @@ router.post('/calcresult', (req, res) => {
 		const token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
 
 		// Wysłanie tokenu do klienta (może być w nagłówku lub jako odpowiedź JSON)
-		sessionStorage.clear();
 		return res.json({ token });
+	} else {
+		const penContrib = parseFloat(gross_salary * pen_Contrib);
+		const disContrib = parseFloat(gross_salary * dis_Contrib);
+		const sickContrib = parseFloat(gross_salary * sick_Contrib);
+		const sumZus = parseFloat(penContrib + disContrib + sickContrib);
+		const hiPremium = parseFloat((gross_salary - sumZus) * hIpremium).toFixed(2);
+		const income = parseFloat(gross_salary - sumZus - costs_of_income);
+		const basisOfTaxPaym = parseFloat(income - costs_of_income - sumZus);
+		const advPayment = Number((income * tax_advance).toFixed(2));
+		const netSalary = parseFloat((gross_salary - sumZus - hiPremium - advPayment).toFixed(2));
+
+		let calcresults = {
+			description: description,
+			grossSalary: parseFloat(gross_salary), // wynagrodzenie brutto
+			tax_reduction: tax_reduction, // kwota obniżająca podatek
+			penContrib, //  składka emerytalna
+			disContrib, //składka rentowa
+			sickContrib, //składka chorobowa
+			sumZus, // suma składek zus
+			hiPremium, // składka na ubezpieczenie zdrowotne
+			costs_of_income: costs_of_income, // koszty uzyskania przychodu
+			basisOfTaxPaym, // podstawa obliczenia zaliczki
+			advPayment, // zaliczka na podatek
+			netSalary, // wynagrodzenie netto
+		};
+
+		// Generowanie tokenu JWT z wynikami obliczeń
+		const token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
+
+		// Wysłanie tokenu do klienta (może być w nagłówku lub jako odpowiedź JSON)
+		res.json({ token });
 	}
-
-	const penContrib = parseFloat(gross_salary * pen_Contrib);
-	const disContrib = parseFloat(gross_salary * dis_Contrib);
-	const sickContrib = parseFloat(gross_salary * sick_Contrib);
-	const sumZus = parseFloat(penContrib + disContrib + sickContrib);
-	const hiPremium = parseFloat((gross_salary - sumZus) * hIpremium).toFixed(2);
-	const income = parseFloat(gross_salary - sumZus - costs_of_income);
-	const basisOfTaxPaym = parseFloat(income - costs_of_income - sumZus);
-	const advPayment = Number((income * tax_advance).toFixed(2));
-	const netSalary = parseFloat((gross_salary - sumZus - hiPremium - advPayment).toFixed(2));
-
-	let calcresults = {
-		description: description,
-		grossSalary: parseFloat(gross_salary), // wynagrodzenie brutto
-		tax_reduction: tax_reduction, // kwota obniżająca podatek
-		penContrib, //  składka emerytalna
-		disContrib, //składka rentowa
-		sickContrib, //składka chorobowa
-		sumZus, // suma składek zus
-		hiPremium, // składka na ubezpieczenie zdrowotne
-		costs_of_income: costs_of_income, // koszty uzyskania przychodu
-		basisOfTaxPaym, // podstawa obliczenia zaliczki
-		advPayment, // zaliczka na podatek
-		netSalary, // wynagrodzenie netto
-	};
-
-	// Generowanie tokenu JWT z wynikami obliczeń
-	const token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
-
-	// Wysłanie tokenu do klienta (może być w nagłówku lub jako odpowiedź JSON)
-	sessionStorage.clear();
-	res.json({ token });
 });
 
 router.get('/calcresult', (req, res) => {
-	// Pobieranie tokenu JWT z nagłówka Authorization
 	const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 
 	if (!token) {
