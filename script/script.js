@@ -4,23 +4,23 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Sprawdzenie, czy flaga disableSelects jest ustawiona
 	if (sessionStorage.getItem('disableSelects') === 'true') {
 		// Wyłączanie pól select
-		const contribOpts = document.getElementById('contrib-opts');
-		const disContribOpts = document.getElementById('dis-contrib-opts');
+		const reduction = document.getElementById('reduction');
+		const taxAdvanceOpts = document.getElementById('tax-advance-opts');
 
-		if (contribOpts) {
-			contribOpts.disabled = 'disabled';
+		if (reduction) {
+			reduction.disabled = 'disabled';
 		}
-		if (disContribOpts) {
-			disContribOpts.disabled = 'disabled';
+		if (taxAdvanceOpts) {
+			taxAdvanceOpts.disabled = 'disabled';
 		}
 	}
 
 	if (sessionStorage.getItem('firstBtnClicked') === 'true') {
-		if (contribOpts.disabled) {
-			contribOpts.disabled = false;
+		if (reduction.disabled) {
+			reduction.disabled = false;
 		}
-		if (disContribOpts.disabled) {
-			disContribOpts.disabled = false;
+		if (taxAdvanceOpts.disabled) {
+			taxAdvanceOpts.disabled = false;
 		}
 	}
 });
@@ -146,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			const taxAdvance = parseFloat(document.getElementById('tax-advance-opts').value).toFixed(2);
 			const financedemployer = document.getElementById('financed-by-employer').value;
 			const financedbyemployee = document.getElementById('financed-by-employee').value;
+			const disableSelects = sessionStorage.getItem('disableSelects') === true;
 
 			const calcData = {
 				description: descvalue,
@@ -157,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				hIpremium: hIpremium,
 				costs_of_income: costsofIncome,
 				tax_advance: taxAdvance,
+				disableSelects: disableSelects,
 				financedemployer: financedemployer,
 				financedbyemployee: financedbyemployee,
 			};

@@ -42,6 +42,11 @@ router.get('/buttons', (req, res) => {
 router.post('/calcu26', (req, res) => {
 	const { description, gross_salary, costs_of_income, tax_advance, tax_reduction, calcContributions, studStatus } = req.body;
 
+	// Sprawdzenie, czy wszystkie wymagane dane są dostępne
+	if (!gross_salary || !costs_of_income || !tax_advance || !tax_reduction || !calcContributions) {
+		return res.status(400).json({ error: 'Brak wymaganych danych' });
+	}
+
 	if (studStatus) {
 		const netSalary = parseFloat(gross_salary).toFixed(2); // Student's net salary equals gross salary
 		const calcsU26 = {
@@ -64,11 +69,6 @@ router.post('/calcu26', (req, res) => {
 
 		// Send the response
 		return res.json({ token });
-	}
-
-	// Sprawdzenie, czy wszystkie wymagane dane są dostępne
-	if (!gross_salary || !costs_of_income || !tax_advance || !tax_reduction || !calcContributions) {
-		return res.status(400).json({ error: 'Brak wymaganych danych' });
 	}
 
 	// Funkcja zwracająca składki w zależności od wyboru użytkownika
@@ -148,7 +148,42 @@ router.get('/calcu26', (req, res) => {
 });
 
 router.post('/calcresult', (req, res) => {
-	const { description, gross_salary, tax_reduction, pen_Contrib, dis_Contrib, sick_Contrib, hIpremium, costs_of_income, tax_advance, financedemployer, financedbyemployee } = req.body;
+	const { description, gross_salary, tax_reduction, pen_Contrib, dis_Contrib, sick_Contrib, hIpremium, costs_of_income, tax_advance, disableSelects, financedemployer, financedbyemployee } = req.body;
+
+	if (!gross_salary || !costs_of_income || !tax_advance || !tax_reduction || !calcContributions) {
+		return res.status(400).json({ error: 'Brak wymaganych danych' });
+	}
+
+	if (disableSelects) {
+		tax_reduction = 0;
+		tax_advance = 0;
+		const penContrib = parseFloat(gross_salary * pen_Contrib);
+		const disContrib = parseFloat(gross_salary * dis_Contrib);
+		const sickContrib = parseFloat(gross_salary * sick_Contrib);
+		const sumZus = parseFloat(penContrib + disContrib + sickContrib);
+		const hiPremium = parseFloat((gross_salary - sumZus) * hIpremium).toFixed(2);
+		const income = parseFloat(gross_salary - sumZus - costs_of_income);
+		const netSalary = parseFloat((gross_salary - sumZus - hiPremium).toFixed(2));
+
+		const calcresults = {
+			description: description,
+			grossSalary: parseFloat(gross_salary),
+			tax_reduction,
+			penContrib,
+			disContrib,
+			sickContrib,
+			sumZus,
+			hiPremium,
+			costs_of_income: costs_of_income,
+			basisOfTaxPaym: 0,
+			advPayment: 0,
+			netSalary,
+		};
+		const token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
+
+		// Wysłanie tokenu do klienta (może być w nagłówku lub jako odpowiedź JSON)
+		res.json({ token });
+	}
 
 	const penContrib = parseFloat(gross_salary * pen_Contrib);
 	const disContrib = parseFloat(gross_salary * dis_Contrib);
