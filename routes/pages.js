@@ -39,11 +39,63 @@ router.get('/buttons', (req, res) => {
 });
 
 router.post('/calcu26', (req, res) => {
-	const { description, gross_salary, costs_of_income, tax_advance, tax_reduction, calcContributions, studStatus } = req.body;
+	const { description, gross_salary, costs_of_income, tax_advance, tax_reduction, calcContributions, studStatus, sixthBtnClicked } = req.body;
 
 	// Sprawdzenie, czy wszystkie wymagane dane są dostępne
 	if (!gross_salary || !costs_of_income || !tax_advance || !tax_reduction || !calcContributions) {
 		return res.status(400).json({ error: 'Brak wymaganych danych' });
+	}
+
+	const getContributions = type => {
+		switch (type) {
+			case 'wszystkie':
+				return { penContrib: 0.0976, disContrib: 0.015, sickContrib: 0.0245, hiPremium: 0.09 };
+			case 'bez-skladki-chorobowej':
+				return { penContrib: 0.0976, disContrib: 0.015, sickContrib: 0, hiPremium: 0.09 };
+			case 'bez-ubezpieczenia-spolecznego':
+				return { penContrib: 0, disContrib: 0, sickContrib: 0, hiPremium: 0 };
+			case 'bez-ubezpieczenia-spolecznego-i-zdrowotnego':
+				return { penContrib: 0, disContrib: 0, sickContrib: 0, hiPremium: 0 };
+			case 'bez-skladek-emerytalno-rentowych':
+				return { penContrib: 0, disContrib: 0, sickContrib: 0.0245, hiPremium: 0.09 };
+			default:
+				return { penContrib: 0, disContrib: 0, sickContrib: 0, hiPremium: 0.09 }; // Domyślna wartość
+		}
+	};
+
+	if (sixthBtnClicked) {
+		const { penContrib, disContrib, sickContrib, hiPremium } = getContributions(calcContributions);
+		const penAmount = gross_salary * penContrib;
+		const disAmount = gross_salary * disContrib;
+		const sickAmount = gross_salary * sickContrib;
+		const sumZus = penAmount + disAmount + sickAmount;
+
+		// Obliczenie składki zdrowotnej
+		const healthInsurancePremium = gross_salary * hiPremium;
+
+		// Obliczenia na podstawie dostarczonych danych
+		const income = gross_salary - sumZus - costs_of_income;
+		const netSalary = parseFloat((gross_salary - sumZus - healthInsurancePremium).toFixed(2));
+
+		const calcsU26 = {
+			description,
+			grossSalary: gross_salary, // wynagrodzenie brutto
+			tax_reduction, // kwota obniżająca podatek
+			penContrib: penAmount, // składka emerytalna
+			disContrib: disAmount, // składka rentowa
+			sickContrib: sickAmount, // składka chorobowa
+			sumZus, // suma składek ZUS
+			hiPremium: healthInsurancePremium, // składka na ubezpieczenie zdrowotne
+			costs_of_income: 0, // koszty uzyskania przychodu
+			basisOfTaxPaym: 0, // podstawa obliczenia zaliczki
+			advPayment: 0, // zaliczka na podatek
+			netSalary, // wynagrodzenie netto
+		};
+		const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' });
+
+		// Send the response
+		sessionStorage.clear();
+		return res.json({ token });
 	}
 
 	if (studStatus) {
@@ -67,26 +119,11 @@ router.post('/calcu26', (req, res) => {
 		const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' });
 
 		// Send the response
+		sessionStorage.clear();
 		return res.json({ token });
 	}
 
 	// Funkcja zwracająca składki w zależności od wyboru użytkownika
-	const getContributions = type => {
-		switch (type) {
-			case 'wszystkie':
-				return { penContrib: 0.0976, disContrib: 0.015, sickContrib: 0.0245, hiPremium: 0.09 };
-			case 'bez-skladki-chorobowej':
-				return { penContrib: 0.0976, disContrib: 0.015, sickContrib: 0, hiPremium: 0.09 };
-			case 'bez-ubezpieczenia-spolecznego':
-				return { penContrib: 0, disContrib: 0, sickContrib: 0, hiPremium: 0 };
-			case 'bez-ubezpieczenia-spolecznego-i-zdrowotnego':
-				return { penContrib: 0, disContrib: 0, sickContrib: 0, hiPremium: 0 };
-			case 'bez-skladek-emerytalno-rentowych':
-				return { penContrib: 0, disContrib: 0, sickContrib: 0.0245, hiPremium: 0.09 };
-			default:
-				return { penContrib: 0, disContrib: 0, sickContrib: 0, hiPremium: 0.09 }; // Domyślna wartość
-		}
-	};
 
 	// Wywołanie funkcji z odpowiednim parametrem
 	const { penContrib, disContrib, sickContrib, hiPremium } = getContributions(calcContributions);
@@ -126,7 +163,8 @@ router.post('/calcu26', (req, res) => {
 	const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
 
 	// Odesłanie tokena w odpowiedzi
-	res.json({ token });
+	sessionStorage.clear();
+	return res.json({ token });
 });
 
 router.get('/calcu26', (req, res) => {
@@ -181,6 +219,7 @@ router.post('/calcresult', (req, res) => {
 		const token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
 
 		// Wysłanie tokenu do klienta (może być w nagłówku lub jako odpowiedź JSON)
+		sessionStorage.clear();
 		return res.json({ token });
 	}
 
@@ -213,6 +252,7 @@ router.post('/calcresult', (req, res) => {
 	const token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
 
 	// Wysłanie tokenu do klienta (może być w nagłówku lub jako odpowiedź JSON)
+	sessionStorage.clear();
 	res.json({ token });
 });
 

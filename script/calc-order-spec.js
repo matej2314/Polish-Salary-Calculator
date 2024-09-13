@@ -4,22 +4,12 @@ document.addEventListener('DOMContentLoaded', function () {
 	if (sessionStorage.getItem('sixthBtnClicked') === 'true') {
 		document.getElementById('advance-tax-paym-val').disabled = true;
 		document.getElementById('tax-reduction-val').disabled = true;
-
-		sessionStorage.removeItem('sixthBtnClicked');
+		document.getElementById('calc-contributions-val').disabled = true;
 	}
 	if (sessionStorage.getItem('studStatus') === 'true') {
 		document.getElementById('advance-tax-paym-val').disabled = true;
 		document.getElementById('tax-reduction-val').disabled = true;
 		document.getElementById('cost-of-income-val').disabled = true;
-
-		sessionStorage.removeItem('studStatus');
-	}
-	if (sessionStorage.getItem('fifthBtnClicked') === 'true') {
-		document.getElementById('advance-tax-paym-val').disabled = false;
-		document.getElementById('tax-reduction-val').disabled = false;
-		document.getElementById('cost-of-income-val').disabled = false;
-
-		sessionStorage.removeItem('fifthBtnClicked');
 	}
 });
 
@@ -86,6 +76,7 @@ const prepareData = () => {
 	const calcContributions = document.getElementById('calc-contributions-val').value;
 
 	const studStatus = sessionStorage.getItem('studStatus') === 'true';
+	const sixthBtnClicked = sessionStorage.getItem('sixthBtnClicked') === 'true';
 
 	return {
 		description: descvalue,
@@ -95,6 +86,7 @@ const prepareData = () => {
 		tax_reduction: parseFloat(taxRed),
 		calcContributions: calcContributions,
 		studStatus: studStatus,
+		sixthBtnClicked: sixthBtnClicked,
 	};
 };
 

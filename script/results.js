@@ -94,3 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 		console.error('Wystąpił błąd:', error);
 	}
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+	sessionStorage.clear();
+});
