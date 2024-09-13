@@ -149,8 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			const taxAdvance = parseFloat(document.getElementById('tax-advance-opts').value).toFixed(2);
 			const financedemployer = document.getElementById('financed-by-employer').value;
 			const financedbyemployee = document.getElementById('financed-by-employee').value;
-			const disableSelects = sessionStorage.getItem('disableSelects') === true;
-			const firstBtnClicked = sessionStorage.getItem('firstBtnClicked') === true;
+			const disableSelects = sessionStorage.getItem('disableSelects') === 'true';
+			const firstBtnClicked = sessionStorage.getItem('firstBtnClicked') === 'true';
 
 			const calcData = {
 				description: descvalue,

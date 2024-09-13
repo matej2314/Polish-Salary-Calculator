@@ -185,22 +185,25 @@ router.get('/calcu26', (req, res) => {
 router.post('/calcresult', (req, res) => {
 	const { description, gross_salary, tax_reduction, pen_Contrib, dis_Contrib, sick_Contrib, hIpremium, costs_of_income, tax_advance, disableSelects, financedemployer, financedbyemployee } = req.body;
 
+	console.log('Request body:', req.body);
+
 	if (!gross_salary || !costs_of_income || !tax_advance || !tax_reduction || !pen_Contrib || !dis_Contrib || !sick_Contrib) {
 		return res.status(400).json({ error: 'Brak wymaganych danych' });
 	}
 
+	let calcresults;
+	let token;
+
 	if (disableSelects) {
-		tax_reduction = 0;
-		tax_advance = 0;
 		const penContrib = parseFloat(gross_salary * pen_Contrib);
 		const disContrib = parseFloat(gross_salary * dis_Contrib);
 		const sickContrib = parseFloat(gross_salary * sick_Contrib);
 		const sumZus = parseFloat(penContrib + disContrib + sickContrib);
 		const hiPremium = parseFloat((gross_salary - sumZus) * hIpremium).toFixed(2);
 		const income = parseFloat(gross_salary - sumZus - costs_of_income);
-		const netSalary = parseFloat((gross_salary - sumZus - hiPremium).toFixed(2));
+		const netSalary = parseFloat((gross_salary - sumZus - parseFloat(hiPremium)).toFixed(2));
 
-		let calcresults = {
+		calcresults = {
 			description: description,
 			grossSalary: parseFloat(gross_salary),
 			tax_reduction,
@@ -212,11 +215,12 @@ router.post('/calcresult', (req, res) => {
 			costs_of_income: costs_of_income,
 			basisOfTaxPaym: 0,
 			advPayment: 0,
+			tax_reduction: 0,
+			tax_advance: 0,
 			netSalary,
 		};
-		const token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
 
-		// Wysłanie tokenu do klienta (może być w nagłówku lub jako odpowiedź JSON)
+		token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' });
 		return res.json({ token });
 	} else {
 		const penContrib = parseFloat(gross_salary * pen_Contrib);
@@ -227,28 +231,25 @@ router.post('/calcresult', (req, res) => {
 		const income = parseFloat(gross_salary - sumZus - costs_of_income);
 		const basisOfTaxPaym = parseFloat(income - costs_of_income - sumZus);
 		const advPayment = Number((income * tax_advance).toFixed(2));
-		const netSalary = parseFloat((gross_salary - sumZus - hiPremium - advPayment).toFixed(2));
+		const netSalary = parseFloat((gross_salary - sumZus - parseFloat(hiPremium) - advPayment).toFixed(2));
 
-		let calcresults = {
+		calcresults = {
 			description: description,
-			grossSalary: parseFloat(gross_salary), // wynagrodzenie brutto
-			tax_reduction: tax_reduction, // kwota obniżająca podatek
-			penContrib, //  składka emerytalna
-			disContrib, //składka rentowa
-			sickContrib, //składka chorobowa
-			sumZus, // suma składek zus
-			hiPremium, // składka na ubezpieczenie zdrowotne
-			costs_of_income: costs_of_income, // koszty uzyskania przychodu
-			basisOfTaxPaym, // podstawa obliczenia zaliczki
-			advPayment, // zaliczka na podatek
-			netSalary, // wynagrodzenie netto
+			grossSalary: parseFloat(gross_salary),
+			tax_reduction,
+			penContrib,
+			disContrib,
+			sickContrib,
+			sumZus,
+			hiPremium,
+			costs_of_income,
+			basisOfTaxPaym,
+			advPayment,
+			netSalary,
 		};
 
-		// Generowanie tokenu JWT z wynikami obliczeń
-		const token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
-
-		// Wysłanie tokenu do klienta (może być w nagłówku lub jako odpowiedź JSON)
-		res.json({ token });
+		token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' });
+		return res.json({ token });
 	}
 });
 
