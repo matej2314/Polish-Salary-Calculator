@@ -114,11 +114,12 @@ const sendData = async data => {
 	}
 };
 
-document.addEventListener('DOMContentLoaded', function () {
-	const btnCalc = document.querySelector('.btn-calc');
-	btnCalc.addEventListener('click', async function (e) {
-		e.preventDefault();
-		const data = prepareData();
-		await sendData(data);
-	});
+// document.addEventListener('DOMContentLoaded', function () {
+// const btnCalc = document.querySelector('.btn-calc');
+btnCalc.addEventListener('click', async function (e) {
+	e.preventDefault();
+	const data = prepareData();
+	await sendData(data);
+	localStorage.setItem('isU26Used', 'true');
 });
+// });

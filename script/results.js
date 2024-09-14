@@ -1,82 +1,92 @@
 'use strict';
-document.addEventListener('DOMContentLoaded', () => {
-	sessionStorage.clear();
-	const token = localStorage.getItem('token');
+const toPercentage = value => {
+	return `${(value * 100).toFixed(2)}%`;
+};
 
-	if (!token) {
-		console.error('Błąd uwierzytelniania');
-		return;
-	}
-	fetch('/calcresult', {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-	})
-		.then(response => {
+const isU26Used = localStorage.getItem('isU26Used');
+const isCalcResult = localStorage.getItem('isCalcResult');
+
+if (isCalcResult) {
+	document.addEventListener('DOMContentLoaded', () => {
+		sessionStorage.clear();
+		const token = localStorage.getItem('token');
+
+		if (!token) {
+			console.error('Błąd uwierzytelniania');
+			return;
+		}
+		fetch('/calcresult', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		})
+			.then(response => {
+				if (response.status === 404) {
+					throw new Error('Endpoint nie znaleziony');
+				}
+				if (!response.ok) {
+					throw new Error('Błąd pobierania danych');
+				}
+				return response.json();
+			})
+			.then(calcresults => {
+				console.log(calcresults);
+				localStorage.setItem('calcresults.description', calcresults.description);
+				document.getElementById('gross-value').value = calcresults.grossSalary;
+				document.querySelector('.tax-red-val').value = calcresults.tax_reduction;
+				document.querySelector('.pension-contrib-val').value = calcresults.penContrib;
+				document.querySelector('.pension-contrib-sec-val').value = calcresults.disContrib;
+				document.querySelector('.sickness-contrib-val').value = calcresults.sickContrib;
+				document.querySelector('.zus-contrib-sum-val').value = calcresults.sumZus;
+				document.querySelector('.basis-of-h-insurance-val').value = calcresults.grossSalary * 0.1371;
+				document.querySelector('.h-i-premium-val').value = Number(calcresults.hiPremium);
+				document.querySelector('.costs-of-income-val').value = calcresults.costs_of_income;
+				document.querySelector('.basis-of-adv-val').value = calcresults.basisOfTaxPaym;
+				document.querySelector('.adv-tax-paym-val').value = calcresults.advPayment;
+				document.querySelector('.to-be-paid-val').value = calcresults.netSalary;
+			})
+			.catch(error => {
+				console.error('Wystąpił błąd:', error);
+			});
+	});
+}
+let calcsU26Data;
+
+if (isU26Used) {
+	document.addEventListener('DOMContentLoaded', async () => {
+		sessionStorage.clear();
+		const token = localStorage.getItem('token');
+
+		if (!token) {
+			console.error('Błąd uwierzytelniania');
+			return;
+		}
+
+		try {
+			const response = await fetch('/calcu26', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			});
+
 			if (response.status === 404) {
 				throw new Error('Endpoint nie znaleziony');
 			}
 			if (!response.ok) {
 				throw new Error('Błąd pobierania danych');
 			}
-			return response.json();
-		})
-		.then(calcresults => {
-			console.log(calcresults);
-			document.getElementById('gross-value').value = calcresults.grossSalary;
-			document.querySelector('.tax-red-val').value = calcresults.tax_reduction;
-			document.querySelector('.pension-contrib-val').value = calcresults.penContrib;
-			document.querySelector('.pension-contrib-sec-val').value = calcresults.disContrib;
-			document.querySelector('.sickness-contrib-val').value = calcresults.sickContrib;
-			document.querySelector('.zus-contrib-sum-val').value = calcresults.sumZus;
-			document.querySelector('.basis-of-h-insurance-val').value = calcresults.grossSalary * 0.1371;
-			document.querySelector('.h-i-premium-val').value = Number(calcresults.hiPremium);
-			document.querySelector('.costs-of-income-val').value = calcresults.costs_of_income;
-			document.querySelector('.basis-of-adv-val').value = calcresults.basisOfTaxPaym;
-			document.querySelector('.adv-tax-paym-val').value = calcresults.advPayment;
-			document.querySelector('.to-be-paid-val').value = calcresults.netSalary;
-		})
-		.catch(error => {
-			console.error('Wystąpił błąd:', error);
-		});
-});
 
-document.addEventListener('DOMContentLoaded', async () => {
-	sessionStorage.clear();
-	const token = localStorage.getItem('token');
+			const calcsU26 = await response.json();
+			console.log(calcsU26);
 
-	if (!token) {
-		console.error('Błąd uwierzytelniania');
-		return;
-	}
+			// Przypisz dane do zmiennej globalnej
+			let calcsU26Data = calcsU26;
 
-	try {
-		const response = await fetch('/calcu26', {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
-			},
-		});
-
-		if (response.status === 404) {
-			throw new Error('Endpoint nie znaleziony');
-		}
-		if (!response.ok) {
-			throw new Error('Błąd pobierania danych');
-		}
-
-		const calcsU26 = await response.json(); // Otrzymujemy dane JSON
-		console.log(calcsU26);
-
-		const toPercentage = value => {
-			return `${(value * 100).toFixed(2)}%`;
-		};
-
-		try {
-			// Wypełnianie pól formularza danymi z odpowiedzi serwera
+			// Manipulacja DOM
 			document.getElementById('gross-value').value = calcsU26.grossSalary;
 			document.querySelector('.tax-red-val').value = calcsU26.tax_reduction;
 			document.querySelector('.pension-contrib-val').value = calcsU26.penContrib.toFixed(2);
@@ -89,10 +99,58 @@ document.addEventListener('DOMContentLoaded', async () => {
 			document.querySelector('.adv-tax-paym-val').value = calcsU26.advPayment;
 			document.querySelector('.to-be-paid-val').value = calcsU26.netSalary;
 			document.querySelector('.basis-of-h-insurance-val').value = calcsU26.grossSalary * 0.1371;
+
+			// Zapisz dodatkowe informacje w localStorage
+			localStorage.setItem('calcsU26.description', calcsU26.description);
+			return calcsU26;
 		} catch (error) {
-			console.error('Błąd parsowania danych:', error);
+			console.error('Błąd', error);
+		}
+	});
+}
+
+console.log(calcsU26Data);
+document.querySelector('.btn-pdf').addEventListener('click', async function () {
+	try {
+		// Upewnij się, że dane zostały zapisane w localStorage po zakończeniu obu funkcji fetch
+		const calcresultsDesc = localStorage.getItem('calcresults.description');
+		const orderDesc = localStorage.getItem('calcsU26.description');
+
+		// Sprawdzenie, czy oba opisy są dostępne
+		if (!calcresultsDesc && !orderDesc) {
+			alert('Brak danych do generowania PDF');
+			return;
+		}
+
+		// Tworzymy obiekt extraData na podstawie dostępnych opisów
+		const extraData = {
+			description: calcresultsDesc || orderDesc || 'Brak opisu',
+		};
+
+		// Wysłanie żądania o generowanie PDF
+		const response = await fetch('/generate-pdf', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				url: window.location.href, // Podaj bieżący adres URL
+				extraData: extraData, // Przekaż dane z localStorage
+			}),
+		});
+
+		// Sprawdź, czy odpowiedź z serwera jest poprawna
+		if (response.ok) {
+			const blob = await response.blob();
+			const link = document.createElement('a');
+			link.href = window.URL.createObjectURL(blob);
+			link.download = 'wyniki.pdf'; // Nadajemy nazwę plikowi PDF
+			link.click();
+		} else {
+			const errorText = await response.text();
+			alert('Błąd generowania pliku: ' + errorText);
 		}
 	} catch (error) {
-		console.error('Wystąpił błąd:', error);
+		alert('Wystąpił błąd: ' + error.message);
 	}
 });

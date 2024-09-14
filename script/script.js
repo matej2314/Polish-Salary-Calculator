@@ -134,60 +134,59 @@ function hideToolTip() {
 document.getElementById('description').addEventListener('mouseover', showToolTip);
 document.getElementById('description').addEventListener('mouseleave', hideToolTip);
 
-document.addEventListener('DOMContentLoaded', () => {
-	btnCalc.addEventListener('click', async e => {
-		e.preventDefault();
-		if (!checkboxEl.checked) {
-			const descvalue = document.getElementById('description').value;
-			const grosSSalary = parseInt(grossSal.value).toFixed(2);
-			const taxRed = parseFloat(document.getElementById('reduction').value);
-			const penContrib = parseFloat(document.getElementById('contrib-opts').value).toFixed(2);
-			const disContrib = parseFloat(document.getElementById('dis-contrib-opts').value).toFixed(2);
-			const sickContrib = (parseFloat(document.querySelector('.sick-contrib-val').value) / 100).toFixed(2);
-			const hIpremium = (parseFloat(document.getElementById('h-i-val').value) / 100).toFixed(2);
-			const costsofIncome = Number(document.getElementById('cost-income-opts').value);
-			const taxAdvance = parseFloat(document.getElementById('tax-advance-opts').value).toFixed(2);
-			const financedemployer = document.getElementById('financed-by-employer').value;
-			const financedbyemployee = document.getElementById('financed-by-employee').value;
-			const disableSelects = sessionStorage.getItem('disableSelects') === 'true';
-			const firstBtnClicked = sessionStorage.getItem('firstBtnClicked') === 'true';
+btnCalc.addEventListener('click', async e => {
+	e.preventDefault();
+	if (!checkboxEl.checked) {
+		const descvalue = document.getElementById('description').value;
+		const grosSSalary = parseInt(grossSal.value).toFixed(2);
+		const taxRed = parseFloat(document.getElementById('reduction').value);
+		const penContrib = parseFloat(document.getElementById('contrib-opts').value).toFixed(2);
+		const disContrib = parseFloat(document.getElementById('dis-contrib-opts').value).toFixed(2);
+		const sickContrib = (parseFloat(document.querySelector('.sick-contrib-val').value) / 100).toFixed(2);
+		const hIpremium = (parseFloat(document.getElementById('h-i-val').value) / 100).toFixed(2);
+		const costsofIncome = Number(document.getElementById('cost-income-opts').value);
+		const taxAdvance = parseFloat(document.getElementById('tax-advance-opts').value).toFixed(2);
+		const financedemployer = document.getElementById('financed-by-employer').value;
+		const financedbyemployee = document.getElementById('financed-by-employee').value;
+		const disableSelects = sessionStorage.getItem('disableSelects') === 'true';
+		const firstBtnClicked = sessionStorage.getItem('firstBtnClicked') === 'true';
 
-			const calcData = {
-				description: descvalue,
-				gross_salary: grosSSalary,
-				tax_reduction: taxRed,
-				pen_Contrib: penContrib,
-				dis_Contrib: disContrib,
-				sick_Contrib: sickContrib,
-				hIpremium: hIpremium,
-				costs_of_income: costsofIncome,
-				tax_advance: taxAdvance,
-				disableSelects: disableSelects,
-				financedemployer: financedemployer,
-				financedbyemployee: financedbyemployee,
-			};
+		const calcData = {
+			description: descvalue,
+			gross_salary: grosSSalary,
+			tax_reduction: taxRed,
+			pen_Contrib: penContrib,
+			dis_Contrib: disContrib,
+			sick_Contrib: sickContrib,
+			hIpremium: hIpremium,
+			costs_of_income: costsofIncome,
+			tax_advance: taxAdvance,
+			disableSelects: disableSelects,
+			financedemployer: financedemployer,
+			financedbyemployee: financedbyemployee,
+		};
 
-			try {
-				const response = await fetch('/calcresult', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(calcData),
-				});
+		try {
+			const response = await fetch('/calcresult', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(calcData),
+			});
 
-				if (response.ok) {
-					const responseData = await response.json();
-					console.log('Dane wysłane', responseData);
-					const { token } = responseData;
-					localStorage.setItem('token', token);
-					window.location.href = '/results.html';
-				} else {
-					console.log('Błąd odpowiedzi', response.status);
-				}
-			} catch (error) {
-				console.log(error);
+			if (response.ok) {
+				const responseData = await response.json();
+				console.log('Dane wysłane', responseData);
+				const { token } = responseData;
+				localStorage.setItem('token', token);
+				localStorage.setItem('isCalcResult', 'true');
+				window.location.href = '/results.html';
+			} else {
+				console.log('Błąd odpowiedzi', response.status);
 			}
+		} catch (error) {
+			console.log(error);
 		}
-	});
+	}
 });
