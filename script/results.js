@@ -109,7 +109,6 @@ if (isU26Used) {
 	});
 }
 
-console.log(calcsU26Data);
 document.querySelector('.btn-pdf').addEventListener('click', async function () {
 	try {
 		// Upewnij się, że dane zostały zapisane w localStorage po zakończeniu obu funkcji fetch
