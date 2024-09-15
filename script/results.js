@@ -1,4 +1,7 @@
-'use strict';
+import { pdfSendData } from '../modules/pdfFront';
+
+('use strict');
+
 const toPercentage = value => {
 	return `${(value * 100).toFixed(2)}%`;
 };
@@ -109,47 +112,4 @@ if (isU26Used) {
 	});
 }
 
-document.querySelector('.btn-pdf').addEventListener('click', async function () {
-	try {
-		// Upewnij się, że dane zostały zapisane w localStorage po zakończeniu obu funkcji fetch
-		const calcresultsDesc = localStorage.getItem('calcresults.description');
-		const orderDesc = localStorage.getItem('calcsU26.description');
-
-		// Sprawdzenie, czy oba opisy są dostępne
-		if (!calcresultsDesc && !orderDesc) {
-			alert('Brak danych do generowania PDF');
-			return;
-		}
-
-		// Tworzymy obiekt extraData na podstawie dostępnych opisów
-		const extraData = {
-			description: calcresultsDesc || orderDesc || 'Brak opisu',
-		};
-
-		// Wysłanie żądania o generowanie PDF
-		const response = await fetch('/generate-pdf', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				url: window.location.href, // Podaj bieżący adres URL
-				extraData: extraData, // Przekaż dane z localStorage
-			}),
-		});
-
-		// Sprawdź, czy odpowiedź z serwera jest poprawna
-		if (response.ok) {
-			const blob = await response.blob();
-			const link = document.createElement('a');
-			link.href = window.URL.createObjectURL(blob);
-			link.download = 'wyniki.pdf'; // Nadajemy nazwę plikowi PDF
-			link.click();
-		} else {
-			const errorText = await response.text();
-			alert('Błąd generowania pliku: ' + errorText);
-		}
-	} catch (error) {
-		alert('Wystąpił błąd: ' + error.message);
-	}
-});
+document.querySelector('.btn-pdf').addEventListener('click', pdfSendData());

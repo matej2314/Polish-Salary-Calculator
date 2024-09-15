@@ -6,8 +6,12 @@ const path = require('path');
 async function generatePDF(req, res) {
 	const { url, extraData } = req.body;
 
-	console.log('Received URL:', url);
-	console.log('Received extraData:', extraData);
+	const authHeader = req.headers['authorization'];
+	const token = authHeader && authHeader.split(' ')[1];
+
+	if (!token) {
+		return res.status(401).send('Błąd autoryzacji');
+	}
 
 	try {
 		const browser = await puppeteer.launch({
@@ -18,18 +22,12 @@ async function generatePDF(req, res) {
 
 		console.log('Browser launched');
 
-		await page.goto(url, { waitUntil: 'domcontentloaded' });
-		console.log('Navigated to URL:', url);
-
 		await page.evaluate(token => {
 			localStorage.setItem('token', token);
-		}, process.env.JWT_SECRET);
+		}, token);
 
-		await page.goto(url, { waitUntil: 'networkidle2' });
+		await page.goto('http://localhost:8080/results', { waitUntil: 'networkidle0' });
 		console.log('Navigated to results page');
-
-		await page.waitForSelector('.results-container', { timeout: 60000 });
-		console.log('Results container loaded');
 
 		if (extraData.description) {
 			await page.evaluate(extraData => {
@@ -41,19 +39,21 @@ async function generatePDF(req, res) {
 			console.log('Description added:', extraData.description);
 		}
 
-		await page.waitForFunction(
-			() => {
-				const inputs = document.querySelectorAll('input');
-				return Array.from(inputs).every(input => input.value !== '');
-			},
-			{ timeout: 60000 }
-		);
+		await page.waitForSelector('.gross-value', { visible: true });
 
-		await page.waitForTimeout(5000); // Opóźnienie 5 sekund
+		await page.evaluate(token => {
+			localStorage.setItem('token', token);
+		}, process.env.JWT_SECRET);
+
+		await page.goto('http://localhost:8080/results', { waitUntil: 'networkidle0' });
+		console.log('Navigated to results page');
+
+		await page.waitForSelector('.gross-value', { visible: true });
+
+		await page.waitforTimeout(1000);
 
 		const pdf = await page.pdf({
 			format: 'A4',
-			printBackground: true,
 			margin: { top: '20px', bottom: '20px', left: '20px', right: '20px' },
 		});
 		console.log('PDF generated');
@@ -64,6 +64,8 @@ async function generatePDF(req, res) {
 		const pdfPath = path.join(__dirname, 'debug.pdf');
 		fs.writeFileSync(pdfPath, pdf);
 		console.log(`PDF saved to ${pdfPath}`);
+
+		//wysyłanie pdf do klienta
 
 		res.setHeader('Content-Type', 'application/pdf');
 		res.setHeader('Content-Disposition', 'attachment; filename="wyniki.pdf"');

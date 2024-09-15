@@ -1,4 +1,5 @@
 'use strict';
+import { btnsClickEvents } from '../modules/btnsClick';
 
 const btnsAll = document.querySelectorAll('.btn');
 const btnsContainer = document.querySelector('.btns-container');
@@ -37,25 +38,26 @@ btnsElements.forEach(button => {
 	});
 });
 
-secondBtn.addEventListener('click', function () {
-	sessionStorage.setItem('disableSelects', 'true');
-});
+btnsClickEvents();
+// secondBtn.addEventListener('click', function () {
+// 	sessionStorage.setItem('disableSelects', 'true');
+// });
 
-firstBtn.addEventListener('click', function () {
-	sessionStorage.setItem('firstBtnClicked', 'true');
-});
+// firstBtn.addEventListener('click', function () {
+// 	sessionStorage.setItem('firstBtnClicked', 'true');
+// });
 
-eighthBtn.addEventListener('click', function () {
-	sessionStorage.setItem('sixthBtnClicked', 'true');
-});
+// eighthBtn.addEventListener('click', function () {
+// 	sessionStorage.setItem('sixthBtnClicked', 'true');
+// });
 
-tenthBtn.addEventListener('click', function () {
-	sessionStorage.setItem('studStatus', 'true');
-});
+// tenthBtn.addEventListener('click', function () {
+// 	sessionStorage.setItem('studStatus', 'true');
+// });
 
-ninethBtn.addEventListener('click', function () {
-	sessionStorage.setItem('fifthBtnClicked', 'true');
-});
+// ninethBtn.addEventListener('click', function () {
+// 	sessionStorage.setItem('fifthBtnClicked', 'true');
+// });
 
 contractBtn.addEventListener('click', function () {
 	document.querySelector('.btns-container').classList.toggle('hidden');
@@ -70,25 +72,25 @@ specWrkBtn.addEventListener('click', function () {
 	modal2El.classList.toggle('hidden');
 });
 
-fourthBtn.addEventListener('click', function () {
-	document.querySelector('.empl-container').style.opacity = '1';
-	document.getElementById('wkrplcs-count').disabled = false;
-});
+// fourthBtn.addEventListener('click', function () {
+// 	document.querySelector('.empl-container').style.opacity = '1';
+// 	document.getElementById('wkrplcs-count').disabled = false;
+// });
 
-thirdBtn.addEventListener('click', function () {
-	document.querySelector('.empl-container').style.opacity = '0.5';
-	document.getElementById('wkrplcs-count').disabled = true;
-});
+// thirdBtn.addEventListener('click', function () {
+// 	document.querySelector('.empl-container').style.opacity = '0.5';
+// 	document.getElementById('wkrplcs-count').disabled = true;
+// });
 
-twelvethBtn.addEventListener('click', function () {
-	document.querySelector('.empl-container-order').style.opacity = '1';
-	document.getElementById('wkrplcs-count-order').disabled = false;
-});
+// twelvethBtn.addEventListener('click', function () {
+// 	document.querySelector('.empl-container-order').style.opacity = '1';
+// 	document.getElementById('wkrplcs-count-order').disabled = false;
+// });
 
-eleventhBtn.addEventListener('click', function () {
-	document.querySelector('.empl-container-order').style.opacity = '0.5';
-	document.getElementById('wkrplcs-count-order').disabled = true;
-});
+// eleventhBtn.addEventListener('click', function () {
+// 	document.querySelector('.empl-container-order').style.opacity = '0.5';
+// 	document.getElementById('wkrplcs-count-order').disabled = true;
+// });
 
 if (selectContr.value === '2' || selectOrder.value === '2') {
 	sessionStorage.setItem('twoWorkplaces', 'true');

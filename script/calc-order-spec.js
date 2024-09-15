@@ -1,4 +1,5 @@
 'use strict';
+import { adjustSelectWidth } from '../modules/functions';
 
 document.addEventListener('DOMContentLoaded', function () {
 	if (sessionStorage.getItem('sixthBtnClicked') === 'true') {
@@ -32,26 +33,7 @@ btnNo.addEventListener('click', function () {
 	modalEl.classList.add('hidden');
 });
 
-const adjustSelectWidth = selectElement => {
-	const tempDiv = document.createElement('div');
-	document.body.appendChild(tempDiv);
-
-	const computedStyle = window.getComputedStyle(selectElement);
-	Object.assign(tempDiv.style, {
-		fontSize: computedStyle.fontSize,
-		fontFamily: computedStyle.fontFamily,
-		fontWeight: computedStyle.fontWeight,
-		letterSpacing: computedStyle.letterSpacing,
-		whiteSpace: 'nowrap',
-		position: 'absolute',
-		top: '-9999px',
-	});
-
-	tempDiv.textContent = selectElement.options[selectElement.selectedIndex].text;
-	selectElement.style.width = `${tempDiv.offsetWidth + 35}px`;
-
-	document.body.removeChild(tempDiv);
-};
+adjustSelectWidth();
 
 document.querySelectorAll('select').forEach(selectElement => {
 	adjustSelectWidth(selectElement);
@@ -114,12 +96,9 @@ const sendData = async data => {
 	}
 };
 
-// document.addEventListener('DOMContentLoaded', function () {
-// const btnCalc = document.querySelector('.btn-calc');
 btnCalc.addEventListener('click', async function (e) {
 	e.preventDefault();
 	const data = prepareData();
 	await sendData(data);
 	localStorage.setItem('isU26Used', 'true');
 });
-// });
