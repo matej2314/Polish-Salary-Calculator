@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const SECRET_KEY = process.env.JWT_SECRET;
 
-module.exports.calcu26 = calcu26 = (req, res) => {
+module.exports.calcu26 = (req, res) => {
 	const { description, gross_salary, costs_of_income, tax_advance, tax_reduction, calcContributions, studStatus, sixthBtnClicked } = req.body;
 
 	// Sprawdzenie, czy wszystkie wymagane dane są dostępne
@@ -115,7 +115,7 @@ module.exports.calcu26 = calcu26 = (req, res) => {
 	return res.json({ token });
 };
 
-module.exports.calcu26GET = this.calcU26GET = (req, res) => {
+module.exports.calcu26GET = (req, res) => {
 	// Pobieranie tokenu JWT z nagłówka Authorization
 	const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 

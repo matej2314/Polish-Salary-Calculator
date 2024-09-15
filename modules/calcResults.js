@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const SECRET_KEY = process.env.JWT_SECRET;
 
-module.exports.calcresult = calcresult = (req, res) => {
+module.exports.calcresult = (req, res) => {
 	const { description, gross_salary, tax_reduction, pen_Contrib, dis_Contrib, sick_Contrib, hIpremium, costs_of_income, tax_advance, disableSelects, financedemployer, financedbyemployee } = req.body;
 
 	if (gross_salary == null || costs_of_income == null || tax_advance == null || tax_reduction == null || pen_Contrib == null || dis_Contrib == null || sick_Contrib == null) {
@@ -75,7 +75,7 @@ module.exports.calcresult = calcresult = (req, res) => {
 	}
 };
 
-module.exports.calcresultGET = this.calcresultGET = (req, res) => {
+module.exports.calcresultGET = (req, res) => {
 	const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 
 	if (!token) {

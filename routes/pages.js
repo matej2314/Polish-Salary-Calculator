@@ -4,7 +4,7 @@ const router = express.Router();
 const path = require('path');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-const pdfController = require('../controllers/pdfController');
+const pdfGenerator = require('../controllers/generatePDF');
 const contrib = require('../modules/contrib');
 const calcresult = require('../modules/calcResults');
 const calcu26 = require('../modules/calcu26');
@@ -48,9 +48,9 @@ router.get('/calcresult', calcresult.calcresultGET);
 
 router.post('/calcu26', calcu26.calcu26);
 
-router.get('/calcu26', calcu26.calcU26GET);
+router.get('/calcu26', calcu26.calcu26GET);
 
-router.post('/generate-pdf', pdfController.generatePDF);
+router.post('/generate-pdf', pdfGenerator.generatePDF);
 
 router.get('/results', (req, res) => {
 	res.sendFile(path.join(__dirname, '../results.html'));

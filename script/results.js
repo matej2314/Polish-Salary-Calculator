@@ -1,5 +1,3 @@
-import { pdfSendData } from '../modules/pdfFront';
-
 ('use strict');
 
 const toPercentage = value => {
@@ -18,6 +16,7 @@ if (isCalcResult) {
 			console.error('Błąd uwierzytelniania');
 			return;
 		}
+
 		fetch('/calcresult', {
 			method: 'GET',
 			headers: {
@@ -35,7 +34,6 @@ if (isCalcResult) {
 				return response.json();
 			})
 			.then(calcresults => {
-				console.log(calcresults);
 				localStorage.setItem('calcresults.description', calcresults.description);
 				document.getElementById('gross-value').value = calcresults.grossSalary;
 				document.querySelector('.tax-red-val').value = calcresults.tax_reduction;
@@ -55,6 +53,7 @@ if (isCalcResult) {
 			});
 	});
 }
+
 let calcsU26Data;
 
 if (isU26Used) {
@@ -112,4 +111,6 @@ if (isU26Used) {
 	});
 }
 
-document.querySelector('.btn-pdf').addEventListener('click', pdfSendData());
+document.querySelector('.btn-pdf').addEventListener('click', () => {
+	window.location.href = '/generate-pdf';
+});
