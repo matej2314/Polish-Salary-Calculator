@@ -1,7 +1,6 @@
 'use strict';
 import { btnsClickEvents } from '/modules/btnsClick.js';
 
-const btnsAll = document.querySelectorAll('.btn');
 const btnsContainer = document.querySelector('.btns-container');
 const orderBtn = document.querySelector('.btn-order');
 const contractBtn = document.querySelector('.btn-contr');

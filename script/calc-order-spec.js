@@ -1,5 +1,13 @@
 'use strict';
 
+const modalSelect = document.getElementById('calc-contributions-val');
+const modalEl = document.querySelector('.modal_question');
+const mainCont = document.querySelector('.calc-order-container');
+const grossSal = document.getElementById('gross-salary');
+const btnCalc = document.querySelector('.btn-calc-cont');
+const btnYes = document.querySelector('.btn-yes');
+const btnNo = document.querySelector('.btn-no');
+
 document.addEventListener('DOMContentLoaded', function () {
 	if (sessionStorage.getItem('sixthBtnClicked') === 'true') {
 		document.getElementById('advance-tax-paym-val').disabled = true;
@@ -12,14 +20,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		document.getElementById('cost-of-income-val').disabled = true;
 	}
 });
-
-const modalSelect = document.getElementById('calc-contributions-val');
-const modalEl = document.querySelector('.modal_question');
-const mainCont = document.querySelector('.calc-order-container');
-const grossSal = document.getElementById('gross-salary');
-const btnCalc = document.querySelector('.btn-calc-cont');
-const btnYes = document.querySelector('.btn-yes');
-const btnNo = document.querySelector('.btn-no');
 
 btnYes.addEventListener('click', function () {
 	modalSelect.setAttribute('disabled', 'disabled');

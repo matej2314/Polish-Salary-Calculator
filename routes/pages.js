@@ -3,26 +3,20 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
-const pdfGenerator = require('../controllers/generatePDF');
-const contrib = require('../modules/contrib');
+const generatePDF = require('../controllers/generatePDF');
 const calcresult = require('../modules/calcResults');
 const calcu26 = require('../modules/calcu26');
-
-// Sekret używany do podpisywania tokenów JWT
-const SECRET_KEY = process.env.JWT_SECRET;
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 router.get('/', (req, res) => {
-	// res.sendFile(path.join(__dirname, '../index.html'));
 	const referer = req.get('Referer') || '';
 
 	if (referer.includes('/register')) {
 		res.sendFile(path.join(__dirname, '../index.html'));
 	} else {
-		res.sendFile(path.join(__dirname, '../index.html')); // Możesz dostosować inne ścieżki i komunikaty
+		res.sendFile(path.join(__dirname, '../index.html'));
 	}
 });
 
@@ -50,7 +44,7 @@ router.post('/calcu26', calcu26.calcu26);
 
 router.get('/calcu26', calcu26.calcu26GET);
 
-router.post('/generate-pdf', pdfGenerator.generatePDF);
+router.get('/generate-pdf', generatePDF);
 
 router.get('/results', (req, res) => {
 	res.sendFile(path.join(__dirname, '../results.html'));
