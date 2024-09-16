@@ -4,6 +4,7 @@ const router = express.Router();
 const path = require('path');
 const bodyParser = require('body-parser');
 const generatePDF = require('../controllers/generatePDF');
+const generateXLSX = require('../controllers/generateXLSX');
 const calcresult = require('../modules/calcResults');
 const calcu26 = require('../modules/calcu26');
 
@@ -45,6 +46,8 @@ router.post('/calcu26', calcu26.calcu26);
 router.get('/calcu26', calcu26.calcu26GET);
 
 router.get('/generate-pdf', generatePDF);
+
+router.get('/generate-excel', generateXLSX.generateXLSX);
 
 router.get('/results', (req, res) => {
 	res.sendFile(path.join(__dirname, '../results.html'));

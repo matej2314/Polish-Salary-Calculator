@@ -6,19 +6,44 @@ const generatePDF = async (req, res) => {
 	try {
 		// Pobieranie danych
 		const token = req.headers.authorization.split(' ')[1];
-		const response = await fetch('http://localhost:8080/calcresult', {
-			method: 'GET',
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+		let calcresults = null;
+		let calcsU26 = null;
 
-		if (!response.ok) {
-			throw new Error('Błąd pobierania danych');
+		try {
+			const responseCalcresults = await fetch('http://localhost:8080/calcresult', {
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+
+			if (responseCalcresults.ok) {
+				calcresults = await responseCalcresults.json();
+			}
+		} catch (error) {
+			console.log('Błąd pobierania danych z serwera:', error);
 		}
 
-		const calcresults = await response.json();
+		try {
+			const responseCalcu26 = await fetch('http://localhost:8080/calcu26', {
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 
+			if (responseCalcu26.ok) {
+				calcsU26 = await responseCalcu26.json();
+			}
+		} catch (error) {
+			console.log('Błąd pobierania wyników obliczeń:', error);
+		}
+
+		const dataToUse = calcsU26 || calcresults;
+
+		if (!dataToUse) {
+			throw new Error('Nie udało się pobrać żadnych wyników obliczeń :(');
+		}
 		// Generowanie PDF
 		const doc = new PDFDocument();
 		const filePath = path.join(__dirname, 'wyniki.pdf');
@@ -31,32 +56,31 @@ const generatePDF = async (req, res) => {
 
 		doc.fillColor('black');
 
-		doc.fontSize(16).text('Wyniki Twoich obliczen:', { align: 'center' });
-
+		doc.fontSize(16).text('Wyniki Twoich obliczeń:', { align: 'center' });
 		doc.moveDown();
-		doc.fontSize(14).text(`Wynagrodzenie brutto: ${calcresults.grossSalary} zl`);
+		doc.fontSize(14).text(`Wynagrodzenie brutto: ${dataToUse.grossSalary} zl`);
 		doc.moveDown();
-		doc.text(`Wartosc ulgi podatkowej: ${calcresults.tax_reduction} zl`);
+		doc.text(`Wartosc ulgi podatkowej: ${dataToUse.tax_reduction} zl`);
 		doc.moveDown();
-		doc.text(`Skladka emerytalna: ${calcresults.penContrib} zl`);
+		doc.text(`Skladka emerytalna: ${dataToUse.penContrib} zl`);
 		doc.moveDown();
-		doc.text(`Skladka rentowa: ${calcresults.disContrib} zl`);
+		doc.text(`Skladka rentowa: ${dataToUse.disContrib} zl`);
 		doc.moveDown();
-		doc.text(`Skladka chorobowa: ${calcresults.sickContrib} zl`);
+		doc.text(`Skladka chorobowa: ${dataToUse.sickContrib} zl`);
 		doc.moveDown();
-		doc.text(`Suma skladek ZUS: ${calcresults.sumZus} zl`);
+		doc.text(`Suma skladek ZUS: ${dataToUse.sumZus} zl`);
 		doc.moveDown();
-		doc.text(`Podstawa obliczenia skladek: ${calcresults.grossSalary * 0.1371} zl`);
+		doc.text(`Podstawa obliczenia skladek: ${dataToUse.grossSalary * 0.1371} zl`);
 		doc.moveDown();
-		doc.text(`Skladka zdrowotna: ${calcresults.hiPremium} zl`);
+		doc.text(`Skladka zdrowotna: ${dataToUse.hiPremium} zl`);
 		doc.moveDown();
-		doc.text(`Koszty uzyskania przychodu: ${calcresults.costs_of_income} zl`);
+		doc.text(`Koszty uzyskania przychodu: ${dataToUse.costs_of_income} zl`);
 		doc.moveDown();
-		doc.text(`Podstawa zaliczki na podatek: ${calcresults.basisOfTaxPaym} zl`);
+		doc.text(`Podstawa zaliczki na podatek: ${dataToUse.basisOfTaxPaym} zl`);
 		doc.moveDown();
-		doc.text(`Zaliczka na podatek: ${calcresults.advPayment} zl`);
+		doc.text(`Zaliczka na podatek: ${dataToUse.advPayment} zl`);
 		doc.moveDown();
-		doc.text(`Do wyplaty: ${calcresults.netSalary} zl`);
+		doc.text(`Do wyplaty: ${dataToUse.netSalary} zl`);
 
 		doc.end();
 
