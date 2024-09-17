@@ -8,14 +8,6 @@ const btnPrevSite = document.querySelector('.btn_prev_site');
 const backBtn = document.querySelector('.back-btn');
 const dropList = document.querySelector('.dropdown');
 
-backBtn.addEventListener('click', function () {
-	dropList.classList.toggle('hidden');
-});
-
-btnPrevSite.addEventListener('click', function () {
-	window.history.back();
-});
-
 if (isCalcResult) {
 	document.addEventListener('DOMContentLoaded', () => {
 		sessionStorage.clear();
@@ -123,3 +115,11 @@ if (isU26Used) {
 document.querySelector('.btn-pdf').addEventListener('click', downloadPDFFILE);
 
 document.querySelector('.btn-excel').addEventListener('click', downloadXCELL);
+
+backBtn.addEventListener('click', function () {
+	dropList.classList.toggle('hidden');
+});
+
+btnPrevSite.addEventListener('click', function () {
+	window.history.back();
+});
