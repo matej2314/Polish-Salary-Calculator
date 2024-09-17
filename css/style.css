@@ -35,6 +35,19 @@ select {
 	padding: 2px 0 2px 0;
 }
 
+.btn-back {
+	position: absolute;
+	top: 1vh;
+	left: 1vw;
+	display: flex;
+	flex-direction: row;
+	width: fit-content;
+	height: fit-content;
+	padding: 5px;
+	background-color: black;
+	color: white;
+}
+
 .main_container {
 	width: 100%;
 	display: flex;

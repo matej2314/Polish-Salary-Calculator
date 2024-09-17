@@ -11,6 +11,6 @@ module.exports.contrib = getContributions = type => {
 		case 'bez-skladek-emerytalno-rentowych':
 			return { penContrib: 0, disContrib: 0, sickContrib: 0.0245, hiPremium: 0.09 };
 		default:
-			return { penContrib: 0, disContrib: 0, sickContrib: 0, hiPremium: 0.09 }; // Domyślna wartość
+			return { penContrib: 0, disContrib: 0, sickContrib: 0, hiPremium: 0.09 };
 	}
 };

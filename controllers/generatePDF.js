@@ -74,7 +74,7 @@ const generatePDF = async (req, res) => {
 		doc.moveDown();
 		doc.text(`Skladka zdrowotna: ${dataToUse.hiPremium} zl`);
 		doc.moveDown();
-		doc.text(`Koszty uzyskania przychodu: ${(dataToUse.costs_of_income * 100).toFixed(2)} %`);
+		doc.text(`Koszty uzyskania przychodu: ${dataToUse.costs_of_income} zł`);
 		doc.moveDown();
 		doc.text(`Podstawa zaliczki na podatek: ${dataToUse.basisOfTaxPaym} zl`);
 		doc.moveDown();

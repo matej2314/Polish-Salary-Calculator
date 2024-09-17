@@ -7,6 +7,7 @@
     <title>Kalkulator wynagrodzeń - umowa zlecenie / o dzieło</title>
 </head>
 <body>
+    <button type="button" class="btn-back hidden">Wstecz</button>
     <div class="calc-order-container hidden">
         <div class="description-div">
             <p class="desc-label">Wpisz opis (pojawi się w pliku wynikowym) :</p>
@@ -63,11 +64,10 @@
         </div>
     </div>
     <script type="module" src="./script/calc-order-spec.js"></script>
-    <script type="module" src="./modules/functions.js"></script>
     <script>
-        // Sprawdzenie, czy użytkownik jest zalogowany
+
         if (!localStorage.getItem('token')) {
-            window.location.href = 'index.html'; // Przekierowanie do strony logowania
+            window.location.href = 'index.html';
         }
     </script>
 </body>

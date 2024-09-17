@@ -1,9 +1,7 @@
-'use strict';
+('use strict');
 
 document.addEventListener('DOMContentLoaded', function () {
-	// Sprawdzenie, czy flaga disableSelects jest ustawiona
 	if (sessionStorage.getItem('disableSelects') === 'true') {
-		// Wyłączanie pól select
 		let reduction = document.getElementById('reduction');
 		let taxAdvanceOpts = document.getElementById('tax-advance-opts');
 
@@ -33,6 +31,7 @@ const selectEl2 = document.getElementById('dis-contrib-opts');
 const selectEl3 = document.getElementById('contrib-opts');
 const selectEl4 = document.getElementById('cost-income-opts');
 const selectEl5 = document.getElementById('reduction');
+const btnBack = document.querySelector('.btn-back');
 
 const checkboxEl = document.getElementById('check-yes');
 const btmCalc = document.querySelector('.bottom-of-calc');
@@ -81,6 +80,10 @@ checkboxEl.addEventListener('change', function () {
 	} else {
 		hideDivppk();
 	}
+});
+
+btnBack.addEventListener('click', function () {
+	window.location.href = '/buttons';
 });
 
 function showDivPpk() {

@@ -1,11 +1,20 @@
 ('use strict');
 
-const toPercentage = value => {
-	return `${(value * 100).toFixed(2)}%`;
-};
+import { downloadXCELL, downloadPDFFILE } from '../modules/downloadFiles.js';
 
 const isU26Used = localStorage.getItem('isU26Used');
 const isCalcResult = localStorage.getItem('isCalcResult');
+const btnPrevSite = document.querySelector('.btn_prev_site');
+const backBtn = document.querySelector('.back-btn');
+const dropList = document.querySelector('.dropdown');
+
+backBtn.addEventListener('click', function () {
+	dropList.classList.toggle('hidden');
+});
+
+btnPrevSite.addEventListener('click', function () {
+	window.history.back();
+});
 
 if (isCalcResult) {
 	document.addEventListener('DOMContentLoaded', () => {
@@ -88,7 +97,7 @@ if (isU26Used) {
 			// Przypisz dane do zmiennej globalnej
 			let calcsU26Data = calcsU26;
 
-			// Manipulacja DOM
+			localStorage.setItem('calcsU26.description', calcsU26.description);
 			document.getElementById('gross-value').value = calcsU26.grossSalary;
 			document.querySelector('.tax-red-val').value = calcsU26.tax_reduction;
 			document.querySelector('.pension-contrib-val').value = calcsU26.penContrib.toFixed(2);
@@ -111,76 +120,6 @@ if (isU26Used) {
 	});
 }
 
-document.querySelector('.btn-pdf').addEventListener('click', async () => {
-	try {
-		const token = localStorage.getItem('token');
+document.querySelector('.btn-pdf').addEventListener('click', downloadPDFFILE);
 
-		if (!token) {
-			throw new Error('Błąd autoryzacji');
-		}
-
-		const response = await fetch('/generate-pdf', {
-			method: 'GET',
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-
-		if (!response.ok) {
-			throw new Error('Błąd pobierania pliku PDF');
-		}
-
-		const blob = await response.blob();
-
-		const url = window.URL.createObjectURL(blob);
-
-		const a = document.createElement('a');
-		a.href = url;
-		a.download = 'wyniki.pdf';
-		document.body.appendChild(a);
-		a.click();
-
-		a.remove();
-
-		window.URL.revokeObjectURL(url);
-	} catch (error) {
-		console.log('Wystąpił błąd podczas pobierania pliku PDF:', error);
-	}
-});
-
-document.querySelector('.btn-excel').addEventListener('click', async function () {
-	try {
-		const token = localStorage.getItem('token');
-
-		if (!token) {
-			throw new Error('Błąd autoryzacji');
-		}
-
-		const response = await fetch('/generate-excel', {
-			method: 'GET',
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-
-		if (!response.ok) {
-			const errorText = await response.text(); // Pobierz tekst błędu
-			throw new Error(`Błąd pobierania pliku: ${response.status} ${response.statusText} ${errorText}`);
-		}
-
-		const blob = await response.blob();
-		const url = window.URL.createObjectURL(blob);
-
-		const a = document.createElement('a');
-		a.href = url;
-		a.download = 'wyniki.xlsx';
-		document.body.appendChild(a);
-		a.click();
-
-		a.remove();
-
-		window.URL.revokeObjectURL(url);
-	} catch (error) {
-		console.log('Błąd podczas pobierania pliku:', error);
-	}
-});
+document.querySelector('.btn-excel').addEventListener('click', downloadXCELL);

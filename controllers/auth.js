@@ -3,10 +3,9 @@ const connection = require('../db'); // Importujemy połączenie z db.js
 const bcrypt = require('bcrypt');
 const path = require('path');
 const jwt = require('jsonwebtoken');
+
 exports.registeruser = async (req, res) => {
 	try {
-		console.log('Request body in registeruser:', req.body);
-
 		const { reg_username, reg_email, reg_passwd, rep_reg_passwd } = req.body;
 
 		if (!reg_username || !reg_email || !reg_passwd || !rep_reg_passwd) {
@@ -14,14 +13,12 @@ exports.registeruser = async (req, res) => {
 			return res.status(400).send('Proszę uzupełnić wszystkie pola.');
 		}
 
-		console.log('Checking if email exists...');
 		connection.query('SELECT email FROM users WHERE email = ?', [reg_email], async (error, results) => {
 			if (error) {
 				console.log('Błąd SELECT:', error);
 				return res.status(500).send('Błąd serwera.');
 			}
 
-			console.log('Results from SELECT:', results);
 			if (results.length > 0) {
 				console.log('E-mail already registered');
 				return res.status(400).send('Ten adres e-mail jest już zarejestrowany.');
@@ -33,10 +30,8 @@ exports.registeruser = async (req, res) => {
 			}
 
 			try {
-				console.log('Hashing password...');
 				let hashedPasswd = await bcrypt.hash(reg_passwd, 10);
 
-				console.log('Inserting new user...');
 				connection.query('INSERT INTO users SET ?', { name: reg_username, email: reg_email, password: hashedPasswd }, (error, results) => {
 					if (error) {
 						console.log('Błąd INSERT:', error);

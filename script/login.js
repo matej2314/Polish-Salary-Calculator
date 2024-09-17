@@ -121,7 +121,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
 		if (response.ok) {
 			alert(result.message);
 			localStorage.setItem('token', result.token);
-			window.location.href = 'buttons.html';
+			window.location.href = '/buttons';
 		} else {
 			alert(result.message);
 		}

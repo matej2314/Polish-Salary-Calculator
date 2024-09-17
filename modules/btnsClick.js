@@ -9,6 +9,13 @@ const tenthBtn = document.querySelector('.second-btn-order-yes');
 const eleventhBtn = document.querySelector('.third-btn-order-yes');
 const twelvethBtn = document.querySelector('.third-btn-order-no');
 
+const btnsContainer = document.querySelector('.btns-container');
+const orderBtn = document.querySelector('.btn-order');
+const contractBtn = document.querySelector('.btn-contr');
+const specWrkBtn = document.querySelector('.btn-specwrk');
+const modal1El = document.querySelector('.modal-questions');
+const modal2El = document.querySelector('.modal-questions-order');
+
 export const btnsClickEvents = () => {
 	secondBtn.addEventListener('click', function () {
 		sessionStorage.setItem('disableSelects', 'true');
@@ -48,5 +55,18 @@ export const btnsClickEvents = () => {
 	eleventhBtn.addEventListener('click', function () {
 		document.querySelector('.empl-container-order').style.opacity = '0.5';
 		document.getElementById('wkrplcs-count-order').disabled = true;
+	});
+
+	contractBtn.addEventListener('click', function () {
+		btnsContainer.classList.toggle('hidden');
+		modal1El.classList.toggle('hidden');
+	});
+	orderBtn.addEventListener('click', function () {
+		btnsContainer.classList.toggle('hidden');
+		modal2El.classList.toggle('hidden');
+	});
+	specWrkBtn.addEventListener('click', function () {
+		btnsContainer.classList.toggle('hidden');
+		modal2El.classList.toggle('hidden');
 	});
 };

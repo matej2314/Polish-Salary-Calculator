@@ -1,16 +1,8 @@
 'use strict';
 import { btnsClickEvents } from '/modules/btnsClick.js';
 
-const btnsContainer = document.querySelector('.btns-container');
-const orderBtn = document.querySelector('.btn-order');
-const contractBtn = document.querySelector('.btn-contr');
-const specWrkBtn = document.querySelector('.btn-specwrk');
-const modal1El = document.querySelector('.modal-questions');
-const modal2El = document.querySelector('.modal-questions-order');
 const imgEl = document.querySelector('.info-sign');
 const tooltip = document.querySelector('.tooltip-text');
-const selectContr = document.getElementById('wkrplcs-count');
-const selectOrder = document.getElementById('wkrplcs-count-order');
 
 const firstBtn = document.querySelector('.first-btn-yes');
 const secondBtn = document.querySelector('.first-btn-no');
@@ -38,26 +30,6 @@ btnsElements.forEach(button => {
 });
 
 btnsClickEvents();
-
-contractBtn.addEventListener('click', function () {
-	document.querySelector('.btns-container').classList.toggle('hidden');
-	modal1El.classList.toggle('hidden');
-});
-orderBtn.addEventListener('click', function () {
-	btnsContainer.classList.toggle('hidden');
-	modal2El.classList.toggle('hidden');
-});
-specWrkBtn.addEventListener('click', function () {
-	btnsContainer.classList.toggle('hidden');
-	modal2El.classList.toggle('hidden');
-});
-
-if (selectContr.value === '2' || selectOrder.value === '2') {
-	sessionStorage.setItem('twoWorkplaces', 'true');
-}
-if (selectContr.value === '3' || selectOrder.value === '3') {
-	sessionStorage.setItem('threeWorkplaces', 'true');
-}
 
 imgEl.addEventListener('mouseover', event => {
 	tooltip.style.visibility = 'visible';
