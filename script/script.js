@@ -47,17 +47,6 @@ const tooltiptext = document.querySelector('.tooltip-descr-text');
 
 const tableEl = [selectEl1, selectEl2, selectEl3, selectEl4, selectEl5];
 
-window.addEventListener('DOMContentLoaded', function () {
-	const selectElements = [...tableEl];
-	selectElements.forEach(selectElement => {
-		adjustSelectWidthOnChange(selectElement); // Dostosowanie szerokości na początku
-
-		selectElement.addEventListener('change', function () {
-			adjustSelectWidthOnChange(selectElement); // Dostosowanie szerokości po zmianie
-		});
-	});
-});
-
 function adjustSelectWidthOnChange(selectElement) {
 	const widthHelper = document.createElement('span');
 	widthHelper.style.position = 'absolute';
@@ -73,6 +62,17 @@ function adjustSelectWidthOnChange(selectElement) {
 
 	document.body.removeChild(widthHelper);
 }
+
+window.addEventListener('DOMContentLoaded', function () {
+	const selectElements = [...tableEl];
+	selectElements.forEach(selectElement => {
+		adjustSelectWidthOnChange(selectElement); // Dostosowanie szerokości na początku
+
+		selectElement.addEventListener('change', function () {
+			adjustSelectWidthOnChange(selectElement); // Dostosowanie szerokości po zmianie
+		});
+	});
+});
 
 checkboxEl.addEventListener('change', function () {
 	if (checkboxEl.checked) {
