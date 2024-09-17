@@ -96,7 +96,7 @@ if (isU26Used) {
 			document.querySelector('.sickness-contrib-val').value = calcsU26.sickContrib;
 			document.querySelector('.zus-contrib-sum-val').value = calcsU26.sumZus.toFixed(2);
 			document.querySelector('.h-i-premium-val').value = calcsU26.hiPremium;
-			document.querySelector('.costs-of-income-val').value = toPercentage(calcsU26.costs_of_income);
+			document.querySelector('.costs-of-income-val').value = calcsU26.costs_of_income;
 			document.querySelector('.basis-of-adv-val').value = calcsU26.basisOfTaxPaym.toFixed(2);
 			document.querySelector('.adv-tax-paym-val').value = calcsU26.advPayment;
 			document.querySelector('.to-be-paid-val').value = calcsU26.netSalary;
@@ -145,5 +145,42 @@ document.querySelector('.btn-pdf').addEventListener('click', async () => {
 		window.URL.revokeObjectURL(url);
 	} catch (error) {
 		console.log('Wystąpił błąd podczas pobierania pliku PDF:', error);
+	}
+});
+
+document.querySelector('.btn-excel').addEventListener('click', async function () {
+	try {
+		const token = localStorage.getItem('token');
+
+		if (!token) {
+			throw new Error('Błąd autoryzacji');
+		}
+
+		const response = await fetch('/generate-excel', {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		if (!response.ok) {
+			const errorText = await response.text(); // Pobierz tekst błędu
+			throw new Error(`Błąd pobierania pliku: ${response.status} ${response.statusText} ${errorText}`);
+		}
+
+		const blob = await response.blob();
+		const url = window.URL.createObjectURL(blob);
+
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = 'wyniki.xlsx';
+		document.body.appendChild(a);
+		a.click();
+
+		a.remove();
+
+		window.URL.revokeObjectURL(url);
+	} catch (error) {
+		console.log('Błąd podczas pobierania pliku:', error);
 	}
 });

@@ -101,7 +101,7 @@ module.exports.calcu26 = (req, res) => {
 		sickContrib: sickAmount, // składka chorobowa
 		sumZus, // suma składek ZUS
 		hiPremium: healthInsurancePremium, // składka na ubezpieczenie zdrowotne
-		costs_of_income, // koszty uzyskania przychodu
+		costs_of_income: gross_salary * costs_of_income, // koszty uzyskania przychodu
 		basisOfTaxPaym, // podstawa obliczenia zaliczki
 		advPayment, // zaliczka na podatek
 		netSalary, // wynagrodzenie netto

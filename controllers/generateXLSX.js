@@ -1,11 +1,13 @@
 const path = require('path');
 const fs = require('fs');
 const XLSX = require('xlsx');
+const fetch = require('node-fetch');
+const datetime = new Date();
 
-export const generateXLSX = async (req, res) => {
+module.exports.generateXLSX = async (req, res) => {
 	const token = req.headers.authorization.split(' ')[1];
-	const calcresults = null;
-	const calcsU26 = null;
+	let calcresults = {};
+	let calcsU26 = [];
 
 	try {
 		const responseCalcresults = await fetch('http://localhost:8080/calcresult', {
@@ -15,8 +17,11 @@ export const generateXLSX = async (req, res) => {
 			},
 		});
 
-		if (responseCalcresults) {
-			calcresults = await responseCalcresults.json();
+		if (responseCalcresults.ok) {
+			const text = await responseCalcresults.text();
+			calcresults = text ? JSON.parse(text) : {};
+		} else {
+			console.log('Błąd odpowiedzi z endpointu calcresult:', responseCalcresults.statusText);
 		}
 	} catch (error) {
 		console.log('Wystąpił błąd pobierania danych umowy o pracę', error);
@@ -29,41 +34,128 @@ export const generateXLSX = async (req, res) => {
 				Authorization: `Bearer ${token}`,
 			},
 		});
+
 		if (responseCalcu26.ok) {
-			calcsU26 = await responseCalcu26.json();
+			const text = await responseCalcu26.text();
+			calcsU26 = text ? JSON.parse(text) : {};
+		} else {
+			console.log('Błąd odpowiedzi z endpointu calcu26:', responseCalcu26.statusText);
 		}
 	} catch (error) {
 		console.log('Błąd pobierania danych umowy o dzieło/zlecenie', error);
 	}
 
-	const dataToXLS = responseCalcu26 || responseCalcresults;
+	const dataToXLS = calcsU26 && Object.keys(calcsU26).length > 0 ? [calcsU26] : [calcresults];
 
-	if (!dataToXLS) {
-		throw new Error('Brak danych do arkusza!');
+	if (!dataToXLS || !Array.isArray(dataToXLS) || dataToXLS.length === 0) {
+		return res.status(400).json({ Message: 'Brak danych do arkusza' });
 	}
 
-	const transformedData = dataToXLS.map(item => {
-		return {
-			'Wynagrodzenie brutto': item.grossSalary,
-			'Ulga podatkowa': item.tax_reduction,
-			'Składka emerytalna': item.penContrib,
+	const transformedData = dataToXLS.flatMap(item => {
+		return [
+			{ Opis: 'Wynagrodzenie brutto', Wartość: `${item.grossSalary || '0'} zł` },
+			{ Opis: 'Ulga podatkowa', Wartość: `${item.tax_reduction || '0'} zł` },
+			{ Opis: 'Składka emerytalna', Wartość: `${item.penContrib || '0'} zł` },
+			{ Opis: 'Składka rentowa', Wartość: `${item.disContrib || '0'} zł` },
+			{ Opis: 'Składka chorobowa', Wartość: `${item.sickContrib || '0'} zł` },
+			{ Opis: 'Suma składek ZUS', Wartość: `${item.sumZus || '0'} zł` },
+			{ Opis: 'Podstawa obliczenia składek', Wartość: `${item.grossSalary * 0.1371 || '0'} zł` },
+			{ Opis: 'Składka zdrowotna', Wartość: `${item.hiPremium || '0'} zł` },
+			{ Opis: 'Koszty uzyskania przychodu', Wartość: `${item.costs_of_income || '0'} zł` },
+			{ Opis: 'Podstawa zaliczki na podatek', Wartość: `${item.basisOfTaxPaym || '0'} zł` },
+			{ Opis: 'Zaliczka na podatek', Wartość: `${item.advPayment || '0'} zł` },
+			{ Opis: 'Do wypłaty', Wartość: `${item.netSalary || '0'} zł` },
+			{ Opis: ' ', Wartość: ` ` },
+			{ Opis: 'Wykonano dnia:', Wartość: `${datetime.toLocaleString('pl-PL')}` },
+			{ Opis: ' ', Wartość: ` ` },
+			{ Opis: ' ', Wartość: ` ` },
+			{ Opis: 'Wygenerowano za pomocą:', Wartość: 'Polish Salary Calculator' },
+		];
+	});
+
+	try {
+		const workbook = XLSX.utils.book_new();
+		const worksheet = XLSX.utils.json_to_sheet(transformedData);
+
+		// Apply styles to the header row (first row)
+		const headerRow = 0; // Header row index is 0
+		const headerStyle = {
+			font: { bold: true },
+			fill: {
+				fgColor: { rgb: 'ADD8E6' }, // Light blue background
+			},
+			alignment: {
+				horizontal: 'center',
+			},
 		};
-	});
 
-	const workbook = XLSX.utils.book_new();
-	const worksheet = XLSX.utils.json_to_sheet(transformedData);
+		// Apply the header style to each cell in the header row
+		Object.keys(worksheet).forEach(cell => {
+			if (cell.startsWith('A') || cell.startsWith('B')) {
+				const cellAddress = XLSX.utils.decode_cell(cell);
+				if (cellAddress.r === headerRow) {
+					worksheet[cell].s = headerStyle;
+				}
+			}
+		});
 
-	XLSX.utils.book_append_sheet(workbook, worksheet, 'Dane');
+		// Apply the center style to all cells in the worksheet
+		const centerStyle = {
+			alignment: {
+				horizontal: 'center',
+				vertical: 'center',
+			},
+		};
 
-	const filePath = path.join(__dirname, 'wyniki.xlsx');
-	XLSX.writeFile(workbook, filePath);
+		Object.keys(worksheet).forEach(cell => {
+			if (cell.startsWith('A') || cell.startsWith('B')) {
+				const cellAddress = XLSX.utils.decode_cell(cell);
+				if (!worksheet[cell].s) worksheet[cell].s = {}; // Initialize style if it doesn't exist
+				worksheet[cell].s = { ...worksheet[cell].s, ...centerStyle };
+			}
+		});
 
-	res.download(filePath, 'wyniki.xlsx', error => {
-		if (error) {
-			console.log('Błąd wysyłania pliku:', error);
-			res.status(500).json({ message: 'Błąd wysyłania pliku' });
-		}
+		// Adjust column width based on content
+		const getMaxLength = data =>
+			data.reduce((max, row) => {
+				Object.keys(row).forEach(col => {
+					const cellValue = row[col] ? row[col].toString() : '';
+					max[col] = Math.max(max[col] || 0, cellValue.length);
+				});
+				return max;
+			}, {});
 
-		fs.unlinkSync(filePath);
-	});
+		const maxLength = getMaxLength(transformedData);
+
+		// Define column widths
+		worksheet['!cols'] = Object.keys(maxLength).map(col => ({
+			wch: maxLength[col] + 2, // Adding a little extra space for padding
+		}));
+
+		// Append the worksheet to the workbook
+		XLSX.utils.book_append_sheet(workbook, worksheet, 'Dane');
+
+		// Write the workbook to a file
+		const filePath = path.join(__dirname, 'wyniki.xlsx');
+		XLSX.writeFile(workbook, filePath);
+
+		res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		res.setHeader('Content-Disposition', 'attachment; filename=wyniki.xlsx');
+
+		res.download(filePath, 'wyniki.xlsx', error => {
+			if (error) {
+				console.log('Błąd wysyłania pliku:', error);
+				res.status(500).json({ message: 'Błąd wysyłania pliku' });
+			} else {
+				fs.unlink(filePath, err => {
+					if (err) {
+						console.log('Błąd usuwania pliku:', err);
+					}
+				});
+			}
+		});
+	} catch (error) {
+		console.log('Błąd podczas transformacji danych:', error);
+		res.status(500).json({ message: 'Błąd transformacji danych' });
+	}
 };
