@@ -74,49 +74,6 @@ window.addEventListener('DOMContentLoaded', function () {
 	});
 });
 
-checkboxEl.addEventListener('change', function () {
-	if (checkboxEl.checked) {
-		showDivPpk();
-	} else {
-		hideDivppk();
-	}
-});
-
-btnBack.addEventListener('click', function () {
-	window.location.href = '/buttons';
-});
-
-function showDivPpk() {
-	btmCalc.style.top = '0';
-	finPpkSum.classList.remove('hidden');
-	finbyemployee.classList.remove('hidden');
-	finbyemployer.classList.remove('hidden');
-	tooltiptext.style.bottom = '268px';
-	document.querySelector('.arrow-left').style.top = '-270px';
-	document.querySelector('.line1').classList.remove('hidden');
-	document.querySelector('.line2').classList.remove('hidden');
-	document.querySelector('.line3').classList.remove('hidden');
-	calcCont.style.height = 'fit-content';
-}
-
-function hideDivppk() {
-	btmCalc.style.top = '-135px';
-	finPpkSum.classList.add('hidden');
-	finbyemployee.classList.add('hidden');
-	finbyemployer.classList.add('hidden');
-	document.querySelector('.line1').classList.add('hidden');
-	document.querySelector('.line2').classList.add('hidden');
-	document.querySelector('.line3').classList.add('hidden');
-	calcCont.style.height = '78vh';
-	tooltiptext.style.bottom = '208px';
-	document.querySelector('.arrow-left').style.top = '-210px';
-}
-
-btnReset.addEventListener('click', function (e) {
-	e.preventDefault();
-	location.reload();
-});
-
 btnCalc.addEventListener('click', function () {
 	const value = grossSal.value.trim();
 	if (!/^\d+(\.\d+)?$/.test(value)) {
@@ -125,17 +82,6 @@ btnCalc.addEventListener('click', function () {
 		console.log('wartość poprawna');
 	}
 });
-
-function showToolTip() {
-	tooltipdescr.classList.remove('hidden');
-}
-
-function hideToolTip() {
-	tooltipdescr.classList.add('hidden');
-}
-
-document.getElementById('description').addEventListener('mouseover', showToolTip);
-document.getElementById('description').addEventListener('mouseleave', hideToolTip);
 
 btnCalc.addEventListener('click', async e => {
 	e.preventDefault();
