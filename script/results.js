@@ -7,6 +7,7 @@ const isCalcResult = localStorage.getItem('isCalcResult');
 const btnPrevSite = document.querySelector('.btn_prev_site');
 const backBtn = document.querySelector('.back-btn');
 const dropList = document.querySelector('.dropdown');
+const refferer = document.refferer;
 
 if (isCalcResult) {
 	document.addEventListener('DOMContentLoaded', () => {
@@ -44,11 +45,12 @@ if (isCalcResult) {
 				document.querySelector('.pension-contrib-sec-val').value = calcresults.disContrib;
 				document.querySelector('.sickness-contrib-val').value = calcresults.sickContrib.toFixed(2);
 				document.querySelector('.zus-contrib-sum-val').value = calcresults.sumZus;
-				document.querySelector('.basis-of-h-insurance-val').value = (calcresults.netSalary - calcresults.penContrib - calcresults.disContrib).toFixed(2);
-				document.querySelector('.h-i-premium-val').value = Number((calcresults.grossSalary - calcresults.penContrib - calcresults.disContrib) * calcresults.hiPremium).toFixed(2);
+				document.querySelector('.basis-of-h-insurance-val').value = calcresults.basisOfhInsurance;
+				document.querySelector('.h-i-premium-val').value = calcresults.hiPremium;
 				document.querySelector('.costs-of-income-val').value = calcresults.costs_of_income;
 				document.querySelector('.basis-of-adv-val').value = calcresults.basisOfTaxPaym;
-				document.querySelector('.adv-tax-paym-val').value = calcresults.advPayment.toFixed(2);
+				document.querySelector('.advance-to-tax-office').value = calcresults.advPayment < 0 ? 0 : Math.round(calcresults.advPayment);
+				document.querySelector('.adv-tax-paym-val').value = calcresults.advPayment < 0 ? 0 : calcresults.advPayment.toFixed(2);
 				document.querySelector('.to-be-paid-val').value = calcresults.netSalary;
 			})
 			.catch(error => {
@@ -103,7 +105,7 @@ if (isU26Used) {
 			document.querySelector('.basis-of-adv-val').value = calcsU26.basisOfTaxPaym.toFixed(2);
 			document.querySelector('.adv-tax-paym-val').value = calcsU26.advPayment.toFixed(2);
 			document.querySelector('.to-be-paid-val').value = calcsU26.netSalary;
-			document.querySelector('.basis-of-h-insurance-val').value = (calcsU26.netSalary - calcsU26.penContrib - calcsU26.disContrib).toFixed(2);
+			document.querySelector('.basis-of-h-insurance-val').value = calcsU26.basisOfhInsurance;
 
 			// Zapisz dodatkowe informacje w localStorage
 			localStorage.setItem('calcsU26.description', calcsU26.description);
@@ -123,5 +125,9 @@ backBtn.addEventListener('click', function () {
 });
 
 btnPrevSite.addEventListener('click', function () {
-	window.history.back();
+	if (refferer.includes('/main-calc')) {
+		window.location.href = '/main-calc';
+	} else if (refferer.includes('/calc-order')) {
+		window.location.href = '/calc-order';
+	}
 });

@@ -20,7 +20,7 @@ module.exports.calcu26 = (req, res) => {
 		const penAmount = gross_salary * penContrib;
 		const disAmount = gross_salary * disContrib;
 		const sickAmount = gross_salary * sickContrib;
-		const sumZus = penAmount + disAmount + sickAmount;
+		const sumZus = gross_salary * (penAmount + disAmount + sickAmount);
 
 		// Obliczenie składki zdrowotnej
 		const healthInsurancePremium = gross_salary * hiPremium;
@@ -80,16 +80,18 @@ module.exports.calcu26 = (req, res) => {
 	const penAmount = gross_salary * penContrib;
 	const disAmount = gross_salary * disContrib;
 	const sickAmount = gross_salary * sickContrib;
-	const sumZus = penAmount + disAmount + sickAmount;
+	const sumZus = gross_salary * (penAmount + disAmount + sickAmount);
 
 	// Obliczenie składki zdrowotnej
-	const healthInsurancePremium = gross_salary * hiPremium;
 
 	// Obliczenia na podstawie dostarczonych danych
-	const income = gross_salary - sumZus - costs_of_income;
-	const advPayment = Number((income * 0.12).toFixed(2) - tax_reduction);
-	const netSalary = parseFloat((gross_salary - sumZus - healthInsurancePremium - advPayment).toFixed(2));
-	const basisOfTaxPaym = parseFloat(income - costs_of_income);
+	const income = gross_salary - sumZus;
+	const basisOfhInsurance = gross_salary - sumZus;
+	const healthInsurancePremium = (income * 0.09).toFixed(2);
+	const costsincome = income * costs_of_income;
+	const basisOfTaxPaym = parseFloat(basisOfhInsurance - costsincome);
+	const advPayment = Number(basisOfTaxPaym * tax_advance);
+	const netSalary = parseFloat(basisOfhInsurance - healthInsurancePremium);
 
 	// Utworzenie obiektu z wynikami obliczeń
 	const calcsU26 = {
@@ -101,8 +103,9 @@ module.exports.calcu26 = (req, res) => {
 		sickContrib: sickAmount, // składka chorobowa
 		sumZus, // suma składek ZUS
 		hiPremium: healthInsurancePremium, // składka na ubezpieczenie zdrowotne
-		costs_of_income: gross_salary * costs_of_income, // koszty uzyskania przychodu
+		costs_of_income: costsincome, // koszty uzyskania przychodu
 		basisOfTaxPaym, // podstawa obliczenia zaliczki
+		basisOfhInsurance,
 		advPayment, // zaliczka na podatek
 		netSalary, // wynagrodzenie netto
 	};

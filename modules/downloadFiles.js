@@ -63,38 +63,4 @@ export const downloadPDFFILE = async (req, res) => {
 	} catch (error) {
 		console.log('Wystąpił błąd podczas pobierania pliku PDF:', error);
 	}
-	try {
-		const token = localStorage.getItem('token');
-
-		if (!token) {
-			throw new Error('Błąd autoryzacji');
-		}
-
-		const response = await fetch('/generate-pdf', {
-			method: 'GET',
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-
-		if (!response.ok) {
-			throw new Error('Błąd pobierania pliku PDF');
-		}
-
-		const blob = await response.blob();
-
-		const url = window.URL.createObjectURL(blob);
-
-		const a = document.createElement('a');
-		a.href = url;
-		a.download = 'wyniki.pdf';
-		document.body.appendChild(a);
-		a.click();
-
-		a.remove();
-
-		window.URL.revokeObjectURL(url);
-	} catch (error) {
-		console.log('Wystąpił błąd podczas pobierania pliku PDF:', error);
-	}
 };

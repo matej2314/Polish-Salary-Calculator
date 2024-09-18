@@ -33,7 +33,7 @@ const generatePDF = async (req, res) => {
 			});
 
 			if (responseCalcu26.ok) {
-				calcsU26 = await responseCalcu26.json();
+				calcsU26 = await responseCalcu26.text();
 			}
 		} catch (error) {
 			console.log('Błąd pobierania wyników obliczeń:', error);

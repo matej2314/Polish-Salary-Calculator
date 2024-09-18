@@ -141,6 +141,7 @@ input {
 	font-size: 16px;
 	border: solid 1px black;
 	padding-left: 10px;
+	pointer-events: none;
 }
 
 .to-be-paid {
