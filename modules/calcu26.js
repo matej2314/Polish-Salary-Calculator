@@ -87,7 +87,7 @@ module.exports.calcu26 = (req, res) => {
 
 	// Obliczenia na podstawie dostarczonych danych
 	const income = gross_salary - sumZus - costs_of_income;
-	const advPayment = Number((income * 0.12).toFixed(2));
+	const advPayment = Number((income * 0.12).toFixed(2) - tax_reduction);
 	const netSalary = parseFloat((gross_salary - sumZus - healthInsurancePremium - advPayment).toFixed(2));
 	const basisOfTaxPaym = parseFloat(income - costs_of_income);
 

@@ -21,7 +21,7 @@ module.exports.calcresult = (req, res) => {
 		const disContrib = parseFloat(gross_salary * dis_Contrib);
 		const sickContrib = parseFloat(gross_salary * sick_Contrib);
 		const sumZus = parseFloat(penContrib + disContrib + sickContrib);
-		const hiPremium = parseFloat((gross_salary - sumZus) * hIpremium).toFixed(2);
+		const hiPremium = parseFloat(8278.63 * 0.6 * hIpremium).toFixed(2);
 		const income = parseFloat(gross_salary - sumZus - costs_of_income);
 		const netSalary = parseFloat((gross_salary - sumZus - parseFloat(hiPremium)).toFixed(2));
 
@@ -48,12 +48,12 @@ module.exports.calcresult = (req, res) => {
 		const penContrib = parseFloat(gross_salary * pen_Contrib);
 		const disContrib = parseFloat(gross_salary * dis_Contrib);
 		const sickContrib = parseFloat(gross_salary * sick_Contrib);
-		const sumZus = parseFloat(penContrib + disContrib + sickContrib);
-		const hiPremium = parseFloat((gross_salary - sumZus) * hIpremium).toFixed(2);
+		const sumZus = parseFloat(gross_salary * 0.1371);
+		const hiPremium = parseFloat(hIpremium);
 		const income = parseFloat(gross_salary - sumZus - costs_of_income);
-		const basisOfTaxPaym = parseFloat(income - costs_of_income - sumZus);
-		const advPayment = Number((income * tax_advance).toFixed(2));
-		const netSalary = parseFloat((gross_salary - sumZus - parseFloat(hiPremium) - advPayment).toFixed(2));
+		const basisOfTaxPaym = parseFloat(gross_salary - penContrib - disContrib - costs_of_income);
+		const advPayment = Number(basisOfTaxPaym * tax_advance - tax_reduction);
+		const netSalary = parseFloat((gross_salary - sumZus - advPayment - costs_of_income).toFixed(2));
 
 		calcresults = {
 			description: description,

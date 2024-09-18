@@ -8,6 +8,7 @@ const btnCalc = document.querySelector('.btn-calc');
 const grossSal = document.getElementById('gross-salary');
 const tooltipdescr = document.querySelector('.tooltip-descr');
 const tooltiptext = document.querySelector('.tooltip-descr-text');
+const btnBack = document.querySelector('.btn-back');
 
 const checkboxEl = document.getElementById('check-yes');
 

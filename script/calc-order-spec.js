@@ -74,10 +74,10 @@ btnCalc.addEventListener('click', function (e) {
 
 const prepareData = () => {
 	const descvalue = document.getElementById('description').value;
-	const grossSalary = parseFloat(document.getElementById('gross-salary').value).toFixed(2);
-	const costsofIncome = Number(parseFloat(document.getElementById('cost-of-income-val').value).toFixed(2));
+	const grossSalary = parseFloat(document.getElementById('gross-salary').value);
+	const costsofIncome = Number(parseFloat(document.getElementById('cost-of-income-val').value));
 	const taxAdvanceElement = document.getElementById('advance-tax-paym-val');
-	const taxAdvance = taxAdvanceElement.value === '0' ? 0 : parseFloat(taxAdvanceElement.value).toFixed(2);
+	const taxAdvance = taxAdvanceElement.value === '0' ? 0 : parseFloat(taxAdvanceElement.value);
 	const taxRedElement = document.getElementById('tax-reduction-val');
 	const taxRed = taxRedElement.value === '0' ? 0 : parseFloat(taxRedElement.value);
 	const calcContributions = document.getElementById('calc-contributions-val').value;
@@ -87,7 +87,7 @@ const prepareData = () => {
 
 	return {
 		description: descvalue,
-		gross_salary: parseFloat(grossSalary),
+		gross_salary: grossSalary,
 		costs_of_income: costsofIncome,
 		tax_advance: parseFloat(taxAdvance),
 		tax_reduction: parseFloat(taxRed),

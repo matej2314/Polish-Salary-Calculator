@@ -32,21 +32,23 @@ if (isCalcResult) {
 				if (!response.ok) {
 					throw new Error('Błąd pobierania danych');
 				}
+
 				return response.json();
 			})
 			.then(calcresults => {
+				console.log(calcresults);
 				localStorage.setItem('calcresults.description', calcresults.description);
 				document.getElementById('gross-value').value = calcresults.grossSalary;
 				document.querySelector('.tax-red-val').value = calcresults.tax_reduction;
 				document.querySelector('.pension-contrib-val').value = calcresults.penContrib;
 				document.querySelector('.pension-contrib-sec-val').value = calcresults.disContrib;
-				document.querySelector('.sickness-contrib-val').value = calcresults.sickContrib;
+				document.querySelector('.sickness-contrib-val').value = calcresults.sickContrib.toFixed(2);
 				document.querySelector('.zus-contrib-sum-val').value = calcresults.sumZus;
-				document.querySelector('.basis-of-h-insurance-val').value = calcresults.grossSalary * 0.1371;
-				document.querySelector('.h-i-premium-val').value = Number(calcresults.hiPremium);
+				document.querySelector('.basis-of-h-insurance-val').value = (calcresults.netSalary - calcresults.penContrib - calcresults.disContrib).toFixed(2);
+				document.querySelector('.h-i-premium-val').value = Number((calcresults.grossSalary - calcresults.penContrib - calcresults.disContrib) * calcresults.hiPremium).toFixed(2);
 				document.querySelector('.costs-of-income-val').value = calcresults.costs_of_income;
 				document.querySelector('.basis-of-adv-val').value = calcresults.basisOfTaxPaym;
-				document.querySelector('.adv-tax-paym-val').value = calcresults.advPayment;
+				document.querySelector('.adv-tax-paym-val').value = calcresults.advPayment.toFixed(2);
 				document.querySelector('.to-be-paid-val').value = calcresults.netSalary;
 			})
 			.catch(error => {
@@ -92,16 +94,16 @@ if (isU26Used) {
 			localStorage.setItem('calcsU26.description', calcsU26.description);
 			document.getElementById('gross-value').value = calcsU26.grossSalary;
 			document.querySelector('.tax-red-val').value = calcsU26.tax_reduction;
-			document.querySelector('.pension-contrib-val').value = calcsU26.penContrib.toFixed(2);
+			document.querySelector('.pension-contrib-val').value = calcsU26.penContrib;
 			document.querySelector('.pension-contrib-sec-val').value = calcsU26.disContrib;
 			document.querySelector('.sickness-contrib-val').value = calcsU26.sickContrib;
 			document.querySelector('.zus-contrib-sum-val').value = calcsU26.sumZus.toFixed(2);
 			document.querySelector('.h-i-premium-val').value = calcsU26.hiPremium;
 			document.querySelector('.costs-of-income-val').value = calcsU26.costs_of_income;
 			document.querySelector('.basis-of-adv-val').value = calcsU26.basisOfTaxPaym.toFixed(2);
-			document.querySelector('.adv-tax-paym-val').value = calcsU26.advPayment;
+			document.querySelector('.adv-tax-paym-val').value = calcsU26.advPayment.toFixed(2);
 			document.querySelector('.to-be-paid-val').value = calcsU26.netSalary;
-			document.querySelector('.basis-of-h-insurance-val').value = calcsU26.grossSalary * 0.1371;
+			document.querySelector('.basis-of-h-insurance-val').value = (calcsU26.netSalary - calcsU26.penContrib - calcsU26.disContrib).toFixed(2);
 
 			// Zapisz dodatkowe informacje w localStorage
 			localStorage.setItem('calcsU26.description', calcsU26.description);

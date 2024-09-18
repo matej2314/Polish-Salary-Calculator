@@ -31,7 +31,6 @@ const selectEl2 = document.getElementById('dis-contrib-opts');
 const selectEl3 = document.getElementById('contrib-opts');
 const selectEl4 = document.getElementById('cost-income-opts');
 const selectEl5 = document.getElementById('reduction');
-const btnBack = document.querySelector('.btn-back');
 
 const checkboxEl = document.getElementById('check-yes');
 const btmCalc = document.querySelector('.bottom-of-calc');
@@ -87,14 +86,14 @@ btnCalc.addEventListener('click', async e => {
 	e.preventDefault();
 	if (!checkboxEl.checked) {
 		const descvalue = document.getElementById('description').value;
-		const grosSSalary = parseInt(grossSal.value).toFixed(2);
+		const grosSSalary = parseInt(grossSal.value);
 		const taxRed = parseFloat(document.getElementById('reduction').value);
-		const penContrib = parseFloat(document.getElementById('contrib-opts').value).toFixed(2);
-		const disContrib = parseFloat(document.getElementById('dis-contrib-opts').value).toFixed(2);
-		const sickContrib = (parseFloat(document.querySelector('.sick-contrib-val').value) / 100).toFixed(2);
-		const hIpremium = Number(parseFloat(document.getElementById('h-i-val').value) / 100).toFixed(2);
+		const penContrib = parseFloat(document.getElementById('contrib-opts').value);
+		const disContrib = parseFloat(document.getElementById('dis-contrib-opts').value);
+		const sickContrib = parseFloat(document.querySelector('.sick-contrib-val').value) / 100;
+		const hIpremium = parseFloat(document.getElementById('h-i-val').value) / 100;
 		const costsofIncome = Number(parseFloat(document.getElementById('cost-income-opts').value));
-		const taxAdvance = parseFloat(document.getElementById('tax-advance-opts').value).toFixed(2);
+		const taxAdvance = parseFloat(document.getElementById('tax-advance-opts').value);
 		const financedemployer = document.getElementById('financed-by-employer').value;
 		const financedbyemployee = document.getElementById('financed-by-employee').value;
 		const disableSelects = sessionStorage.getItem('disableSelects') === 'true';
