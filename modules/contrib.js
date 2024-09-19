@@ -5,9 +5,9 @@ module.exports.contrib = getContributions = type => {
 		case 'bez-skladki-chorobowej':
 			return { penContrib: 0.0976, disContrib: 0.015, sickContrib: 0, hiPremium: 0.09 };
 		case 'bez-ubezpieczenia-spolecznego':
-			return { penContrib: 0, disContrib: 0, sickContrib: 0, hiPremium: 0 };
+			return { penContrib: 0, disContrib: 0, sickContrib: 0.0245, hiPremium: 0.09 };
 		case 'bez-ubezpieczenia-spolecznego-i-zdrowotnego':
-			return { penContrib: 0, disContrib: 0, sickContrib: 0, hiPremium: 0 };
+			return { penContrib: 0, disContrib: 0, sickContrib: 0, hiPremium: 0.09 };
 		case 'bez-skladek-emerytalno-rentowych':
 			return { penContrib: 0, disContrib: 0, sickContrib: 0.0245, hiPremium: 0.09 };
 		default:
