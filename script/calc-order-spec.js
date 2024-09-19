@@ -20,6 +20,13 @@ document.addEventListener('DOMContentLoaded', function () {
 		document.getElementById('tax-reduction-val').disabled = true;
 		document.getElementById('cost-of-income-val').disabled = true;
 	}
+
+	if (sessionStorage.getItem('SpecWrk') === 'true') {
+		document.getElementById('calc-contributions-val').disabled = true;
+		document.getElementById('tax-reduction-val').disabled = true;
+		modalEl.classList.add('hidden');
+		mainCont.classList.remove('hidden');
+	}
 });
 
 btnYes.addEventListener('click', function () {
@@ -84,6 +91,7 @@ const prepareData = () => {
 
 	const studStatus = sessionStorage.getItem('studStatus') === 'true';
 	const sixthBtnClicked = sessionStorage.getItem('sixthBtnClicked') === 'true';
+	const specWrk = sessionStorage.getItem('SpecWrk') === 'true';
 
 	return {
 		description: descvalue,
@@ -94,6 +102,7 @@ const prepareData = () => {
 		calcContributions: calcContributions,
 		studStatus: studStatus,
 		sixthBtnClicked: sixthBtnClicked,
+		specWrk: specWrk,
 	};
 };
 

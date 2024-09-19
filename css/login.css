@@ -207,3 +207,63 @@ input:valid {
 	bottom: 272px;
 	display: flex;
 }
+
+@media screen and (max-width: 480px) {
+	body {
+		width: 480px;
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		overflow: hidden;
+	}
+	h1 {
+		position: absolute;
+		right: 10vw;
+		font-size: 20px;
+		padding: 0 15px 0 5px;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		width: 50%;
+		margin: 0;
+	}
+	.login-container {
+		position: absolute;
+		left: 5vw;
+		width: 60vw;
+	}
+
+	.namelabel {
+		left: 5%;
+	}
+
+	.username-input {
+		position: relative;
+		width: 90%;
+		left: 5%;
+	}
+
+	.passwd-label {
+		position: relative;
+		left: 5%;
+	}
+	input[type='password'] {
+		position: relative;
+		width: 90%;
+		left: 5%;
+	}
+
+	#btn-login {
+		position: relative;
+		left: 5%;
+		width: 90%;
+	}
+
+	.reg_link {
+		position: absolute;
+		right: 70vw;
+		top: 64vh;
+		margin-top: 18px;
+	}
+}

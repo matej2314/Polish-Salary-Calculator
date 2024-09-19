@@ -229,3 +229,27 @@ input {
 		height: 85vh;
 	}
 }
+
+@media screen and (max-width: 480px) {
+	.results-container {
+		position: absolute;
+		top: 5vh;
+		width: 75vw;
+	}
+
+	.buttons-output {
+		margin-top: 121px;
+		height: 53px;
+		width: 368px;
+	}
+
+	.btn-pdf {
+		position: absolute;
+		left: 15%;
+	}
+
+	.btn-excel {
+		position: absolute;
+		right: 17%;
+	}
+}

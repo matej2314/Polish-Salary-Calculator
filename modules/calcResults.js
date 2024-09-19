@@ -21,9 +21,10 @@ module.exports.calcresult = (req, res) => {
 		const disContrib = parseFloat(gross_salary * dis_Contrib);
 		const sickContrib = parseFloat(gross_salary * sick_Contrib);
 		const sumZus = parseFloat(penContrib + disContrib + sickContrib);
-		const hiPremium = parseFloat(8278.63 * 0.6 * hIpremium).toFixed(2);
+		const hiPremium = Number((gross_salary - sumZus) * hIpremium).toFixed(2);
 		const income = parseFloat(gross_salary - sumZus - costs_of_income);
 		const netSalary = parseFloat((gross_salary - sumZus - parseFloat(hiPremium)).toFixed(2));
+		const basisOfhInsurance = gross_salary - sumZus;
 
 		calcresults = {
 			description: description,
@@ -40,6 +41,7 @@ module.exports.calcresult = (req, res) => {
 			tax_reduction: 0,
 			tax_advance: 0,
 			netSalary,
+			basisOfhInsurance,
 		};
 
 		token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' });

@@ -66,7 +66,7 @@ export const btnsClickEvents = () => {
 		modal2El.classList.toggle('hidden');
 	});
 	specWrkBtn.addEventListener('click', function () {
-		btnsContainer.classList.toggle('hidden');
-		modal2El.classList.toggle('hidden');
+		sessionStorage.setItem('SpecWrk', 'true');
+		window.location.href = '/calc-order';
 	});
 };

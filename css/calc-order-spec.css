@@ -187,3 +187,16 @@ select {
 		left: 5%;
 	}
 }
+
+@media screen and (max-width: 480px) {
+	.calc-order-container {
+		position: relative;
+		width: 75vw;
+	}
+
+	#gross-salary {
+		position: relative;
+		top: -5px;
+		width: 168px;
+	}
+}

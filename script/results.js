@@ -105,7 +105,7 @@ if (isU26Used) {
 			document.querySelector('.basis-of-adv-val').value = calcsU26.basisOfTaxPaym.toFixed(2);
 			document.querySelector('.adv-tax-paym-val').value = calcsU26.advPayment.toFixed(2);
 			document.querySelector('.to-be-paid-val').value = calcsU26.netSalary;
-			document.querySelector('.basis-of-h-insurance-val').value = calcsU26.basisOfhInsurance;
+			document.querySelector('.basis-of-h-insurance-val').value = calcsU26.basisOfhInsurance == 0 ? 0 : calcsU26.basisOfhInsurance;
 
 			// Zapisz dodatkowe informacje w localStorage
 			localStorage.setItem('calcsU26.description', calcsU26.description);

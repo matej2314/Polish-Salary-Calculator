@@ -341,3 +341,18 @@ button {
 		margin: 0;
 	}
 }
+
+@media screen and (max-width: 480px) {
+	.calc-container {
+		position: relative;
+		top: 3vh;
+		left: 15vw;
+		width: 75vw;
+		height: max-content;
+	}
+
+	.bottom-of-calc {
+		position: relative;
+		bottom: 5vh;
+	}
+}
