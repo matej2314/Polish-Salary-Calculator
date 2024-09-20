@@ -148,14 +148,6 @@ input:valid {
 	transform: translateY(2px);
 }
 
-input:required {
-	border: solid 1px black;
-}
-
-input:valid {
-	border: solid 1px OliveDrab;
-}
-
 .hidden {
 	visibility: hidden;
 }
