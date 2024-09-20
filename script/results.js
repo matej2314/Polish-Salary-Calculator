@@ -1,13 +1,12 @@
 ('use strict');
 
-import { downloadXCELL, downloadPDFFILE } from '../modules/downloadFiles.js';
-
 const isU26Used = localStorage.getItem('isU26Used');
 const isCalcResult = localStorage.getItem('isCalcResult');
 const btnPrevSite = document.querySelector('.btn_prev_site');
 const backBtn = document.querySelector('.back-btn');
 const dropList = document.querySelector('.dropdown');
 const refferer = document.refferer;
+const ppkTrue = sessionStorage.getItem('ppkChecked');
 
 if (isCalcResult) {
 	document.addEventListener('DOMContentLoaded', () => {
@@ -41,7 +40,7 @@ if (isCalcResult) {
 				localStorage.setItem('calcresults.description', calcresults.description);
 				document.getElementById('gross-value').value = calcresults.grossSalary;
 				document.querySelector('.tax-red-val').value = calcresults.tax_reduction;
-				document.querySelector('.pension-contrib-val').value = calcresults.penContrib;
+				document.querySelector('.pension-contrib-val').value = calcresults.penContrib.toFixed(2);
 				document.querySelector('.pension-contrib-sec-val').value = calcresults.disContrib;
 				document.querySelector('.sickness-contrib-val').value = calcresults.sickContrib.toFixed(2);
 				document.querySelector('.zus-contrib-sum-val').value = calcresults.sumZus;
@@ -49,8 +48,11 @@ if (isCalcResult) {
 				document.querySelector('.h-i-premium-val').value = calcresults.hiPremium;
 				document.querySelector('.costs-of-income-val').value = calcresults.costs_of_income;
 				document.querySelector('.basis-of-adv-val').value = calcresults.basisOfTaxPaym;
-				document.querySelector('.advance-to-tax-office').value = calcresults.advPayment < 0 ? 0 : Math.round(calcresults.advPayment);
+				document.querySelector('.adv-tax-office-val').value = calcresults.advPayment < 0 ? 0 : Math.round(calcresults.advPayment);
 				document.querySelector('.adv-tax-paym-val').value = calcresults.advPayment < 0 ? 0 : calcresults.advPayment.toFixed(2);
+				document.querySelector('.ppk_employee').value = calcresults.ppkemployee == null ? 0 : calcresults.ppkemployee;
+				document.querySelector('.ppk_employer').value = calcresults.financedemployer == null ? 0 : calcresults.financedemployer;
+				document.querySelector('.ppk_sum_value').value = calcresults.ppkSum == null ? 0 : calcresults.ppkSum;
 				document.querySelector('.to-be-paid-val').value = calcresults.netSalary;
 			})
 			.catch(error => {
@@ -96,7 +98,7 @@ if (isU26Used) {
 			localStorage.setItem('calcsU26.description', calcsU26.description);
 			document.getElementById('gross-value').value = calcsU26.grossSalary;
 			document.querySelector('.tax-red-val').value = calcsU26.tax_reduction;
-			document.querySelector('.pension-contrib-val').value = calcsU26.penContrib;
+			document.querySelector('.pension-contrib-val').value = calcsU26.penContrib.toFixed(2);
 			document.querySelector('.pension-contrib-sec-val').value = calcsU26.disContrib;
 			document.querySelector('.sickness-contrib-val').value = calcsU26.sickContrib;
 			document.querySelector('.zus-contrib-sum-val').value = calcsU26.sumZus.toFixed(2);
@@ -106,6 +108,9 @@ if (isU26Used) {
 			document.querySelector('.adv-tax-paym-val').value = calcsU26.advPayment.toFixed(2);
 			document.querySelector('.to-be-paid-val').value = calcsU26.netSalary;
 			document.querySelector('.basis-of-h-insurance-val').value = calcsU26.basisOfhInsurance == 0 ? 0 : calcsU26.basisOfhInsurance;
+			document.querySelector('.ppk_employee').value = 0;
+			document.querySelector('.ppk_employer').value = 0;
+			document.querySelector('.ppk_sum_value').value = 0;
 
 			// Zapisz dodatkowe informacje w localStorage
 			localStorage.setItem('calcsU26.description', calcsU26.description);
@@ -115,14 +120,6 @@ if (isU26Used) {
 		}
 	});
 }
-
-document.querySelector('.btn-pdf').addEventListener('click', downloadPDFFILE);
-
-document.querySelector('.btn-excel').addEventListener('click', downloadXCELL);
-
-backBtn.addEventListener('click', function () {
-	dropList.classList.toggle('hidden');
-});
 
 btnPrevSite.addEventListener('click', function () {
 	if (refferer.includes('/main-calc')) {

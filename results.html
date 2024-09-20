@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/results.css">
+    <link rel="stylesheet" href="css/results_btns_media.css">
     <title>Results of calculation</title>
 </head>
 <body>
@@ -19,6 +20,7 @@
             </ul>
         </div>
     </div>
+    <div class="main_center_container"></div>
     <div class="results-container">
         <h2 class="results-title">Wynik Obliczeń</h2>
         <div class=" div gross-salary">
@@ -74,6 +76,17 @@
             <input type="text" class="to-be-paid-val"></input>
         </div>
     </div>
+    <div class="ppk_container">
+        <h2 class="ppk_cont_title">Składka PPK:</h2>
+        <hr />
+        <label for="ppk_employer" class="ppk_employer_label">Wpłata pracodawcy:</label>
+        <input type="text" class="ppk_employer" id="ppk_employer" />
+        <label for="ppk_employee" class="ppk_employee_label">Wpłata pracownika:</label>
+        <input type="text" class="ppk_employee" id="ppk_employee" />
+        <label for="ppk_sum_value" class="ppk_sum_label">Suma wpłat:</label>
+        <input type="text" class="ppk_sum_value" id="ppk_sum_value" />
+    </div>
+    </div>
     <div class="buttons-output">
         <button class="btn btn-excel">Pobierz .xls</button>
         <button class="btn btn-pdf">Pobierz PDF</button>
@@ -86,5 +99,6 @@
     </script>
     <script type="module" src="./script/results.js"></script>
     <script type="module" src="./modules/downloadFiles.js"></script>
+    <script type="module" src="./modules/results_functions.js"></script>
 </body>
 </html>

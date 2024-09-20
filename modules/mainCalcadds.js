@@ -14,6 +14,7 @@ const checkboxEl = document.getElementById('check-yes');
 
 checkboxEl.addEventListener('change', function () {
 	if (checkboxEl.checked) {
+		sessionStorage.setItem('ppkChecked', 'true');
 		showDivPpk();
 	} else {
 		hideDivppk();
@@ -56,6 +57,15 @@ function hideToolTip() {
 
 document.getElementById('description').addEventListener('mouseover', showToolTip);
 document.getElementById('description').addEventListener('mouseleave', hideToolTip);
+
+btnCalc.addEventListener('click', function () {
+	const value = grossSal.value.trim();
+	if (!/^\d+(\.\d+)?$/.test(value)) {
+		alert('Wprowadź wyłącznie wartości liczbowe! ( kwota brutto )');
+	} else {
+		console.log('wartość poprawna');
+	}
+});
 
 btnBack.addEventListener('click', function () {
 	window.location.href = '/buttons';

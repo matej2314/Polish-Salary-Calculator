@@ -1,5 +1,5 @@
 const path = require('path');
-const dotenv = require('dotenv').config(path, '../.env');
+const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const contrib = require('./contrib');
 const jwt = require('jsonwebtoken');
 
@@ -14,6 +14,7 @@ module.exports.calcu26 = (req, res) => {
 	}
 
 	const contributions = contrib.contrib;
+	let calcsU26;
 
 	// pracownik < 26 lat
 
@@ -29,9 +30,9 @@ module.exports.calcu26 = (req, res) => {
 
 		// Obliczenia na podstawie dostarczonych danych
 		const income = gross_salary - sumZus - costs_of_income;
-		const netSalary = parseFloat((gross_salary - sumZus - healthInsurancePremium).toFixed(2));
+		const netSalary = parseFloat((gross_salary - sumZus).toFixed(2));
 
-		const calcsU26 = {
+		calcsU26 = {
 			description,
 			grossSalary: gross_salary, // wynagrodzenie brutto
 			tax_reduction, // kwota obniżająca podatek
@@ -46,18 +47,13 @@ module.exports.calcu26 = (req, res) => {
 			netSalary, // wynagrodzenie netto
 			basisOfhInsurance: 0,
 		};
-		const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' });
-
-		// Send the response
-		return res.json({ token });
 	}
 
 	// status studenta
-
-	if (studStatus) {
+	else if (studStatus) {
 		const netSalary = parseFloat(gross_salary).toFixed(2); // Student's net salary equals gross salary
 
-		const calcsU26 = {
+		calcsU26 = {
 			description,
 			grossSalary: parseFloat(gross_salary),
 			netSalary, // Set netSalary equal to gross_salary for students
@@ -72,21 +68,15 @@ module.exports.calcu26 = (req, res) => {
 			advPayment: 0,
 			basisOfhInsurance: 0,
 		};
-
-		// Generate token
-		const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' });
-
-		// Send the response
-		return res.json({ token });
-
-		// umowa o dzieło
-	} else if (specWrk) {
+	}
+	// umowa o dzieło
+	else if (specWrk) {
 		const income = Math.round(parseFloat(gross_salary - gross_salary * costs_of_income));
 		const advPayment = Math.round(income * tax_advance);
 		const netSalary = gross_salary - advPayment;
 		const incomeCosts = parseFloat(gross_salary * costs_of_income);
 
-		const calcsU26 = {
+		calcsU26 = {
 			description,
 			grossSalary: parseFloat(gross_salary),
 			netSalary,
@@ -105,40 +95,41 @@ module.exports.calcu26 = (req, res) => {
 
 		// Send the response
 		return res.json({ token });
+	} else {
+		//umowa zlecenie, pracownik > 26 lat
+		const { penContrib, disContrib, sickContrib, hiPremium } = contributions(calcContributions);
+
+		// Obliczenia składek
+		const penAmount = gross_salary * penContrib;
+		const disAmount = gross_salary * disContrib;
+		const sickAmount = gross_salary * sickContrib;
+		const sumZus = penAmount + disAmount + sickAmount;
+
+		const income = gross_salary - sumZus;
+		const basisOfhInsurance = gross_salary - sumZus;
+		const healthInsurancePremium = (income * 0.09).toFixed(2);
+		const costsincome = (income * costs_of_income).toFixed(2);
+		const basisOfTaxPaym = parseFloat(basisOfhInsurance - costsincome);
+		const advPayment = Number(basisOfTaxPaym * tax_advance);
+		const netSalary = parseFloat(basisOfhInsurance - healthInsurancePremium);
+
+		// Utworzenie obiektu z wynikami obliczeń
+		calcsU26 = {
+			description,
+			grossSalary: gross_salary, // wynagrodzenie brutto
+			tax_reduction, // kwota obniżająca podatek
+			penContrib: penAmount, // składka emerytalna
+			disContrib: disAmount, // składka rentowa
+			sickContrib: sickAmount, // składka chorobowa
+			sumZus, // suma składek ZUS
+			hiPremium: healthInsurancePremium, // składka na ubezpieczenie zdrowotne
+			costs_of_income: costsincome, // koszty uzyskania przychodu
+			basisOfTaxPaym, // podstawa obliczenia zaliczki
+			basisOfhInsurance,
+			advPayment, // zaliczka na podatek
+			netSalary, // wynagrodzenie netto
+		};
 	}
-	//umowa zlecenie, pracownik > 26 lat
-	const { penContrib, disContrib, sickContrib, hiPremium } = contributions(calcContributions);
-
-	// Obliczenia składek
-	const penAmount = gross_salary * penContrib;
-	const disAmount = gross_salary * disContrib;
-	const sickAmount = gross_salary * sickContrib;
-	const sumZus = penAmount + disAmount + sickAmount;
-
-	const income = gross_salary - sumZus;
-	const basisOfhInsurance = gross_salary - sumZus;
-	const healthInsurancePremium = (income * 0.09).toFixed(2);
-	const costsincome = (income * costs_of_income).toFixed(2);
-	const basisOfTaxPaym = parseFloat(basisOfhInsurance - costsincome);
-	const advPayment = Number(basisOfTaxPaym * tax_advance);
-	const netSalary = parseFloat(basisOfhInsurance - healthInsurancePremium);
-
-	// Utworzenie obiektu z wynikami obliczeń
-	const calcsU26 = {
-		description,
-		grossSalary: gross_salary, // wynagrodzenie brutto
-		tax_reduction, // kwota obniżająca podatek
-		penContrib: penAmount, // składka emerytalna
-		disContrib: disAmount, // składka rentowa
-		sickContrib: sickAmount, // składka chorobowa
-		sumZus, // suma składek ZUS
-		hiPremium: healthInsurancePremium, // składka na ubezpieczenie zdrowotne
-		costs_of_income: costsincome, // koszty uzyskania przychodu
-		basisOfTaxPaym, // podstawa obliczenia zaliczki
-		basisOfhInsurance,
-		advPayment, // zaliczka na podatek
-		netSalary, // wynagrodzenie netto
-	};
 
 	// Utworzenie tokena z wynikami
 	const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
