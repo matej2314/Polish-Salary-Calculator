@@ -39,22 +39,26 @@ export const btnsClickEvents = () => {
 
 	fourthBtn.addEventListener('click', function () {
 		document.querySelector('.empl-container').style.opacity = '1';
-		document.getElementById('wkrplcs-count').disabled = false;
+		document.getElementById('2_wrkplcs').disabled = false;
+		document.getElementById('3_wrkplcs').disabled = false;
 	});
 
 	thirdBtn.addEventListener('click', function () {
 		document.querySelector('.empl-container').style.opacity = '0.5';
-		document.getElementById('wkrplcs-count').disabled = true;
+		document.getElementById('2_wrkplcs').disabled = true;
+		document.getElementById('3_wrkplcs').disabled = true;
 	});
 
 	twelvethBtn.addEventListener('click', function () {
 		document.querySelector('.empl-container-order').style.opacity = '1';
-		document.getElementById('wkrplcs-count-order').disabled = false;
+		document.getElementById('2_wrkplcs_order').disabled = false;
+		document.getElementById('3_wrkplcs_order').disabled = false;
 	});
 
 	eleventhBtn.addEventListener('click', function () {
 		document.querySelector('.empl-container-order').style.opacity = '0.5';
-		document.getElementById('wkrplcs-count-order').disabled = true;
+		document.getElementById('2_wrkplcs_order').disabled = true;
+		document.getElementById('3_wrkplcs_order').disabled = true;
 	});
 
 	contractBtn.addEventListener('click', function () {

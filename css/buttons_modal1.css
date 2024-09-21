@@ -95,12 +95,8 @@
 	opacity: 0.5;
 }
 
-.empl-container select {
-	display: flex;
-	flex-direction: column;
-	margin-top: 15px;
-	font-size: 16px;
-	padding: 5px;
+.empl-container p {
+	margin-bottom: 10px;
 }
 
 .btn-next {
@@ -120,4 +116,15 @@
 	background-color: black;
 	color: white;
 	transform: translateY(4px);
+}
+
+.wkrplcs-check {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 100%;
+}
+
+.wkrplcs-check label {
+	margin-left: 10px;
 }

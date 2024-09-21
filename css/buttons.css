@@ -119,16 +119,17 @@ a {
 	opacity: 0.5;
 }
 
-.empl-container-order select {
-	display: flex;
-	flex-direction: column;
-	margin-top: 15px;
-	font-size: 16px;
-	padding: 5px;
+.empl-container-order p {
+	margin-bottom: 10px;
 }
 
 .hidden {
 	visibility: hidden;
+}
+
+input[type='checkbox'] {
+	margin-left: px;
+	margin-right: 5px;
 }
 
 @media screen and (max-width: 900px) {

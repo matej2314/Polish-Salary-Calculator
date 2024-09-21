@@ -31,10 +31,13 @@
             </div>
             <div class="empl-container">
                 <p class="choose-wrkplcs">Wybierz liczbę pracodawców:</p>
-                <select name="wrkplcs-count" id="wkrplcs-count" disabled>
-                    <option value="2" class="2wrkplcs">2 pracodawców</option>
-                    <option value="3" class="3wrkplcs">3 pracodawców</option>
-                </select>
+                <div class="wrkplcs-check">
+                    <label for="2_wrkplcs" id="2_wrkplcs_label">2 pracodawców</label>
+                    <input type="checkbox" name="2_wrkplcs" id="2_wrkplcs" disabled />
+                    <label for="3_wrkplcs" id="3_wrkplcs_label">3 pracodawców</label>
+                    <input type="checkbox" name="3_wrkplcs" id="3_wrkplcs" disabled />
+                </div>
+
             </div>
         </div>
         <div class="third-question">
@@ -72,10 +75,11 @@
         </div>
         <div class="empl-container-order">
             <p class="choose-wrkplcs">Wybierz liczbę pracodawców:</p>
-            <select name="wrkplcs-count-order" id="wkrplcs-count-order" disabled>
-                <option value="2" class="2wrkplcs-order">2 pracodawców</option>
-                <option value="3" class="3wrkplcs-order">3 pracodawców</option>
-            </select>
+            <div class="wrkplcs-check"> <label for="2_wrkplcs">2 pracodawców</label>
+                <input type="checkbox" name="2_wrkplcs" id="2_wrkplcs_order" disabled />
+                <label for="3_wrkplcs">3 pracodawców</label>
+                <input type="checkbox" name="3_wrkplcs" id="3_wrkplcs_order" disabled />
+            </div>
         </div>
         <div class="fourth-question-order">
             <p class="question-order-sick-contrib">Czy chcesz podlegać pod dobrowolną składkę chorobową?<img src="img/nfo-icon.png" alt="icon-more-info" class="info-sign"></p>

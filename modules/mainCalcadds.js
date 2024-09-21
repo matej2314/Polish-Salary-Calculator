@@ -75,3 +75,6 @@ btnReset.addEventListener('click', function (e) {
 	e.preventDefault();
 	location.reload();
 });
+
+document.getElementById('sum ppk').disabled = true;
+document.querySelector('.financed-ppk-sum').style.opacity = '0.7';
