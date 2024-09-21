@@ -1,0 +1,53 @@
+@media screen and (max-width: 900px) {
+	.gross-amount textarea {
+		left: 4%;
+	}
+	.bottom-of-calc {
+		top: -171px;
+	}
+
+	.calc-container {
+		height: 84vh;
+	}
+	.employer-value-div textarea {
+		margin-right: 10px;
+		font-size: 16px;
+		height: 23px;
+		width: 178px;
+		margin-left: 33px;
+		padding-top: 2px;
+	}
+	#description {
+		height: 32px;
+	}
+	.financed-ppk-sum textarea {
+		height: 23px;
+	}
+	#financed-by-employee {
+		height: 24px;
+	}
+	.financed-by-employer {
+		height: 60px;
+	}
+	button {
+		font-size: 12px;
+	}
+	.ppk-cont {
+		margin: 0;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.calc-container {
+		position: relative;
+		top: 3vh;
+		left: 15vw;
+		width: 75vw;
+		height: max-content;
+	}
+
+	.bottom-of-calc {
+		position: relative;
+		bottom: 5vh;
+	}
+}

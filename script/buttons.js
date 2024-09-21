@@ -21,7 +21,7 @@ const thirteenthBtn = document.querySelector('.third-btn-order-nd');
 const fourteenBtn = document.querySelector('.fourth-btn-order-yes');
 const fifteenBtn = document.querySelector('.fourth-btn-order-no');
 
-const btnsElements = [firstBtn, secondBtn, thirdBtn, fourthBtn, fifthBtn, sixthBtn, seventhBtn, eighthBtn, ninethBtn, tenthBtn, eleventhBtn, twelvethBtn, thirteenthBtn, fourteenBtn, fifteenBtn];
+const btnsElements = [firstBtn, secondBtn, thirdBtn, fourthBtn, seventhBtn, eighthBtn, ninethBtn, tenthBtn, eleventhBtn, twelvethBtn, thirteenthBtn, fourteenBtn, fifteenBtn];
 
 btnsElements.forEach(button => {
 	button.addEventListener('click', function () {

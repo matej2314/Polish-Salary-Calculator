@@ -16,21 +16,22 @@ module.exports.calcresult = (req, res) => {
 	let token;
 	let netSalary;
 	const finemployee = financedbyemployee / 100;
+
 	//pracownik < 26 r.ż.
 	if (disableSelects) {
-		const penContrib = parseFloat(gross_salary * pen_Contrib);
-		const disContrib = parseFloat(gross_salary * dis_Contrib);
-		const sickContrib = parseFloat(gross_salary * sick_Contrib);
-		const sumZus = parseFloat(penContrib + disContrib + sickContrib);
-		const hiPremium = Number((gross_salary - sumZus) * hIpremium).toFixed(2);
+		const penContrib = Number(gross_salary * pen_Contrib);
+		const disContrib = Number(gross_salary * dis_Contrib);
+		const sickContrib = Number(gross_salary * sick_Contrib);
+		const sumZus = Number(penContrib + disContrib + sickContrib);
+		const hiPremium = Number((parseFloat(gross_salary) - sumZus) * hIpremium).toFixed(2);
 		const income = parseFloat(gross_salary - sumZus - costs_of_income);
 		netSalary = parseFloat((gross_salary - sumZus - parseFloat(hiPremium)).toFixed(2));
 		const basisOfhInsurance = gross_salary - sumZus;
 		// obliczenia ze składkami PPK
 		if (ppkChecked) {
-			const ppkemployee = gross_salary * finemployee;
+			const ppkemployee = Number(gross_salary * finemployee);
 			netSalary = parseFloat((gross_salary - sumZus - finemployee - parseFloat(hiPremium)).toFixed(2));
-			const ppkSum = financedemployer + ppkemployee;
+			const ppkSum = Number(Number(financedemployer) + ppkemployee);
 			const calcresults = {
 				description: description,
 				grossSalary: parseFloat(gross_salary),
@@ -39,7 +40,7 @@ module.exports.calcresult = (req, res) => {
 				disContrib,
 				sickContrib,
 				sumZus,
-				hiPremium,
+				hiPremium: Number(hiPremium),
 				costs_of_income: costs_of_income,
 				basisOfTaxPaym: 0,
 				advPayment: 0,
@@ -48,7 +49,9 @@ module.exports.calcresult = (req, res) => {
 				netSalary,
 				basisOfhInsurance,
 				financedemployer,
-				ppkemployee: ppkemployee,
+				ppkemployee,
+				netSalary,
+				ppkSum,
 			};
 			token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' });
 			return res.json({ token });
@@ -62,7 +65,7 @@ module.exports.calcresult = (req, res) => {
 				disContrib,
 				sickContrib,
 				sumZus,
-				hiPremium,
+				hiPremium: Number(hiPremium),
 				costs_of_income: costs_of_income,
 				basisOfTaxPaym: 0,
 				advPayment: 0,
@@ -79,7 +82,7 @@ module.exports.calcresult = (req, res) => {
 		}
 	} else if (disableSelects == false) {
 		//pracownik > 26 r.ż.
-		const penContrib = parseFloat(gross_salary * pen_Contrib);
+		const penContrib = parseFloat((gross_salary * pen_Contrib).toFixed(2));
 		const disContrib = parseFloat(gross_salary * dis_Contrib);
 		const sickContrib = parseFloat(gross_salary * sick_Contrib);
 		const sumZus = parseFloat(gross_salary * 0.1371);
@@ -87,15 +90,15 @@ module.exports.calcresult = (req, res) => {
 		const income = parseFloat(gross_salary - sumZus - costs_of_income);
 		const basisOfTaxPaym = Math.round(parseFloat(gross_salary - sumZus - costs_of_income));
 		const basisOfhInsurance = gross_salary - sumZus;
-		const advPayment = Number(basisOfTaxPaym * tax_advance - tax_reduction) < 0 ? 0 : Number(basisOfTaxPaym * tax_advance - tax_reduction);
+		const advPayment = Number(basisOfTaxPaym * tax_advance - tax_reduction).toFixed(2) < 0 ? 0 : Number(basisOfTaxPaym * tax_advance - tax_reduction).toFixed(2);
 		netSalary = parseFloat((gross_salary - sumZus - advPayment - costs_of_income).toFixed(3));
 		//wynagrodzenie ze składkami PPK
 		if (ppkChecked) {
-			const finemployee = financedbyemployee / 100;
-			const ppkemployee = gross_salary * finemployee;
-			const advPayment = Number(basisOfTaxPaym * tax_advance - tax_reduction) < 0 ? 0 : Number(basisOfTaxPaym * tax_advance - tax_reduction);
-			netSalary = parseFloat((gross_salary - sumZus - advPayment - costs_of_income - gross_salary * finemployee).toFixed(3));
-			const ppkSum = financedemployer + ppkemployee;
+			const finemployee = Number(financedbyemployee / 100);
+			const ppkemployee = parseFloat(gross_salary * finemployee);
+			const advPayment = parseFloat(basisOfTaxPaym * tax_advance - tax_reduction) < 0 ? 0 : parseFloat(basisOfTaxPaym * tax_advance - tax_reduction).toFixed(2);
+			netSalary = parseFloat((gross_salary - sumZus - advPayment - costs_of_income - gross_salary * finemployee).toFixed(2));
+			const ppkSum = Number(financedemployer) + Number(ppkemployee);
 
 			const calcresults = {
 				description: description,
@@ -105,24 +108,21 @@ module.exports.calcresult = (req, res) => {
 				disContrib,
 				sickContrib,
 				sumZus,
-				hiPremium,
+				hiPremium: Number(hiPremium),
 				costs_of_income,
 				basisOfTaxPaym,
 				basisOfhInsurance,
 				advPayment,
-				financedbyemployee,
-				financedemployer,
-				finemployee,
-				ppkemployee,
+				financedemployer: Number(financedemployer),
+				ppkemployee: Number(ppkemployee),
 				netSalary,
-				ppkemployee,
-				ppkSum,
+				ppkSum: Number(ppkSum),
 			};
 			token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' });
 			return res.json({ token });
 		} else if (ppkChecked === false) {
 			//wynagrodzenie bez składek PPK
-			const advPayment = Number(basisOfTaxPaym * tax_advance - tax_reduction) < 0 ? 0 : Number(basisOfTaxPaym * tax_advance - tax_reduction);
+			const advPayment = Number(basisOfTaxPaym * tax_advance - tax_reduction) < 0 ? 0 : Number(basisOfTaxPaym * tax_advance - tax_reduction).toFixed(2);
 			const calcresults = {
 				description: description,
 				grossSalary: parseFloat(gross_salary),
@@ -131,7 +131,7 @@ module.exports.calcresult = (req, res) => {
 				disContrib,
 				sickContrib,
 				sumZus,
-				hiPremium,
+				hiPremium: Number(hiPremium),
 				costs_of_income,
 				basisOfTaxPaym,
 				basisOfhInsurance,

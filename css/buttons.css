@@ -108,21 +108,6 @@ a {
 	z-index: -1;
 }
 
-.empl-container-order {
-	width: 100%;
-	height: fit-content;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	margin-top: 10px;
-	opacity: 0.5;
-}
-
-.empl-container-order p {
-	margin-bottom: 10px;
-}
-
 .hidden {
 	visibility: hidden;
 }

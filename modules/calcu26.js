@@ -73,8 +73,8 @@ module.exports.calcu26 = (req, res) => {
 	else if (specWrk) {
 		const income = Math.round(parseFloat(gross_salary - gross_salary * costs_of_income));
 		const advPayment = Math.round(income * tax_advance);
-		const netSalary = gross_salary - advPayment;
 		const incomeCosts = parseFloat(gross_salary * costs_of_income);
+		const netSalary = gross_salary - incomeCosts;
 
 		calcsU26 = {
 			description,

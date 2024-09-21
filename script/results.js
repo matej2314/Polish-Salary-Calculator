@@ -5,7 +5,7 @@ const isCalcResult = localStorage.getItem('isCalcResult');
 const btnPrevSite = document.querySelector('.btn_prev_site');
 const backBtn = document.querySelector('.back-btn');
 const dropList = document.querySelector('.dropdown');
-const refferer = document.refferer;
+const refferer = document.referrer;
 const ppkTrue = sessionStorage.getItem('ppkChecked');
 
 if (isCalcResult) {
@@ -49,7 +49,7 @@ if (isCalcResult) {
 				document.querySelector('.costs-of-income-val').value = calcresults.costs_of_income;
 				document.querySelector('.basis-of-adv-val').value = calcresults.basisOfTaxPaym;
 				document.querySelector('.adv-tax-office-val').value = calcresults.advPayment < 0 ? 0 : Math.round(calcresults.advPayment);
-				document.querySelector('.adv-tax-paym-val').value = calcresults.advPayment < 0 ? 0 : calcresults.advPayment.toFixed(2);
+				document.querySelector('.adv-tax-paym-val').value = calcresults.advPayment < 0 ? 0 : calcresults.advPayment;
 				document.querySelector('.ppk_employee').value = calcresults.ppkemployee == null ? 0 : calcresults.ppkemployee;
 				document.querySelector('.ppk_employer').value = calcresults.financedemployer == null ? 0 : calcresults.financedemployer;
 				document.querySelector('.ppk_sum_value').value = calcresults.ppkSum == null ? 0 : calcresults.ppkSum;
@@ -120,11 +120,3 @@ if (isU26Used) {
 		}
 	});
 }
-
-btnPrevSite.addEventListener('click', function () {
-	if (refferer.includes('/main-calc')) {
-		window.location.href = '/main-calc';
-	} else if (refferer.includes('/calc-order')) {
-		window.location.href = '/calc-order';
-	}
-});
