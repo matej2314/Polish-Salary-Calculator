@@ -39,7 +39,7 @@ When he clicks 'calculate' button, data go to API endpoint. Now calculations is 
 
 Data flow is identical for all types of contracts and choosed options. 
 
-**How I solved creating and downloading files?**
+## **How I solved creating and downloading files?**
 
 ## **1.PDF files**
 
