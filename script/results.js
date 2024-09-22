@@ -92,7 +92,6 @@ if (isU26Used) {
 			const calcsU26 = await response.json();
 			console.log(calcsU26);
 
-			// Przypisz dane do zmiennej globalnej
 			let calcsU26Data = calcsU26;
 
 			localStorage.setItem('calcsU26.description', calcsU26.description);

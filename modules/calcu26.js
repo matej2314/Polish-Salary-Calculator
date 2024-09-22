@@ -8,7 +8,7 @@ const SECRET_KEY = process.env.JWT_SECRET;
 module.exports.calcu26 = (req, res) => {
 	const { description, gross_salary, costs_of_income, tax_advance, tax_reduction, calcContributions, studStatus, sixthBtnClicked, specWrk } = req.body;
 
-	// Sprawdzenie, czy wszystkie wymagane dane są dostępne
+	// checking data availability
 	if (gross_salary == null || costs_of_income == null || tax_advance == null || tax_reduction == null || calcContributions == null) {
 		return res.status(400).json({ error: 'Brak wymaganych danych' });
 	}
@@ -16,7 +16,7 @@ module.exports.calcu26 = (req, res) => {
 	const contributions = contrib.contrib;
 	let calcsU26;
 
-	// pracownik < 26 lat
+	// emplloyee under 26 years of age
 
 	if (sixthBtnClicked) {
 		const { penContrib, disContrib, sickContrib, hiPremium } = contributions(calcContributions);
@@ -25,10 +25,10 @@ module.exports.calcu26 = (req, res) => {
 		const sickAmount = gross_salary * sickContrib;
 		const sumZus = penAmount + disAmount + sickAmount;
 
-		// Obliczenie składki zdrowotnej
+		// calc of premium health contribution
 		const healthInsurancePremium = gross_salary * hiPremium;
 
-		// Obliczenia na podstawie dostarczonych danych
+		// calcs based on req.body data
 		const income = gross_salary - sumZus - costs_of_income;
 		const netSalary = parseFloat((gross_salary - sumZus).toFixed(2));
 
@@ -49,7 +49,7 @@ module.exports.calcu26 = (req, res) => {
 		};
 	}
 
-	// status studenta
+	// student status
 	else if (studStatus) {
 		const netSalary = parseFloat(gross_salary).toFixed(2); // Student's net salary equals gross salary
 
@@ -69,7 +69,7 @@ module.exports.calcu26 = (req, res) => {
 			basisOfhInsurance: 0,
 		};
 	}
-	// umowa o dzieło
+	//contract for specific work
 	else if (specWrk) {
 		const income = Math.round(parseFloat(gross_salary - gross_salary * costs_of_income));
 		const advPayment = Math.round(income * tax_advance);
@@ -96,10 +96,10 @@ module.exports.calcu26 = (req, res) => {
 		// Send the response
 		return res.json({ token });
 	} else {
-		//umowa zlecenie, pracownik > 26 lat
+		//contract of mandate, employee above 26 years old
 		const { penContrib, disContrib, sickContrib, hiPremium } = contributions(calcContributions);
 
-		// Obliczenia składek
+		// calcs of contributions
 		const penAmount = gross_salary * penContrib;
 		const disAmount = gross_salary * disContrib;
 		const sickAmount = gross_salary * sickContrib;
@@ -113,34 +113,34 @@ module.exports.calcu26 = (req, res) => {
 		const advPayment = Number(basisOfTaxPaym * tax_advance);
 		const netSalary = parseFloat(basisOfhInsurance - healthInsurancePremium);
 
-		// Utworzenie obiektu z wynikami obliczeń
+		// Create object with results of calculations
 		calcsU26 = {
 			description,
-			grossSalary: gross_salary, // wynagrodzenie brutto
-			tax_reduction, // kwota obniżająca podatek
-			penContrib: penAmount, // składka emerytalna
-			disContrib: disAmount, // składka rentowa
-			sickContrib: sickAmount, // składka chorobowa
-			sumZus, // suma składek ZUS
-			hiPremium: healthInsurancePremium, // składka na ubezpieczenie zdrowotne
-			costs_of_income: costsincome, // koszty uzyskania przychodu
-			basisOfTaxPaym, // podstawa obliczenia zaliczki
-			basisOfhInsurance,
-			advPayment, // zaliczka na podatek
-			netSalary, // wynagrodzenie netto
+			grossSalary: gross_salary, // Gross salary
+			tax_reduction, // tax reduction value
+			penContrib: penAmount, // pension contribution
+			disContrib: disAmount, // second pension contribution
+			sickContrib: sickAmount, // sickness contribution
+			sumZus, // sum of ZUS contributions
+			hiPremium: healthInsurancePremium, // health insurance premium
+			costs_of_income: costsincome, // costs of income
+			basisOfTaxPaym, // basis for calculating advance payment of income tax
+			basisOfhInsurance, // basis for calculating health insurance premium
+			advPayment, // advance tax payment
+			netSalary, // net salary
 		};
 	}
 
-	// Utworzenie tokena z wynikami
-	const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
+	// Create token with results
+	const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' }); // token valid for 1 hour
 
-	// Odesłanie tokena w odpowiedzi
+	// response
 
 	return res.json({ token });
 };
 
 module.exports.calcu26GET = (req, res) => {
-	// Pobieranie tokenu JWT z nagłówka Authorization
+	// getting JWT token from header request
 	const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 
 	if (!token) {

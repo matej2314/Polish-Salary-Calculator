@@ -17,7 +17,7 @@ module.exports.calcresult = (req, res) => {
 	let netSalary;
 	const finemployee = financedbyemployee / 100;
 
-	//pracownik < 26 r.ż.
+	//employee under 26 years of age
 	if (disableSelects) {
 		const penContrib = Number(gross_salary * pen_Contrib);
 		const disContrib = Number(gross_salary * dis_Contrib);
@@ -27,7 +27,7 @@ module.exports.calcresult = (req, res) => {
 		const income = parseFloat(gross_salary - sumZus - costs_of_income);
 		netSalary = parseFloat((gross_salary - sumZus - parseFloat(hiPremium)).toFixed(2));
 		const basisOfhInsurance = gross_salary - sumZus;
-		// obliczenia ze składkami PPK
+		// calcs with PPK
 		if (ppkChecked) {
 			const ppkemployee = Number(gross_salary * finemployee);
 			netSalary = parseFloat((gross_salary - sumZus - finemployee - parseFloat(hiPremium)).toFixed(2));
@@ -56,7 +56,7 @@ module.exports.calcresult = (req, res) => {
 			token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' });
 			return res.json({ token });
 		} else if (ppkChecked === false) {
-			//pracownik < 26 r.ż bez składek PPK
+			//employee under 26 years of age without PPK
 			const calcresults = {
 				description: description,
 				grossSalary: parseFloat(gross_salary),
@@ -81,7 +81,7 @@ module.exports.calcresult = (req, res) => {
 			return res.json({ token });
 		}
 	} else if (disableSelects == false) {
-		//pracownik > 26 r.ż.
+		//employee over 26 years of age
 		const penContrib = parseFloat((gross_salary * pen_Contrib).toFixed(2));
 		const disContrib = parseFloat(gross_salary * dis_Contrib);
 		const sickContrib = parseFloat(gross_salary * sick_Contrib);
@@ -92,7 +92,7 @@ module.exports.calcresult = (req, res) => {
 		const basisOfhInsurance = gross_salary - sumZus;
 		const advPayment = Number(basisOfTaxPaym * tax_advance - tax_reduction).toFixed(2) < 0 ? 0 : Number(basisOfTaxPaym * tax_advance - tax_reduction).toFixed(2);
 		netSalary = parseFloat((gross_salary - sumZus - advPayment - costs_of_income).toFixed(3));
-		//wynagrodzenie ze składkami PPK
+		//salary with PPK
 		if (ppkChecked) {
 			const finemployee = Number(financedbyemployee / 100);
 			const ppkemployee = parseFloat(gross_salary * finemployee);
@@ -121,7 +121,7 @@ module.exports.calcresult = (req, res) => {
 			token = jwt.sign({ calcresults }, SECRET_KEY, { expiresIn: '1h' });
 			return res.json({ token });
 		} else if (ppkChecked === false) {
-			//wynagrodzenie bez składek PPK
+			//salary without PPK
 			const advPayment = Number(basisOfTaxPaym * tax_advance - tax_reduction) < 0 ? 0 : Number(basisOfTaxPaym * tax_advance - tax_reduction).toFixed(2);
 			const calcresults = {
 				description: description,

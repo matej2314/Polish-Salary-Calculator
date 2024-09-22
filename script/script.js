@@ -65,10 +65,10 @@ function adjustSelectWidthOnChange(selectElement) {
 window.addEventListener('DOMContentLoaded', function () {
 	const selectElements = [...tableEl];
 	selectElements.forEach(selectElement => {
-		adjustSelectWidthOnChange(selectElement); // Dostosowanie szerokości na początku
+		adjustSelectWidthOnChange(selectElement);
 
 		selectElement.addEventListener('change', function () {
-			adjustSelectWidthOnChange(selectElement); // Dostosowanie szerokości po zmianie
+			adjustSelectWidthOnChange(selectElement);
 		});
 	});
 });
