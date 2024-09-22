@@ -59,7 +59,7 @@ Another problem was two endpoints used to download the data (one for each calcul
 
 1. Use `git clone https://github.com/matej2314/Polish-Salary-Calculator.git`
 2. Type `npm install`
-3. Create your own .env file with MySQL connection data. Database must have to table users with columns: id, name,password, email.**
+3. Create your own .env file with MySQL connection data. Database must have to table users with columns: id, name,password, email.
 4. Type `npm start`
 
 If you get some errors, try to delete 'node_modules' folder before typing 'npm install'. Remember that project use nodemon and requires MySQL database connection.
