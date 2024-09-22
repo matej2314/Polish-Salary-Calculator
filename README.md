@@ -1,8 +1,8 @@
-Project: Polish Salary Web Calculator.
+# A **Project: Polish Salary Web Calculator.**
 
 Used technologies: Node.js, HTML, CSS, JavaScript
 
-Description:
+# **Description:**
 
 The aim of the project was create salary calculator which calculate net salary in accordance in Polish law for three types of contracts :
 a) employment contract,
@@ -11,19 +11,19 @@ c) contract for specific work.
 
 The application was created in cooperation with my best friend who is a specialist in the field of human resources and payroll. She gave me a lot of valuable information about how to perform calculations and how the UI should work.
 
-Why this particular technologies?
+# **Why this particular technologies?**
 
 Polish Salary Web Calculator was my first (but not last) real project in node.js and Javascript. I've been learning JS since 6 months and this is the most advanced project I have created so far. 
 
-How is the App structured?
+#**How is the App structured?**
 
-1. Database
+## **1. Database**
 
 The project requires to use the database. My choice fell on MySQL, because I know this database and have used it in the past. 
 
 In the project database is used for authenticate users. I've implement login and register mechanism based on JWT. 
 
-2. Server/API
+## **2. Server/API**
 
 Because it was my first node.js project, I decided to use Express.js. It's simple framework used to build web applications with great written documentation and a lot of tutorials. 
 
@@ -39,9 +39,9 @@ When he clicks 'calculate' button, data go to API endpoint. Now calculations is 
 
 Data flow is identical for all types of contracts and choosed options. 
 
-How I solved creating and downloading files?
+**How I solved creating and downloading files?**
 
-1.PDF files
+## **1.PDF files**
 
 At first I decided to use puppeteer library, but it didn't work because it passed an empty subpage to PDF. So I change used library for PDFKIT. This simple tool allows to download data from endpoint and put it into a file – PERFECT. Why?
 
@@ -49,18 +49,18 @@ In my project data from calculators goes to intermediate API endpoint. So I deci
 
 Now all I had to do was format the generated file appropriately and the task was done.
 
-2. Excel/XLSX files
+## **2. Excel/XLSX files**
 
 Function that allows to generate and download .xlsx files with properly data caused me some problems. First problem was the type of data allows to generate worksheet. It must be an array of data, so....I had transform json to array. 
 
 Another problem was two endpoints used to download the data (one for each calculator). I solved this by using the variable that takes on value of fetched response. It will be always true, but value is always from one endpoint which user used.
 
-How to download and install project?
+## **How to download and install project?**
 
-1. Use git clone https://github.com/matej2314/Polish-Salary-Calculator.git
-2. Type 'npm install'
-3. Create your own .env file with MySQL connection data.
-4. Type 'npm start'
+1. Use `git clone https://github.com/matej2314/Polish-Salary-Calculator.git`
+2. Type `npm install`
+**3. Create your own .env file with MySQL connection data. Database must have to table users with columns: id, name,password, email.**
+4. Type `npm start`
 
 If you get some errors, try to delete 'node_modules' folder before typing 'npm install'. Remember that project use nodemon and requires MySQL database connection.
 
