@@ -1,6 +1,7 @@
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
+const datetime = new Date();
 
 const generatePDF = async (req, res) => {
 	try {
@@ -44,6 +45,7 @@ const generatePDF = async (req, res) => {
 		if (!dataToUse) {
 			throw new Error('Nie udało się pobrać żadnych wyników obliczeń :(');
 		}
+
 		// Generowanie PDF
 		const doc = new PDFDocument();
 		const filePath = path.join(__dirname, 'wyniki.pdf');
@@ -53,10 +55,20 @@ const generatePDF = async (req, res) => {
 		doc.font(path.join(__dirname, '../fonts', 'Roboto-Regular.ttf'));
 
 		doc.rect(0, 0, doc.page.width, doc.page.height).fill('whitesmoke');
+		doc.y = 8;
+
+		const toNumberOrZero = value => {
+			if (value === null || value === undefined) {
+				return 0;
+			}
+			const num = parseFloat(value);
+			return isNaN(num) ? 0 : num;
+		};
 
 		doc.fillColor('black');
-
-		doc.fontSize(16).text('Wyniki Twoich obliczeń:', { align: 'center' });
+		doc.lineGap(5);
+		doc.fontSize(16);
+		doc.text('Wyniki Twoich obliczeń:', { underline: true, align: 'center' });
 		doc.moveDown();
 		doc.fontSize(14).text(`Wynagrodzenie brutto: ${dataToUse.grossSalary} zl`);
 		doc.moveDown();
@@ -80,8 +92,28 @@ const generatePDF = async (req, res) => {
 		doc.moveDown();
 		doc.text(`Zaliczka na podatek: ${dataToUse.advPayment} zl`);
 		doc.moveDown();
-		doc.text(`Do wyplaty: ${dataToUse.netSalary} zl`);
-
+		doc.text(`Do wyplaty: ${dataToUse.netSalary} zl`, { underline: true });
+		doc.moveDown();
+		doc.moveDown();
+		doc.moveDown();
+		doc.moveDown();
+		doc.moveDown();
+		doc.moveDown();
+		doc.moveDown();
+		doc.moveDown();
+		doc.fontSize(16);
+		doc.text('Wpłaty PPK :', { underline: true, align: 'center' });
+		doc.moveDown();
+		doc.fontSize(14).text(`Wpłata pracodawcy: ${toNumberOrZero(dataToUse.financedemployer)} zł`);
+		doc.moveDown();
+		doc.text(`Wpłata pracownika: ${toNumberOrZero(dataToUse.ppkemployee)} zł`);
+		doc.moveDown();
+		doc.text(`Suma wpłat: ${toNumberOrZero(dataToUse.ppkSum)} zł`);
+		doc.moveDown();
+		doc.moveDown();
+		doc.fontSize(12);
+		doc.text('*Wygenerowano przy użyciu Polish Salary Web Calculator');
+		doc.text(`data wykonania: ${datetime.toLocaleString('pl-PL')}`);
 		doc.end();
 
 		// Kiedy plik PDF jest już zapisany, wysyłamy go jako odpowiedź

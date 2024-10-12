@@ -65,76 +65,67 @@ function adjustSelectWidthOnChange(selectElement) {
 window.addEventListener('DOMContentLoaded', function () {
 	const selectElements = [...tableEl];
 	selectElements.forEach(selectElement => {
-		adjustSelectWidthOnChange(selectElement); // Dostosowanie szerokości na początku
+		adjustSelectWidthOnChange(selectElement);
 
 		selectElement.addEventListener('change', function () {
-			adjustSelectWidthOnChange(selectElement); // Dostosowanie szerokości po zmianie
+			adjustSelectWidthOnChange(selectElement);
 		});
 	});
 });
 
-btnCalc.addEventListener('click', function () {
-	const value = grossSal.value.trim();
-	if (!/^\d+(\.\d+)?$/.test(value)) {
-		alert('Wprowadź wyłącznie wartości liczbowe! ( kwota brutto )');
-	} else {
-		console.log('wartość poprawna');
-	}
-});
-
 btnCalc.addEventListener('click', async e => {
 	e.preventDefault();
-	if (!checkboxEl.checked) {
-		const descvalue = document.getElementById('description').value;
-		const grosSSalary = parseInt(grossSal.value);
-		const taxRed = parseFloat(document.getElementById('reduction').value);
-		const penContrib = parseFloat(document.getElementById('contrib-opts').value);
-		const disContrib = parseFloat(document.getElementById('dis-contrib-opts').value);
-		const sickContrib = parseFloat(document.querySelector('.sick-contrib-val').value) / 100;
-		const hIpremium = parseFloat(document.getElementById('h-i-val').value) / 100;
-		const costsofIncome = Number(parseFloat(document.getElementById('cost-income-opts').value));
-		const taxAdvance = parseFloat(document.getElementById('tax-advance-opts').value);
-		const financedemployer = document.getElementById('financed-by-employer').value;
-		const financedbyemployee = document.getElementById('financed-by-employee').value;
-		const disableSelects = sessionStorage.getItem('disableSelects') === 'true';
-		const firstBtnClicked = sessionStorage.getItem('firstBtnClicked') === 'true';
+	const descvalue = document.getElementById('description').value;
+	const grosSSalary = parseInt(grossSal.value);
+	const taxRed = parseFloat(document.getElementById('reduction').value);
+	const penContrib = parseFloat(document.getElementById('contrib-opts').value);
+	const disContrib = parseFloat(document.getElementById('dis-contrib-opts').value);
+	const sickContrib = parseFloat(document.querySelector('.sick-contrib-val').value) / 100;
+	const hIpremium = parseFloat(document.getElementById('h-i-val').value) / 100;
+	const costsofIncome = Number(parseFloat(document.getElementById('cost-income-opts').value));
+	const taxAdvance = parseFloat(document.getElementById('tax-advance-opts').value);
+	const financedemployer = parseFloat(document.getElementById('financed-by-employer').value);
+	const financedbyemployee = parseFloat(document.getElementById('financed-by-employee').value);
+	const disableSelects = sessionStorage.getItem('disableSelects') === 'true';
+	const firstBtnClicked = sessionStorage.getItem('firstBtnClicked') === 'true';
+	const ppkChecked = sessionStorage.getItem('ppkChecked') === 'true';
 
-		const calcData = {
-			description: descvalue,
-			gross_salary: grosSSalary,
-			tax_reduction: taxRed,
-			pen_Contrib: penContrib,
-			dis_Contrib: disContrib,
-			sick_Contrib: sickContrib,
-			hIpremium: hIpremium,
-			costs_of_income: costsofIncome,
-			tax_advance: taxAdvance,
-			disableSelects: disableSelects,
-			financedemployer: financedemployer,
-			financedbyemployee: financedbyemployee,
-		};
+	const calcData = {
+		description: descvalue,
+		gross_salary: grosSSalary,
+		tax_reduction: taxRed,
+		pen_Contrib: penContrib,
+		dis_Contrib: disContrib,
+		sick_Contrib: sickContrib,
+		hIpremium: hIpremium,
+		costs_of_income: costsofIncome,
+		tax_advance: taxAdvance,
+		disableSelects: disableSelects,
+		financedemployer: financedemployer,
+		financedbyemployee: financedbyemployee,
+		ppkChecked: ppkChecked,
+	};
 
-		try {
-			const response = await fetch('/calcresult', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(calcData),
-			});
+	try {
+		const response = await fetch('/calcresult', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(calcData),
+		});
 
-			if (response.ok) {
-				const responseData = await response.json();
-				console.log('Dane wysłane', responseData);
-				const { token } = responseData;
-				localStorage.setItem('token', token);
-				localStorage.setItem('isCalcResult', 'true');
-				window.location.href = '/results.html';
-			} else {
-				console.log('Błąd odpowiedzi', response.status);
-			}
-		} catch (error) {
-			console.log(error);
+		if (response.ok) {
+			const responseData = await response.json();
+			console.log('Dane wysłane', responseData);
+			const { token } = responseData;
+			localStorage.setItem('token', token);
+			localStorage.setItem('isCalcResult', 'true');
+			window.location.href = '/results.html';
+		} else {
+			console.log('Błąd odpowiedzi', response.status);
 		}
+	} catch (error) {
+		console.log(error);
 	}
 });

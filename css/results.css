@@ -19,6 +19,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
+	overflow: hidden;
 }
 
 h2 {
@@ -28,84 +29,49 @@ h2 {
 	text-decoration: underline;
 }
 
-.back-btns {
-	width: 155px;
-	height: fit-content;
+.main_center_container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 100vw;
+}
+
+.ppk_container {
 	position: absolute;
-	top: 1vh;
-	left: 1vw;
-	color: white;
+	top: 10vh;
+	left: 80vw;
 	display: flex;
-	flex-direction: column;
-	border-radius: 8px;
-	opacity: 0.8;
-}
-
-.back-btn {
-	font-size: 18px;
-	background: black;
-	color: white;
-	padding: 5px;
-	width: 100%;
-	height: auto;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-}
-
-.dropdown {
-	position: relative;
-	width: 100%;
 	height: fit-content;
-	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 5px;
-	color: white;
-	background-color: black;
-}
-
-.dropdown ul {
-	position: relative;
-	gap: 15px;
-	font-size: 18px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+	justify-content: space-between;
+	border: solid 2px black;
 	border-radius: 8px;
-	padding: 10px 10px 10px 10px;
-	list-style: none;
+	padding: 10px;
 }
 
-.dropdown ul li {
-	display: flex;
-	width: 100%;
-	height: 100%;
-	flex-direction: row;
-	justify-content: center;
-	flex-wrap: nowrap;
-	align-items: center;
-}
-
-.dropdown ul li a {
-	color: white;
+.ppk_container h2 {
+	position: relative;
+	left: 2vw;
 	text-decoration: none;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	flex-wrap: nowrap;
 }
 
-.back-btn:click ~ .dropdown {
-	visibility: visible;
+.ppk_container input {
+	margin-top: 10px;
+	font-size: 16px;
+	padding-left: 10px;
+}
+
+.ppk_container hr {
+	width: 100%;
+	height: 3px;
+	background-color: black;
+	position: absolute;
+	right: 1px;
+	top: 46px;
 }
 
 .results-container {
-	position: relative;
-	margin-top: 15px;
+	margin-top: 34px;
 	position: fixed;
 	height: 77vh;
 	width: 45vw;
@@ -157,99 +123,6 @@ input {
 	height: 25px;
 }
 
-.buttons-output {
-	position: relative;
-	top: 81vh;
-	width: 45vw;
-	height: 15vh;
-	border: solid 2px black;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-}
-
-.btn-excel {
-	position: absolute;
-	right: 25%;
-	background-color: black;
-	color: white;
-	width: fit-content;
-	height: fit-content;
-	font-size: 16px;
-	padding: 10px;
-	border-radius: 10px;
-}
-
-.btn-pdf {
-	position: absolute;
-	left: 25%;
-	background-color: black;
-	color: white;
-	width: fit-content;
-	height: fit-content;
-	font-size: 16px;
-	padding: 10px;
-	border-radius: 10px;
-}
-
-.btn:hover {
-	background-color: lightgrey;
-	color: black;
-	font-weight: 600;
-}
-
-.btn:active {
-	background-color: lightgrey;
-	color: black;
-	transform: translateY(4px);
-	font-weight: 600;
-}
-
 .hidden {
 	visibility: hidden;
-}
-
-@media screen and (max-width: 900px) {
-	h2 {
-		margin-bottom: 1vh;
-	}
-
-	.btn {
-		font-size: 14px;
-	}
-
-	.buttons-output {
-		height: 9vh;
-		margin-top: 50px;
-	}
-	.results-container {
-		height: 85vh;
-	}
-}
-
-@media screen and (max-width: 480px) {
-	.results-container {
-		position: absolute;
-		top: 5vh;
-		width: 75vw;
-	}
-
-	.buttons-output {
-		margin-top: 121px;
-		height: 53px;
-		width: 368px;
-	}
-
-	.btn-pdf {
-		position: absolute;
-		left: 15%;
-	}
-
-	.btn-excel {
-		position: absolute;
-		right: 17%;
-	}
 }

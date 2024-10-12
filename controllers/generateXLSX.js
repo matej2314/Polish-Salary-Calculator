@@ -66,39 +66,20 @@ module.exports.generateXLSX = async (req, res) => {
 			{ Opis: 'Zaliczka na podatek', Wartość: `${item.advPayment || '0'} zł` },
 			{ Opis: 'Do wypłaty', Wartość: `${item.netSalary || '0'} zł` },
 			{ Opis: ' ', Wartość: ` ` },
+			{ Opis: 'Wpłata PPK pracodawcy', Wartość: `${item.financedemployer || 0} zł ` },
+			{ Opis: 'Wpłata PPK pracownika', Wartość: `${item.ppkemployee || 0} zł ` },
+			{ Opis: 'suma wpłat PPK', Wartość: `${item.ppkSum || 0} zł ` },
+			{ Opis: ' ', Wartość: ` ` },
 			{ Opis: 'Wykonano dnia:', Wartość: `${datetime.toLocaleString('pl-PL')}` },
 			{ Opis: ' ', Wartość: ` ` },
 			{ Opis: ' ', Wartość: ` ` },
-			{ Opis: 'Wygenerowano za pomocą:', Wartość: 'Polish Salary Calculator' },
+			{ Opis: 'Wygenerowano za pomocą:', Wartość: 'Polish Salary Web Calculator' },
 		];
 	});
 
 	try {
 		const workbook = XLSX.utils.book_new();
 		const worksheet = XLSX.utils.json_to_sheet(transformedData);
-
-		// Apply styles to the header row (first row)
-		const headerRow = 0; // Header row index is 0
-		const headerStyle = {
-			font: { bold: true },
-			fill: {
-				fgColor: { rgb: 'ADD8E6' }, // Light blue background
-			},
-			alignment: {
-				horizontal: 'center',
-			},
-		};
-
-		// Apply the header style to each cell in the header row
-		Object.keys(worksheet).forEach(cell => {
-			if (cell.startsWith('A') || cell.startsWith('B')) {
-				const cellAddress = XLSX.utils.decode_cell(cell);
-				if (cellAddress.r === headerRow) {
-					worksheet[cell].s = headerStyle;
-				}
-			}
-		});
-
 		// Apply the center style to all cells in the worksheet
 		const centerStyle = {
 			alignment: {

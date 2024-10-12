@@ -11,7 +11,7 @@ export const downloadXCELL = async () => {
 			},
 		});
 		if (!response.ok) {
-			const errorText = await response.text(); // Pobierz tekst błędu
+			const errorText = await response.text();
 			throw new Error(`Błąd pobierania pliku: ${response.status} ${response.statusText} ${errorText}`);
 		}
 		const blob = await response.blob();
