@@ -1,11 +1,11 @@
 ('use strict');
 
+import { downloadPDFFILE, downloadXCELL } from '../modules/downloadFiles.js';
+
 const isU26Used = localStorage.getItem('isU26Used');
 const isCalcResult = localStorage.getItem('isCalcResult');
-const btnPrevSite = document.querySelector('.btn_prev_site');
 const backBtn = document.querySelector('.back-btn');
 const dropList = document.querySelector('.dropdown');
-const refferer = document.referrer;
 const ppkTrue = sessionStorage.getItem('ppkChecked');
 
 if (isCalcResult) {
@@ -119,7 +119,6 @@ if (isU26Used) {
 		}
 	});
 }
-<<<<<<< HEAD
 
 document.querySelector('.btn-pdf').addEventListener('click', downloadPDFFILE);
 
@@ -128,5 +127,3 @@ document.querySelector('.btn-excel').addEventListener('click', downloadXCELL);
 backBtn.addEventListener('click', function () {
 	dropList.classList.toggle('hidden');
 });
-=======
->>>>>>> 149e9d77eb958f6c9ff13826db40875f61ddbf60

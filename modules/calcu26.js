@@ -32,7 +32,7 @@ module.exports.calcu26 = (req, res) => {
 		const income = gross_salary - sumZus - costs_of_income;
 		const netSalary = parseFloat((gross_salary - sumZus).toFixed(2));
 
-		calcsU26 = {
+		let calcsU26 = {
 			description,
 			grossSalary: gross_salary, // wynagrodzenie brutto
 			tax_reduction, // kwota obniżająca podatek
@@ -53,10 +53,10 @@ module.exports.calcu26 = (req, res) => {
 	else if (studStatus) {
 		const netSalary = parseFloat(gross_salary).toFixed(2); // Student's net salary equals gross salary
 
-		calcsU26 = {
+		let calcsU26 = {
 			description,
 			grossSalary: parseFloat(gross_salary),
-			netSalary, // Set netSalary equal to gross_salary for students
+			netSalary: netSalary,
 			tax_reduction: 0,
 			penContrib: 0,
 			disContrib: 0,
@@ -68,6 +68,10 @@ module.exports.calcu26 = (req, res) => {
 			advPayment: 0,
 			basisOfhInsurance: 0,
 		};
+		const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' });
+
+		// Send the response
+		return res.json({ token });
 	}
 	//contract for specific work
 	else if (specWrk) {
@@ -76,7 +80,7 @@ module.exports.calcu26 = (req, res) => {
 		const incomeCosts = parseFloat(gross_salary * costs_of_income);
 		const netSalary = gross_salary - incomeCosts;
 
-		calcsU26 = {
+		let calcsU26 = {
 			description,
 			grossSalary: parseFloat(gross_salary),
 			netSalary,
@@ -114,7 +118,7 @@ module.exports.calcu26 = (req, res) => {
 		const netSalary = parseFloat(basisOfhInsurance - healthInsurancePremium);
 
 		// Create object with results of calculations
-		calcsU26 = {
+		let calcsU26 = {
 			description,
 			grossSalary: gross_salary, // Gross salary
 			tax_reduction, // tax reduction value
@@ -130,8 +134,7 @@ module.exports.calcu26 = (req, res) => {
 			netSalary, // net salary
 		};
 	}
-
-<<<<<<< HEAD
+	const { penContrib, disContrib, sickContrib, hiPremium } = contributions(calcContributions);
 	// Obliczenia składek
 	const penAmount = gross_salary * penContrib;
 	const disAmount = gross_salary * disContrib;
@@ -147,7 +150,7 @@ module.exports.calcu26 = (req, res) => {
 	const netSalary = parseFloat(basisOfhInsurance - healthInsurancePremium);
 
 	// Utworzenie obiektu z wynikami obliczeń
-	const calcsU26 = {
+	calcsU26 = {
 		description,
 		grossSalary: gross_salary, // wynagrodzenie brutto
 		tax_reduction, // kwota obniżająca podatek
@@ -167,12 +170,6 @@ module.exports.calcu26 = (req, res) => {
 	const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
 
 	// Odesłanie tokena w odpowiedzi
-=======
-	// Create token with results
-	const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' }); // token valid for 1 hour
-
-	// response
->>>>>>> 149e9d77eb958f6c9ff13826db40875f61ddbf60
 
 	return res.json({ token });
 };
