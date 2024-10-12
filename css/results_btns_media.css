@@ -1,0 +1,168 @@
+.buttons-output {
+	position: relative;
+	top: 88vh;
+	right: 28vw;
+	width: 77vw;
+	height: 10vh;
+	border: solid 2px black;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+}
+
+.btn-excel {
+	position: absolute;
+	right: 25%;
+	background-color: black;
+	color: white;
+	width: fit-content;
+	height: fit-content;
+	font-size: 16px;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+.btn-pdf {
+	position: absolute;
+	left: 25%;
+	background-color: black;
+	color: white;
+	width: fit-content;
+	height: fit-content;
+	font-size: 16px;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+.btn:hover {
+	background-color: lightgrey;
+	color: black;
+	font-weight: 600;
+}
+
+.btn:active {
+	background-color: lightgrey;
+	color: black;
+	transform: translateY(4px);
+	font-weight: 600;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.back-btns {
+	width: 155px;
+	height: fit-content;
+	position: absolute;
+	top: 1vh;
+	left: 1vw;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	border-radius: 8px;
+	opacity: 0.8;
+}
+
+.back-btn {
+	font-size: 18px;
+	background: black;
+	color: white;
+	padding: 5px;
+	width: 100%;
+	height: auto;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+}
+
+.dropdown {
+	position: relative;
+	width: 100%;
+	height: fit-content;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 5px;
+	color: white;
+	background-color: black;
+}
+
+.dropdown ul {
+	position: relative;
+	gap: 15px;
+	font-size: 18px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 8px;
+	padding: 10px 10px 10px 10px;
+	list-style: none;
+}
+
+.dropdown ul li {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	flex-direction: row;
+	justify-content: center;
+	flex-wrap: nowrap;
+	align-items: center;
+}
+
+.dropdown ul li a {
+	color: white;
+	text-decoration: none;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	flex-wrap: nowrap;
+}
+
+@media screen and (max-width: 900px) {
+	h2 {
+		margin-bottom: 1vh;
+	}
+
+	.btn {
+		font-size: 14px;
+	}
+
+	.buttons-output {
+		height: 9vh;
+		margin-top: 50px;
+	}
+	.results-container {
+		height: 85vh;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.results-container {
+		position: absolute;
+		top: 5vh;
+		width: 75vw;
+	}
+
+	.buttons-output {
+		margin-top: 121px;
+		height: 53px;
+		width: 368px;
+	}
+
+	.btn-pdf {
+		position: absolute;
+		left: 15%;
+	}
+
+	.btn-excel {
+		position: absolute;
+		right: 17%;
+	}
+}

@@ -22,7 +22,7 @@ module.exports.calcu26 = (req, res) => {
 		const penAmount = gross_salary * penContrib;
 		const disAmount = gross_salary * disContrib;
 		const sickAmount = gross_salary * sickContrib;
-		const sumZus = gross_salary * (penAmount + disAmount + sickAmount);
+		const sumZus = penAmount + disAmount + sickAmount;
 
 		// Obliczenie składki zdrowotnej
 		const healthInsurancePremium = gross_salary * hiPremium;
@@ -113,12 +113,12 @@ module.exports.calcu26 = (req, res) => {
 	const penAmount = gross_salary * penContrib;
 	const disAmount = gross_salary * disContrib;
 	const sickAmount = gross_salary * sickContrib;
-	const sumZus = gross_salary * (penAmount + disAmount + sickAmount);
+	const sumZus = penAmount + disAmount + sickAmount;
 
 	const income = gross_salary - sumZus;
 	const basisOfhInsurance = gross_salary - sumZus;
 	const healthInsurancePremium = (income * 0.09).toFixed(2);
-	const costsincome = income * costs_of_income;
+	const costsincome = (income * costs_of_income).toFixed(2);
 	const basisOfTaxPaym = parseFloat(basisOfhInsurance - costsincome);
 	const advPayment = Number(basisOfTaxPaym * tax_advance);
 	const netSalary = parseFloat(basisOfhInsurance - healthInsurancePremium);

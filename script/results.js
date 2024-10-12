@@ -41,10 +41,10 @@ if (isCalcResult) {
 				localStorage.setItem('calcresults.description', calcresults.description);
 				document.getElementById('gross-value').value = calcresults.grossSalary;
 				document.querySelector('.tax-red-val').value = calcresults.tax_reduction;
-				document.querySelector('.pension-contrib-val').value = calcresults.penContrib;
+				document.querySelector('.pension-contrib-val').value = calcresults.penContrib.toFixed(2);
 				document.querySelector('.pension-contrib-sec-val').value = calcresults.disContrib;
 				document.querySelector('.sickness-contrib-val').value = calcresults.sickContrib.toFixed(2);
-				document.querySelector('.zus-contrib-sum-val').value = calcresults.sumZus;
+				document.querySelector('.zus-contrib-sum-val').value = calcresults.sumZus.toFixed(2);
 				document.querySelector('.basis-of-h-insurance-val').value = calcresults.basisOfhInsurance;
 				document.querySelector('.h-i-premium-val').value = calcresults.hiPremium;
 				document.querySelector('.costs-of-income-val').value = calcresults.costs_of_income;
@@ -96,7 +96,7 @@ if (isU26Used) {
 			localStorage.setItem('calcsU26.description', calcsU26.description);
 			document.getElementById('gross-value').value = calcsU26.grossSalary;
 			document.querySelector('.tax-red-val').value = calcsU26.tax_reduction;
-			document.querySelector('.pension-contrib-val').value = calcsU26.penContrib;
+			document.querySelector('.pension-contrib-val').value = calcsU26.penContrib.toFixed(2);
 			document.querySelector('.pension-contrib-sec-val').value = calcsU26.disContrib;
 			document.querySelector('.sickness-contrib-val').value = calcsU26.sickContrib;
 			document.querySelector('.zus-contrib-sum-val').value = calcsU26.sumZus.toFixed(2);
@@ -122,12 +122,4 @@ document.querySelector('.btn-excel').addEventListener('click', downloadXCELL);
 
 backBtn.addEventListener('click', function () {
 	dropList.classList.toggle('hidden');
-});
-
-btnPrevSite.addEventListener('click', function () {
-	if (refferer.includes('/main-calc')) {
-		window.location.href = '/main-calc';
-	} else if (refferer.includes('/calc-order')) {
-		window.location.href = '/calc-order';
-	}
 });
