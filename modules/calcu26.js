@@ -131,7 +131,6 @@ module.exports.calcu26 = (req, res) => {
 		};
 	}
 
-<<<<<<< HEAD
 	// Obliczenia składek
 	const penAmount = gross_salary * penContrib;
 	const disAmount = gross_salary * disContrib;
@@ -147,7 +146,7 @@ module.exports.calcu26 = (req, res) => {
 	const netSalary = parseFloat(basisOfhInsurance - healthInsurancePremium);
 
 	// Utworzenie obiektu z wynikami obliczeń
-	const calcsU26 = {
+	calcsU26 = {
 		description,
 		grossSalary: gross_salary, // wynagrodzenie brutto
 		tax_reduction, // kwota obniżająca podatek
@@ -167,12 +166,6 @@ module.exports.calcu26 = (req, res) => {
 	const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' }); // Token ważny przez 1 godzinę
 
 	// Odesłanie tokena w odpowiedzi
-=======
-	// Create token with results
-	const token = jwt.sign({ calcsU26 }, SECRET_KEY, { expiresIn: '1h' }); // token valid for 1 hour
-
-	// response
->>>>>>> 149e9d77eb958f6c9ff13826db40875f61ddbf60
 
 	return res.json({ token });
 };
