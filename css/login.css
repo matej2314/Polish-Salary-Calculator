@@ -21,6 +21,26 @@ body {
 	align-items: center;
 }
 
+.test_data--container {
+	position: absolute;
+	right: 5vw;
+	width: fit-content;
+	height: 150px;
+	font-size: 25px;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	border: solid 2px black;
+	padding: 8px 10px 8px 10px;
+}
+
+.test_data {
+	position: relative;
+	margin-top: 15px;
+}
+
 .login-container {
 	position: absolute;
 	display: flex;
