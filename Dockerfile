@@ -1,4 +1,4 @@
-FROM node:20.17.0-alpine3.20
+FROM node:20.18.0
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ COPY . .
 
 RUN rm -rf node_modules && npm install
 
-EXPOSE 8080
+EXPOSE 8000
 
 CMD [ "node", "app.js" ]
 

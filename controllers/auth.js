@@ -3,6 +3,7 @@ const connection = require('../db'); // Importujemy połączenie z db.js
 const bcrypt = require('bcrypt');
 const path = require('path');
 const jwt = require('jsonwebtoken');
+const logger = require('./logger');
 
 exports.registeruser = async (req, res) => {
 	try {
@@ -15,7 +16,7 @@ exports.registeruser = async (req, res) => {
 
 		connection.query('SELECT email FROM users WHERE email = ?', [reg_email], async (error, results) => {
 			if (error) {
-				console.log('Błąd SELECT:', error);
+				logger.error('Błąd SELECT:', error);
 				return res.status(500).send('Błąd serwera.');
 			}
 
@@ -34,19 +35,19 @@ exports.registeruser = async (req, res) => {
 
 				connection.query('INSERT INTO users SET ?', { name: reg_username, email: reg_email, password: hashedPasswd }, (error, results) => {
 					if (error) {
-						console.log('Błąd INSERT:', error);
+						logger.error('Błąd INSERT:', error);
 						return res.status(500).send('Błąd serwera.');
 					}
 					console.log('User successfully inserted:', results);
 					res.redirect('/');
 				});
 			} catch (err) {
-				console.log('Błąd podczas haszowania hasła:', err);
+				logger.error('Błąd podczas haszowania hasła:', err);
 				return res.status(500).send('Błąd serwera.');
 			}
 		});
 	} catch (err) {
-		console.log('Błąd główny:', err);
+		logger.error('Błąd główny:', err);
 		return res.status(500).send('Błąd serwera.');
 	}
 };
@@ -60,7 +61,7 @@ exports.loginuser = (req, res) => {
 
 	connection.query('SELECT * FROM users WHERE name = ?', [username], async (error, results) => {
 		if (error) {
-			console.log('Błąd SELECT:', error);
+			logger.error('Błąd SELECT:', error);
 			return res.status(500).send('Błąd serwera.');
 		}
 

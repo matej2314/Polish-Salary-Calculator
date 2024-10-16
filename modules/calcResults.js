@@ -1,6 +1,7 @@
 const path = require('path');
 
 const dotenv = require('dotenv').config(path, '../.env');
+const logger = require('../controllers/logger');
 
 const jwt = require('jsonwebtoken');
 
@@ -10,6 +11,7 @@ module.exports.calcresult = (req, res) => {
 	const { description, gross_salary, tax_reduction, pen_Contrib, dis_Contrib, sick_Contrib, hIpremium, costs_of_income, tax_advance, disableSelects, financedemployer, financedbyemployee, ppkChecked } = req.body;
 
 	if (gross_salary == null || costs_of_income == null || tax_advance == null || tax_reduction == null || pen_Contrib == null || dis_Contrib == null || sick_Contrib == null) {
+		logger.error('Brak wymaganych danych, endpoint calcresult');
 		return res.status(400).json({ error: 'Brak wymaganych danych' });
 	}
 
@@ -152,11 +154,13 @@ module.exports.calcresultGET = (req, res) => {
 	const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 
 	if (!token) {
+		logger.error('Błąd uwierzytelniania endpoint calcresultGET');
 		return res.status(401).json({ error: 'Błąd uwierzytelniania.' });
 	}
 
 	jwt.verify(token, SECRET_KEY, (err, decoded) => {
 		if (err) {
+			logger.error('Błąd calcresultGET:', err.message);
 			return res.status(403).json({ error: 'Niewłaściwy token' });
 		}
 

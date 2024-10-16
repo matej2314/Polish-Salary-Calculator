@@ -2,6 +2,7 @@ const path = require('path');
 const dotenv = require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const contrib = require('./contrib');
 const jwt = require('jsonwebtoken');
+const logger = require('../controllers/logger');
 
 const SECRET_KEY = process.env.JWT_SECRET;
 
@@ -10,6 +11,7 @@ module.exports.calcu26 = (req, res) => {
 
 	// checking data availability
 	if (gross_salary == null || costs_of_income == null || tax_advance == null || tax_reduction == null || calcContributions == null) {
+		logger.error('Brak wymaganych danych. Endpoint calcu26');
 		return res.status(400).json({ error: 'Brak wymaganych danych' });
 	}
 
@@ -179,11 +181,13 @@ module.exports.calcu26GET = (req, res) => {
 	const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 
 	if (!token) {
+		logger.error('Błąd uwierzytalniania. Endpoint calcu26');
 		return res.status(401).json({ error: 'Błąd uwierzytelniania.' });
 	}
 
 	jwt.verify(token, SECRET_KEY, (err, decoded) => {
 		if (err) {
+			logger.error('Błąd calcu26 GET:', err.message);
 			return res.status(403).json({ error: 'Niewłaściwy token' });
 		}
 

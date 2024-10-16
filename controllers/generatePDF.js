@@ -2,6 +2,7 @@ const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
 const datetime = new Date();
+const logger = require('./logger');
 
 const generatePDF = async (req, res) => {
 	try {
@@ -22,7 +23,7 @@ const generatePDF = async (req, res) => {
 				calcresults = await responseCalcresults.json();
 			}
 		} catch (error) {
-			console.log('Błąd pobierania danych z serwera:', error);
+			logger.error('Błąd pobierania danych z serwera:', error);
 		}
 
 		try {
@@ -37,7 +38,7 @@ const generatePDF = async (req, res) => {
 				calcsU26 = await responseCalcu26.text();
 			}
 		} catch (error) {
-			console.log('Błąd pobierania wyników obliczeń:', error);
+			logger.error('Błąd pobierania wyników obliczeń:', error);
 		}
 
 		const dataToUse = calcsU26 || calcresults;
@@ -122,23 +123,23 @@ const generatePDF = async (req, res) => {
 			res.setHeader('Content-Disposition', 'attachment; filename="wyniki.pdf"');
 			res.sendFile(filePath, err => {
 				if (err) {
-					console.log('Wystąpił błąd podczas wysyłania pliku:', err);
+					logger.error('Wystąpił błąd podczas wysyłania pliku:', err);
 					res.status(500).send('Błąd pobierania pliku PDF');
 				} else {
-					console.log('Plik PDF został wysłany.');
+					logger.info('Plik PDF został wysłany.');
 
 					fs.unlink(filePath, err => {
 						if (err) {
-							console.log('Wystąpił błąd:', err);
+							logger.error('Wystąpił błąd:', err);
 						} else {
-							console.log('Plik PDF został usunięty z serwera.');
+							logger.info('Plik PDF został usunięty z serwera.');
 						}
 					});
 				}
 			});
 		});
 	} catch (error) {
-		console.log('Wystąpił błąd:', error);
+		logger.error('Wystąpił błąd:', error);
 		res.status(500).send('Błąd generowania pliku PDF');
 	}
 };

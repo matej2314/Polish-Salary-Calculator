@@ -3,6 +3,7 @@ const fs = require('fs');
 const XLSX = require('xlsx');
 const fetch = require('node-fetch');
 const datetime = new Date();
+const logger = require('./logger');
 
 module.exports.generateXLSX = async (req, res) => {
 	const token = req.headers.authorization.split(' ')[1];
@@ -21,10 +22,10 @@ module.exports.generateXLSX = async (req, res) => {
 			const text = await responseCalcresults.text();
 			calcresults = text ? JSON.parse(text) : {};
 		} else {
-			console.log('Błąd odpowiedzi z endpointu calcresult:', responseCalcresults.statusText);
+			logger.error('Błąd odpowiedzi z endpointu calcresult:', responseCalcresults.statusText);
 		}
 	} catch (error) {
-		console.log('Wystąpił błąd pobierania danych umowy o pracę', error);
+		logger.error('Wystąpił błąd pobierania danych umowy o pracę', error);
 	}
 
 	try {
@@ -39,15 +40,16 @@ module.exports.generateXLSX = async (req, res) => {
 			const text = await responseCalcu26.text();
 			calcsU26 = text ? JSON.parse(text) : {};
 		} else {
-			console.log('Błąd odpowiedzi z endpointu calcu26:', responseCalcu26.statusText);
+			logger.error('Błąd odpowiedzi z endpointu calcu26:', responseCalcu26.statusText);
 		}
 	} catch (error) {
-		console.log('Błąd pobierania danych umowy o dzieło/zlecenie', error);
+		logger.error('Błąd pobierania danych umowy o dzieło/zlecenie', error);
 	}
 
 	const dataToXLS = calcsU26 && Object.keys(calcsU26).length > 0 ? [calcsU26] : [calcresults];
 
 	if (!dataToXLS || !Array.isArray(dataToXLS) || dataToXLS.length === 0) {
+		logger.error('Brak danych do arkusza');
 		return res.status(400).json({ Message: 'Brak danych do arkusza' });
 	}
 
@@ -125,18 +127,18 @@ module.exports.generateXLSX = async (req, res) => {
 
 		res.download(filePath, 'wyniki.xlsx', error => {
 			if (error) {
-				console.log('Błąd wysyłania pliku:', error);
+				logger.error('Błąd wysyłania pliku:', error);
 				res.status(500).json({ message: 'Błąd wysyłania pliku' });
 			} else {
 				fs.unlink(filePath, err => {
 					if (err) {
-						console.log('Błąd usuwania pliku:', err);
+						logger.error('Błąd usuwania pliku:', err);
 					}
 				});
 			}
 		});
 	} catch (error) {
-		console.log('Błąd podczas transformacji danych:', error);
+		logger.error('Błąd podczas transformacji danych:', error);
 		res.status(500).json({ message: 'Błąd transformacji danych' });
 	}
 };
