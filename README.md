@@ -1,5 +1,7 @@
 # A **Project: Polish Salary Web Calculator.**
 
+## You can test this project in practice at [http://salarycalc.pl](http://salarycalc.pl).
+
 Used technologies: Node.js, HTML, CSS, JavaScript
 
 # **Description:**
